@@ -13,6 +13,7 @@ canvas#game{display:block;position:fixed;inset:0;width:100%;height:100%;touch-ac
 canvas#ov{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #camBtns{display:flex;gap:4px;justify-content:center;margin-top:5px}#camBtns .btn{padding:2px 8px;font-size:13px}
 .hidden{display:none!important}
+#updBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:300;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 12px;width:max-content;max-width:94vw;font-size:13px;border-color:#f0d28a;box-shadow:0 0 14px rgba(240,210,138,.45),0 8px 24px rgba(0,0,0,.8)}#updBar b{color:#f0d28a}#updBar .btn{padding:5px 10px;font-size:12.5px}
 .panel{background:radial-gradient(ellipse at 50% 0%,rgba(52,38,26,.55),transparent 70%),linear-gradient(180deg,rgba(22,17,13,.95),rgba(9,7,6,.96));border:1px solid #5c4424;box-shadow:0 0 0 1px #000,inset 0 0 0 1px rgba(255,210,140,.06),inset 0 0 24px rgba(0,0,0,.85),0 8px 24px rgba(0,0,0,.75);border-radius:3px}
 .title{font-family:Cinzel,serif;color:#f0d28a;letter-spacing:.5px}
 #pframe{position:fixed;left:12px;top:12px;width:260px;padding:10px}
@@ -307,6 +308,7 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
 <div id="winDev" class="win panel hidden"></div>
 <div id="fpsBox" class="hidden"></div>
 <div id="toast" class="panel"></div>
+<div id="updBar" class="panel hidden">🔔 <b>Neues Update verfügbar</b> <span class="muted"></span><button class="btn glow" onclick="updReload()">🔄 Neu laden</button><button class="btn" onclick="updLater()">Später</button></div>
 <div id="tip" class="panel hidden"></div>
 <div id="death" class="hidden"><h2>Du bist gefallen</h2><p>Du verlierst 5&nbsp;% der Erfahrung dieser Stufe.</p><button class="btn" onclick="revive()">In der Stadt wiederbeleben</button></div>
 
@@ -3455,9 +3457,20 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 17:33';
+const BUILD='2026-11-22 17:38';
+const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
+// ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
+const UPD={seen:'',hideUntil:0};
+function updCheck(){if((window.claude&&claude.use)||!/^https?:$/.test(location.protocol))return;
+ fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{const b=d&&typeof d.build==='string'?d.build:'';if(/^\d{4}-\d\d-\d\d \d\d:\d\d$/.test(b)&&b>BUILD)updShow(b);}).catch(()=>{});}
+function updShow(b){if(UPD.seen!==b){UPD.seen=b;UPD.hideUntil=0;if(started)log('🔔 <b>Ein neues Update ist da.</b> Klick oben auf „Neu laden“ – dein Spielstand wird vorher gespeichert, und du landest wieder im Spiel.','#ffd34d');}
+ if(Date.now()<UPD.hideUntil)return;const el=$('updBar');el.querySelector('span').textContent='(Stand '+fmtBuild(b)+')';el.classList.remove('hidden');}
+function updReload(){try{if(started){save();sessionStorage.setItem('eldoria_resume',String(CUR_SLOT));}}catch(e){}location.reload();}
+function updLater(){UPD.hideUntil=Date.now()+10*60000;$('updBar').classList.add('hidden');}
+setInterval(updCheck,90000);setTimeout(updCheck,12000);addEventListener('visibilitychange',()=>{if(!document.hidden)updCheck();});
+function updResume(){let r=null;try{r=sessionStorage.getItem('eldoria_resume');sessionStorage.removeItem('eldoria_resume');}catch(e){}if(r!=null&&/^\d$/.test(r)&&loadSlot(+r)&&typeof THREE!=='undefined'){playSlot(+r);log('✅ Update geladen – du bist auf dem neuesten Stand ('+fmtBuild(BUILD)+').','#7fe07f');}}
 function buildStart(){
- {const b=$('buildInfo');if(b)b.textContent='Stand: '+BUILD.replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';}
+ {const b=$('buildInfo');if(b)b.textContent='Stand: '+fmtBuild(BUILD);}
  if(typeof THREE==='undefined'){$('slots').innerHTML='<div class="panel" style="padding:14px">Die 3D-Grafik (Three.js) konnte nicht geladen werden. Bitte prüfe deine Internetverbindung und lade die Seite neu.</div>';return;}
  migrateOld();
  const sl=$('slots');sl.innerHTML='';let used=0;
@@ -3531,7 +3544,7 @@ function loop(now){
  }
  requestAnimationFrame(loop);
 }
-buildStart();requestAnimationFrame(loop);
+buildStart();requestAnimationFrame(loop);setTimeout(updResume,0);
 
 </script>
 </body>
