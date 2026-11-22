@@ -1,0 +1,3 @@
+# Netlify: die Seite liegt fertig im Ordner "public" (kein Build noetig)
+[build]
+  publish = "public"
