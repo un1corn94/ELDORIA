@@ -123,6 +123,7 @@ body.mob .pvS{grid-template-columns:84px 1fr}body.mob #pvShop{height:108px}body.
 body.mob.land #winChar .dwrap{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:10px}body.mob.land .dstats{grid-template-columns:1fr;margin-top:0}
 body.mob #pvBox{height:215px}body.mob .cell.dslot{width:48px;height:48px;font-size:23px}body.mob .doll{grid-template-columns:48px 1fr 48px}body.mob .dpn .plus{width:28px;height:28px}
 #winTal{left:50%;top:50%;transform:translate(-50%,-50%);width:640px;max-width:96vw}
+.q0box{border:1px solid #6b5530;border-radius:5px;background:rgba(60,44,20,.4);padding:7px 9px;margin-bottom:10px;font-size:13px}.q0n{font-family:system-ui,sans-serif;font-weight:400;font-size:11px}
 .rcode{font:700 20px ui-monospace,Menlo,Consolas,monospace;letter-spacing:3px;color:#f0d28a;background:#15120f;border:1px solid #8a6d3b;border-radius:4px;padding:1px 8px;user-select:all;-webkit-user-select:all}
 #winSkill{left:50%;top:14px;transform:translateX(-50%);width:620px;max-width:96vw;max-height:calc(100vh - 190px)}
 body.mob #winSkill{top:6px;max-height:calc(100vh - 86px)}
@@ -1248,7 +1249,7 @@ function gainXp(x,noBonus){
   burst(P.x,P.y,'#ffd34d',45,1.2);FX.push({x:P.x,y:P.y,r0:10,r1:130,t:0,dur:.9,col:'#ffd34d'});
   {let nb=false;CLS.skills.forEach((sk,i)=>{if(sk.lv!==P.lvl)return;let at=P.bar.indexOf(i);if(at<0){at=P.bar.indexOf(-1);if(at>=0){P.bar[at]=i;nb=true;}}log(at>=0?`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – liegt auf Platz ${at+1} der Leiste.`:`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – zieh sie im Skillbuch (K) in die Leiste.`,'#7fe07f');});if(nb)buildBar();refreshSkill();}
  }
- if(up){refreshChar();save();}
+ if(up){refreshChar();save();q0Ev('level');}
 }
 function healP(pct){const a=Math.round(P.maxHp*pct*(1+P.T.heal));P.hp=Math.min(P.maxHp,P.hp+a);floatText(P.x,P.y,'+'+a,'#7fe07f',15,2.8);burst(P.x,P.y,'#7fe07f',14,1.2);}
 function playerDie(){P.chan=null;P.spinA=0;FX=FX.filter(f=>f.fol!==P);P.alive=false;P.hp=0;P.target=null;P.chase=false;P.pending=null;P.moveTo=null;P.npc=null;$('death').classList.remove('hidden');log('Du wurdest besiegt.','#ff6b5b');burst(P.x,P.y,'#a00',30);}
@@ -1290,7 +1291,55 @@ function monsterHit(m,u,mult){
  else if(onScreen(u))floatText(u.x,u.y,'-'+dmg,'#d99',11,2.3);
  if(u.hp<=0){u.hp=0;if(u===P)playerDie();else botDie(u);}
 }
-function questKill(type){const q=QUESTS[P.q];
+// ================= Erste Schritte: kleine Einstiegsaufgaben, die sich von selbst abschließen =================
+const QUESTS0=[
+ {n:'Willkommen in Eldoria',t:'talk',npc:'hauptmann',xp:40,gear:['ruestung',1],txt:'Sprich mit Hauptmann Andrew – er steht nördlich vom Brunnen.',done:'Andrew mustert dich: „So gehst du mir nicht vor die Mauern.“ Er gibt dir eine Rüstung mit.'},
+ {n:'Hinein in die Rüstung',t:'equip',slot:'ruestung',xp:50,gold:20,txt:'Öffne das Inventar (Taste I oder Menü) und klick die Rüstung an, um sie anzulegen.',done:'Sitzt! Im Charakterfenster (C) siehst du, was du trägst.'},
+ {n:'Proviant fassen',t:'talk',npc:'haendler',xp:40,pot:[5,3],txt:'Sprich mit Händlerin Mira westlich vom Brunnen.',done:'Mira packt dir Tränke ein: „Aufs Haus – dieses eine Mal.“ Heiltrank: Taste Q, Manatrank: Taste E.'},
+ {n:'Gut behütet',t:'talk',npc:'ruest',xp:50,gear:['helm',1,1],txt:'Sprich mit Rüstmeister Garrick im Südwesten der Stadt.',done:'Garrick setzt dir einen Helm auf. Bei ihm kaufst du später Rüstung in der Form und Farbe, die dir gefällt.'},
+ {n:'Erste Übung',t:'kill',mob:'schleim',k:3,xp:120,gold:30,txt:'Geh durch ein Stadttor in die Smaragdebene und besiege 3 Grünschleime. Anklicken genügt – dein Held kämpft von selbst weiter.',done:'Gut gekämpft! Die Schleime zählen auch für Andrews Auftrag.'},
+ {n:'Mit voller Kraft',t:'cast',k:3,xp:80,pot:[0,3],txt:'Setze im Kampf 3-mal eine Fähigkeit ein: Taste 1 oder der erste Platz der Leiste.',done:'So ist es richtig. Weitere Fähigkeiten findest du im Skillbuch (K).'},
+ {n:'Segen der Sterne',t:'talk',npc:'segen',xp:80,buff:0,txt:'Sprich mit Seherin Yara im Süden der Stadt.',done:'Yara schenkt dir den Segen der Kraft: +15% Angriff für 15 Minuten.'},
+ {n:'Auf die Jagd',t:'kill',mob:'eber',k:4,xp:160,gold:60,gear:['waffe',1],txt:'Besiege 4 Wildeber in der Smaragdebene.',done:'Die Stadtwache schenkt dir zum Dank eine bessere Waffe – sie liegt im Inventar (I).'},
+ {n:'Feinschliff',t:'talk',npc:'schmied',xp:70,stones:1,txt:'Sprich mit Schmied Borin östlich vom Brunnen.',done:'Borin gibt dir einen Aufwertungsstein. Damit macht er ein Ausrüstungsteil stärker.'},
+ {n:'Bereit für mehr',t:'level',lv:3,gold:100,gear:['stiefel',1],txt:'Erreiche Stufe 3. Die Aufträge von Hauptmann Andrew und Waldläuferin Lilou bringen viel Erfahrung.',done:'Du kennst dich jetzt aus. Viel Erfolg da draußen!'},
+];
+const Q0GEAR={ruestung:'eine Rüstung',helm:'ein Helm',waffe:'eine Waffe',stiefel:'ein Paar Stiefel'};
+function q0Reward(q){const r=[];if(q.xp)r.push(q.xp+' EP');if(q.gold)r.push(q.gold+' Gold');if(q.pot){if(q.pot[0])r.push(q.pot[0]+'× Heiltrank');if(q.pot[1])r.push(q.pot[1]+'× Manatrank');}if(q.gear)r.push(Q0GEAR[q.gear[0]]||'Ausrüstung');if(q.stones)r.push(q.stones+'× Aufwertungsstein');if(q.buff!=null)r.push(BUFFS[q.buff][0]);return r.join(' · ');}
+function q0Give(it,auto){if(auto&&it.type==='equip'&&!P.equip[it.slot]){P.equip[it.slot]=it;recalc();return;}if(!addItem(it))LOOT.push({x:P.x+rnd(-12,12),y:P.y+14,it,t:180});}
+function q0Prog(q){return q.t==='level'?`Stufe ${Math.min(P.lvl,q.lv)} / ${q.lv}`:q.k?`${Math.min(P.q0k||0,q.k)} / ${q.k}`:'';}
+function q0Ev(t,a){const q=P&&QUESTS0[P.q0];if(!q||q.t!==t)return;
+ if(t==='talk'){if(a!==q.npc)return;}
+ else if(t==='equip'){if(!P.equip[q.slot])return;}
+ else if(t==='kill'){if(a!==q.mob)return;P.q0k=(P.q0k||0)+1;lastQuestHtml='';if(P.q0k<q.k)return;}
+ else if(t==='cast'){P.q0k=(P.q0k||0)+1;if(P.q0k<q.k)return;}
+ else if(t==='level'){if(P.lvl<q.lv)return;}
+ q0Done();}
+function q0Done(){const q=QUESTS0[P.q0];if(!q)return;P.q0++;P.q0k=0;
+ if(q.gold)P.gold+=q.gold;
+ if(q.pot){if(q.pot[0])q0Give({type:'potion',kind:'hp',count:q.pot[0]});if(q.pot[1])q0Give({type:'potion',kind:'mp',count:q.pot[1]});}
+ if(q.gear)q0Give(genItem(Math.max(1,P.lvl),q.gear[0],q.gear[1]),q.gear[2]);
+ if(q.stones)q0Give({type:'stone',count:q.stones});
+ if(q.buff!=null){giveBuff(q.buff);recalc();}
+ toast(`✅ <b>${q.n}</b> geschafft!<br><span class="muted">${q0Reward(q)}</span>`,'#7fe07f');
+ log(`✅ <b>${q.n}</b> – ${q.done} <span class="muted">(${q0Reward(q)})</span>`,'#7fe07f');
+ burst(P.x,P.y,'#ffd34d',22,1.3);
+ const nq=QUESTS0[P.q0];
+ if(nq)log(`🧭 Nächster Schritt: <b>${nq.n}</b> – ${nq.txt}`,'#8fd8ff');
+ else{log('🎓 <b>Erste Schritte abgeschlossen!</b> Ab jetzt führen dich die Aufträge von Hauptmann Andrew durch die Geschichte.','#ffd34d');}
+ lastQuestHtml='';refreshInv();refreshChar();if(q.xp)gainXp(q.xp,true);save();q0Check();}
+function q0Check(){const q=P&&QUESTS0[P.q0];if(!q)return;if(q.t==='equip'&&P.equip[q.slot])q0Done();else if(q.t==='level'&&P.lvl>=q.lv)q0Done();}
+function q0Target(){const q=QUESTS0[P.q0];if(!q||INDG||WORLD!==0)return null;
+ if(q.t==='talk')return NPCS.find(n=>n.id===q.npc)||null;
+ if(q.t==='kill'){let b=null,bd=1e9;for(const m of MONS)if(m.alive&&m.type===q.mob){const d=dist(m,P);if(d<bd){bd=d;b=m;}}return b;}
+ return null;}
+function q0Arrow(){const t=q0Target();if(!t||!P.alive)return;const d=dist(t,P);if(d<150)return;
+ const p0=proj(P.x,P.y,1),p1=proj(P.x+(t.x-P.x)/d*40,P.y+(t.y-P.y)/d*40,1);if(!p0||!p1)return;
+ const a=Math.atan2(p1.y-p0.y,p1.x-p0.x),R=Math.min(W,H)*.19+Math.sin(time*4)*5,x=p0.x+Math.cos(a)*R,y=p0.y-30+Math.sin(a)*R;
+ octx.save();octx.translate(x,y);octx.rotate(a);octx.beginPath();octx.moveTo(17,0);octx.lineTo(-9,-11);octx.lineTo(-3,0);octx.lineTo(-9,11);octx.closePath();
+ octx.fillStyle='#ffd34d';octx.strokeStyle='rgba(0,0,0,.85)';octx.lineWidth=2.5;octx.shadowColor='#ffd34d';octx.shadowBlur=10;octx.stroke();octx.fill();octx.restore();
+ label(x,y+26,`🧭 ${t.kind==='npc'?npcN(t):t.n}`,'#ffe7a8','bold 11px system-ui,sans-serif');}
+function questKill(type){q0Ev('kill',type);const q=QUESTS[P.q];
  if(q&&!P.qDone&&q.mob===type){P.qk++;if(P.qk>=q.k){P.qDone=true;log(countMat(q.mob)>=q.m?`📜 Auftrag „${q.n}“ erfüllt! Kehre zu Hauptmann Andrew zurück.`:`📜 Genug ${MOBS[q.mob].n} besiegt – sammle noch ${MATS[q.mob].n} (${countMat(q.mob)}/${q.m}).`,'#ffd34d');}}}
 function killMonster(m){
  m.alive=false;m.hp=0;m.resp=m.b.dg?1e9:m.b.boss?120:rnd(8,14);m.foe=null;m.dot=null;m.cast=null;m.pend=null;m.wv=null;m.air=null;m.hold=0;m.jz=0;m.chain=0;
@@ -1350,6 +1399,7 @@ function tryCast(i){
  doCast(i);
 }
 function doCast(i){
+ q0Ev('cast');
  const s=CLS.skills[i],col=s.col||CLS.col,T=P.target,sr=(s.r||0)*(1+P.T.aoe);
  P.mp-=s.mp;P.cd[i]=s.cd*(1-P.T.cdr);P.atkT=Math.max(P.atkT,.35);
  if(T&&T.alive)P.face=Math.atan2(T.y-P.y,T.x-P.x);
@@ -2984,7 +3034,8 @@ function drawOverlay(){
   if(m.stun>0)label(p.x,p.y-30,'💫','#fff','15px system-ui');}
  for(const r of friendsHere())if(r.al){const p=proj(r.x,r.y,2.5+(r.jz||0));if(!p||p.d>80)continue;label(p.x,p.y-8,`${inParty(r)?'🤝 ':isFriend(r.name)?'⭐ ':''}${r.name} [${r.lv}]`,inParty(r)?'#8fd8ff':isFriend(r.name)?'#7dffb0':'#e8e8e8','bold 12px system-ui,sans-serif');hpbar(p.x,p.y-3,36,r.hpP,'#4c4');}
  for(const b of BOTS)if(b.alive){const p=proj(b.x,b.y,2.4+(b.jz||0));if(!p||p.d>60)continue;label(p.x,p.y-8,`${b.name} [${b.lv}]`,'#8fd8ff');if(b.hp<b.maxHp)hpbar(p.x,p.y-3,32,b.hp/b.maxHp,'#4c4');}
- for(const n of NPCS){const p=proj(n.x,n.y,2.35);if(!p||p.d>70)continue;if(n.title){label(p.x,p.y-12,npcN(n),n.tcol||'#d6a8ff','bold 12px system-ui,sans-serif');label(p.x,p.y,`<${n.title}>`,n.tcol||'#a98bc9','10px system-ui,sans-serif');p.y-=12;}else label(p.x,p.y,n.name,'#ffe08a');let ic=n.icon;if(n.id==='hauptmann')ic=canTurnIn()?'❓':QUESTS[P.q]?'❗':'';if(n.id==='alchemist')ic=canTurnIn2()?'❓':QUESTS2[P.q2||0]?'⚗️':'';if(ic)label(p.x,p.y-18+Math.sin(time*3)*3,ic,'#fff','20px system-ui,sans-serif');}
+ for(const n of NPCS){const p=proj(n.x,n.y,2.35);if(!p||p.d>70)continue;if(n.title){label(p.x,p.y-12,npcN(n),n.tcol||'#d6a8ff','bold 12px system-ui,sans-serif');label(p.x,p.y,`<${n.title}>`,n.tcol||'#a98bc9','10px system-ui,sans-serif');p.y-=12;}else label(p.x,p.y,n.name,'#ffe08a');let ic=n.icon;if(n.id==='hauptmann')ic=canTurnIn()?'❓':QUESTS[P.q]?'❗':'';if(n.id==='alchemist')ic=canTurnIn2()?'❓':QUESTS2[P.q2||0]?'⚗️':'';{const q0=QUESTS0[P.q0];if(q0&&q0.t==='talk'&&q0.npc===n.id)ic='🧭';}if(ic)label(p.x,p.y-18+Math.sin(time*3)*3,ic,'#fff','20px system-ui,sans-serif');}
+ q0Arrow();
  for(const q of PORTALS){const p=proj(q.x,q.y,6);if(p&&p.d<90){label(p.x,p.y,(q.ic||'🌀')+' '+q.label,q.to===2?'#ff9b6b':'#d6a8ff','bold 13px system-ui,sans-serif');if(q.to===1&&!P.w2)label(p.x,p.y+15,'🔒 versiegelt','#aaa','11px system-ui,sans-serif');if(q.to===2)label(p.x,p.y+15,P.lvl<5?'🔒 ab Stufe 5':'Dungeon · 4 Bosse','#aaa','11px system-ui,sans-serif');}}
  if(P.alive){const p=proj(P.x,P.y,2.45+(P.jz||0));if(p)label(p.x,p.y,P.name,'#ffe7a8','bold 12px system-ui,sans-serif');}
  for(const q of TXT){const p=proj(q.x,q.y,q.h);if(!p)continue;octx.globalAlpha=clamp(q.t*1.6,0,1);label(p.x,p.y,q.s,q.col,`bold ${q.sz}px system-ui,sans-serif`);}
@@ -3159,12 +3210,15 @@ function updateHud(){
  const T=P.target;$('tframe').classList.toggle('hidden',!T);
  if(T){$('tName').innerHTML=`<span style="color:${T.b.boss?'#ff8a3d':lvlColor(T.lv)}">${esc(T.n)}</span> <span class="muted">Stufe ${T.lv}</span>`;$('thF').style.width=(T.hp/T.maxHp*100)+'%';$('thT').textContent=`${Math.max(0,Math.ceil(T.hp))} / ${T.maxHp}`;}
  $('mmZone').textContent=ZONES[zoneAt(P.x,P.y)].name;
- const q=QUESTS[P.q];let h='<div class="qt">📜 Auftrag</div>';if(q)h+=`<div class="muted qch" style="font-size:11px">Kapitel ${chOf(P.q)+1} · ${STORY.ch[chOf(P.q)].t}</div>`;
+ const q=QUESTS[P.q],q0=QUESTS0[P.q0];let h='';
+ if(q0){const pg=q0Prog(q0);h+=`<div class="qt">🧭 Erste Schritte <span class="muted q0n">${P.q0+1}/${QUESTS0.length}</span></div><b>${q0.n}</b><br>${q0.txt}${pg?`<br>Fortschritt: <span style="color:#fff">${pg}</span>`:''}<div style="height:8px"></div>`;}
+ h+='<div class="qt">📜 Auftrag</div>';if(q)h+=`<div class="muted qch" style="font-size:11px">Kapitel ${chOf(P.q)+1} · ${STORY.ch[chOf(P.q)].t}</div>`;
  if(!q)h+='Alle Aufträge erfüllt. Eldoria dankt dir!';
  else if(canTurnIn())h+=`<b>${q.n}</b><br><span style="color:#7fe07f">Erfüllt – kehre zu Hauptmann Andrew zurück.</span>`;
  else{const c=countMat(q.mob);h+=`<b>${q.n}</b><br>${MOBS[q.mob].n}: <span style="color:${P.qk>=q.k?'#7fe07f':'#fff'}">${Math.min(P.qk,q.k)} / ${q.k}</span><br>${MATS[q.mob].ic} ${MATS[q.mob].n}: <span style="color:${c>=q.m?'#7fe07f':'#fff'}">${Math.min(c,q.m)} / ${q.m}</span> <span class="muted">(${MAT_PCT(q.mob)}% Drop)</span><br><span class="muted">Gebiet: ${zoneLabel(q.mob)}</span>`;}
- const q2=QUESTS2[P.q2||0];h+='<div class="qt" style="margin-top:8px">⚗️ Sammelauftrag</div>';
- if(!q2)h+='Alle Sammelaufträge erfüllt!';
+ const q2=QUESTS2[P.q2||0];if(!q0)h+='<div class="qt" style="margin-top:8px">⚗️ Sammelauftrag</div>';
+ if(q0){}
+ else if(!q2)h+='Alle Sammelaufträge erfüllt!';
  else{const c=countMat(q2.mat);h+=`<b>${q2.n}</b><br>${MATS[q2.mat].ic} ${MATS[q2.mat].n}: <span style="color:${c>=q2.k?'#7fe07f':'#fff'}">${Math.min(c,q2.k)} / ${q2.k}</span><br>`+(c>=q2.k?'<span style="color:#7fe07f">Bring es zu Waldläuferin Lilou.</span>':`<span class="muted">Drop von: ${q2.mat==='boss'?MOBS.boss.n:MOBS[q2.mat].n} (${MAT_PCT(q2.mat)}%)</span>`);}
  if(INDG)h=dgTrack();
  if(h!==lastQuestHtml){$('quest').innerHTML=h;lastQuestHtml=h;}
@@ -3205,7 +3259,7 @@ function invClick(i){
 }
 function equip(i){
  const it=P.inv[i];if(P.lvl<it.req){log(`Du benötigst Stufe ${it.req} für diesen Gegenstand.`,'#ff7b6b');return;}
- TRY=null;const old=P.equip[it.slot];P.equip[it.slot]=it;P.inv[i]=old;recalc();log(`Ausgerüstet: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);refreshInv();refreshChar();save();
+ TRY=null;const old=P.equip[it.slot];P.equip[it.slot]=it;P.inv[i]=old;recalc();log(`Ausgerüstet: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);refreshInv();refreshChar();save();q0Ev('equip');
 }
 function unequip(sl){const it=P.equip[sl];if(!it)return;const i=P.inv.findIndex(x=>!x);if(i<0){log('Inventar voll!','#ff7b6b');return;}P.inv[i]=it;P.equip[sl]=null;recalc();refreshInv();refreshChar();}
 function sell(i){
@@ -3270,7 +3324,7 @@ addEventListener('pointercancel',()=>{winDrag=null;},true);
 try{const d=JSON.parse(localStorage.getItem('eldoria_winpos')||'{}');for(const id in d){const w=$(id);if(w&&w.classList.contains('win')){WPOS[id]=d[id];w.style.left=clamp(d[id][0],0,Math.max(0,innerWidth-120))+'px';w.style.top=clamp(d[id][1],0,Math.max(0,innerHeight-60))+'px';w.style.right='auto';w.style.transform='none';}}}catch(e){}
 
 // ================= NPCs =================
-function openNpc(n){openNpcId=n.id;$('winNpc').classList.remove('hidden');renderNpc();document.body.classList.toggle('shopOpen',isShop(n.id));if(isShop(n.id)){$('winInv').classList.remove('hidden');}refreshInv();}
+function openNpc(n){openNpcId=n.id;$('winNpc').classList.remove('hidden');q0Ev('talk',n.id);renderNpc();document.body.classList.toggle('shopOpen',isShop(n.id));if(isShop(n.id)){$('winInv').classList.remove('hidden');}refreshInv();}
 function renderNpc(){
  const n=NPCS.find(x=>x.id===openNpcId);if(!n)return;
  let h=`<h3>${n.icon} ${npcN(n)}<span class="x" onclick="closeNpc()">✕</span></h3>`;
@@ -3300,6 +3354,7 @@ function renderNpc(){
    h+=`<div class="row"><span><span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span><br><span class="muted">${max?'Maximal aufgewertet':`+${it.upg} → +${it.upg+1} · Chance ${ch}% · ${cost} Gold`}</span></span><button class="btn" onclick="upgrade('${sl}')" ${max||!stones||P.gold<cost?'disabled':''}>🔨 Aufwerten</button></div>`;}
   if(!stones)h+=`<p class="muted" style="margin-top:8px">Steine erhältst du von Monstern oder bei Händlerin Mira.</p>`;
  }else if(n.id==='hauptmann'){
+  {const q0=QUESTS0[P.q0];if(q0){const pg=q0Prog(q0);h+=`<div class="q0box"><div class="qt">🧭 Erste Schritte <span class="muted q0n">${P.q0+1}/${QUESTS0.length}</span></div><b>${q0.n}</b><br>${q0.txt}${pg?` <span class="muted">(${pg})</span>`:''}</div>`;}}
   const q=QUESTS[P.q];
   if(!q)h+=`<p>„Du hast jeden Auftrag erfüllt, ${esc(P.name)}. Selbst der Leerenkönig ist gefallen. Beide Welten stehen tief in deiner Schuld!“</p>`;
   else{h+=`<div class="muted">Kapitel ${chOf(P.q)+1} · ${STORY.ch[chOf(P.q)].t}</div><div class="qt">📜 ${q.n}</div><p>„${q.txt}“</p><div class="row"><span>Fortschritt</span><b style="color:${P.qk>=q.k?'#7fe07f':'#fff'}">${Math.min(P.qk,q.k)} / ${q.k} ${MOBS[q.mob].n}</b></div><div class="row"><span>${MATS[q.mob].ic} ${MATS[q.mob].n} <span class="muted">(${MAT_PCT(q.mob)}% Drop)</span></span><b style="color:${countMat(q.mob)>=q.m?'#7fe07f':'#fff'}">${Math.min(countMat(q.mob),q.m)} / ${q.m}</b></div><div class="row"><span>Belohnung</span><span>${q.xp.toLocaleString('de-DE')} EP · ${q.gold} Gold${q.item?' · Ausrüstung':''}</span></div>`;
@@ -3365,7 +3420,7 @@ function deleteSlot(i){try{localStorage.removeItem(slotKey(i));}catch(e){}}
 function storageOk(){try{localStorage.setItem('eldoria_t','1');localStorage.removeItem('eldoria_t');return true;}catch(e){return false;}}
 function migrateOld(){try{const s=localStorage.getItem(SKEY);if(!s)return;let i=0;while(i<NSLOTS&&localStorage.getItem(slotKey(i)))i++;if(i<NSLOTS)localStorage.setItem(slotKey(i),s);localStorage.removeItem(SKEY);}catch(e){}}
 let lastSave=null,toastTO=null;
-function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,bar:P.bar,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
+function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,bar:P.bar,q0:P.q0,q0k:P.q0k||0,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
 function toast(html,col){const t=$('toast');t.innerHTML=html;t.style.borderColor=col||'#6b5530';t.classList.add('show');clearTimeout(toastTO);toastTO=setTimeout(()=>t.classList.remove('show'),2200);}
 function manualSave(){if(!started)return;DEV.noSave=false;const ok=save();const tm=lastSave?lastSave.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'';
  if(ok){toast(`💾 <b>Spiel gespeichert</b><br><span class="muted">${tm} Uhr · Platz ${CUR_SLOT+1} · Stufe ${P.lvl} ${CLS.name}</span>`,'#7fe07f');log(`💾 Spiel gespeichert (${tm} Uhr).`,'#7fe07f');burst(P.x,P.y,'#7fe07f',14,1.4);}
@@ -3457,7 +3512,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 17:41';
+const BUILD='2026-11-22 17:54';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -3519,16 +3574,18 @@ resize();
 $('chatIn').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')sendChat();else if(e.key==='Escape'){$('chatIn').value='';sendChat();}});$('chatIn').addEventListener('keyup',e=>e.stopPropagation());
 function toCharSelect(){save();try{location.reload();}catch(e){log('Bitte lade die Seite neu, um zur Heldenauswahl zu gelangen.','#ffb08a');}}
 function startGame(p,fresh){
- P=p;if(P.q2==null)P.q2=0;P.world=P.world===1?1:0;P.w2=!!P.w2;for(const sl of SLOTS)if(!(sl in P.equip))P.equip[sl]=null;talFix(P);P.bar=fixBar(P);{const sb=Array.isArray(P.buffs)?P.buffs:[];initRuntime(P);for(const q of sb){const i=BUFFS.findIndex(b=>b[0]===q.n);if(i>=0&&q.t>0){giveBuff(i);P.buffs[P.buffs.length-1].t=Math.min(BUFF_T,+q.t||0);}}recalc();P.hp=P.maxHp;}
+ P=p;if(P.q2==null)P.q2=0;P.world=P.world===1?1:0;P.w2=!!P.w2;for(const sl of SLOTS)if(!(sl in P.equip))P.equip[sl]=null;talFix(P);P.bar=fixBar(P);if(!Number.isInteger(P.q0)||P.q0<0)P.q0=fresh?0:(P.lvl>=4||P.q>=1?QUESTS0.length:0);P.q0=Math.min(P.q0,QUESTS0.length);P.q0k=P.q0k|0;{const sb=Array.isArray(P.buffs)?P.buffs:[];initRuntime(P);for(const q of sb){const i=BUFFS.findIndex(b=>b[0]===q.n);if(i>=0&&q.t>0){giveBuff(i);P.buffs[P.buffs.length-1].t=Math.min(BUFF_T,+q.t||0);}}recalc();P.hp=P.maxHp;}
  if(Math.hypot(P.x-C,P.y-C)>WORLD_R-30){P.x=C;P.y=C+60;}
  init3D();loadWorld();buildBar();devAuto();initNet();p2pAuto();applyQual();
  try{[beamTex,waveTex,arcTex,streakTex,crackTex,swirlTex,runeTex,softTex].forEach(f=>f());}catch(e){}
  started=true;$('start').classList.add('hidden');$('hud').classList.remove('hidden');
  $('nameIn').blur();
  log(`Willkommen in Eldoria, ${esc(P.name)}! (Speicherplatz ${CUR_SLOT+1})`,'#ffd34d');
- STQ=[];if(fresh){P.st=0;log('Sprich mit Hauptmann Andrew (❗) nördlich vom Brunnen, und zieh dann in die Smaragdebene.');$('winHelp').classList.remove('hidden');showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);}
+ STQ=[];if(fresh){P.st=0;log('🧭 <b>Erste Schritte:</b> Sprich mit Hauptmann Andrew nördlich vom Brunnen. Der goldene Pfeil zeigt dir den Weg.','#8fd8ff');$('winHelp').classList.remove('hidden');showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);}
  else if(P.st==null)P.st=chOf(P.q);
  else log('Willkommen zurück! Dein Abenteuer geht weiter.');
+ if(!fresh&&QUESTS0[P.q0])log(`🧭 Erste Schritte (${P.q0+1}/${QUESTS0.length}): <b>${QUESTS0[P.q0].n}</b> – ${QUESTS0[P.q0].txt}`,'#8fd8ff');
+ q0Check();
  if(P.barNew){delete P.barNew;log('📘 <b>Neu: Skillbuch</b> (Taste K oder Menü) – dort warten weitere Fähigkeiten. Zieh sie auf die Plätze 1–6 der Leiste.','#8fd8ff');}
  save();
 }
