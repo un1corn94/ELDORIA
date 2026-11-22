@@ -301,7 +301,7 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
   <div><b>Fenster:</b> <kbd>I</kbd> Inventar · <kbd>C</kbd> Charakter · <kbd>T</kbd> Talente · <kbd>G</kbd> Gruppe · <kbd>J</kbd> Chronik · <kbd>M</kbd> Karte · <kbd>R</kbd> Angeln · <kbd>Enter</kbd> Chat · <kbd>Esc</kbd> schließen</div>
   <div><b>Speichern:</b> <kbd>Strg</kbd>+<kbd>S</kbd> oder Knopf 💾 Speichern (zusätzlich speichert das Spiel alle 20 Sekunden automatisch)</div>
   <div style="margin-top:8px"><b>Eldoria (Stadt):</b> Hier regenerierst du schnell. NPCs ansprechen durch Anklicken:</div>
-  <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Schmied Borin</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken).</div>
+  <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken).</div>
   <div style="margin-top:8px">Die Stadt liegt in der Mitte. Von ihren vier Toren führen Wege in die Gebiete ringsum: rund um die Stadt ist es harmlos, je weiter weg, desto gefährlicher (bis Stufe 30). Die Weltkarte (M) zeigt, wo welches Gebiet liegt. Ganz im Norden wartet der Aschenfürst – hinter ihm liegt das Portal in die Schattenwelt (Stufe 31–50).</div>
   <div style="margin-top:8px">⚔️ <b>Verlies der Vier</b> (ab Stufe 5): rotes Portal im Südwesten der Stadt, oder über DarkPrevaitor. Vier Bosse warten nacheinander – das Arschgeweih, Meerjungfrau Nerida, der Fuß und Brocken der Riese. Ihre Stufe passt sich alle 5 Stufen an dich an (5, 10, 15 …). Rote, grüne und orange Kreise am Boden zeigen, wo gleich etwas einschlägt. Jeder Boss lässt Ausrüstung fallen, am Ende gibt es eine Extra-Belohnung; du kannst das Verlies beliebig oft wiederholen.</div>
   <div class="muted" style="margin-top:8px">Der Fortschritt wird automatisch in deinem Browser gespeichert.</div>
@@ -640,7 +640,7 @@ const canTurnIn2=()=>{const q=QUESTS2[P.q2||0];return !!q&&countMat(q.mat)>=q.k;
 
 const NPCS_ALL=[
  {kind:'npc',id:'haendler',name:'Händlerin Mira',title:'Tränke & Allerlei',tcol:'#ffd9a0',rig:'haendlerin',x:C-205,y:C-35,col:'#d9963a',icon:'💰'},
- {kind:'npc',id:'schmied',name:'Schmied Borin',title:'Aufwerten',tcol:'#e0c8b0',rig:'schmied',x:C+205,y:C-35,col:'#7a5a3a',icon:'🔨'},
+ {kind:'npc',id:'schmied',name:'Teemla',title:'Glutschmied · Aufwerten',tcol:'#ffb070',rig:'schmied',x:C+205,y:C-35,col:'#7a5a3a',icon:'🔨'},
  {kind:'npc',id:'hauptmann',name:'Hauptmann Andrew',rig:'koenig',x:C,y:C-200,col:'#3f6fbf',icon:'❗'},
  {kind:'npc',id:'teleport',name:'DarkPrevaitor',title:'Schattenpriester',rig:'schatten',x:C+85,y:C+195,col:'#2a1838',icon:'🌀'},
  {kind:'npc',id:'alchemist',name:'Lilou',title:'Waldläuferin',tcol:'#8fe89a',rig:'waldlaeuferin',x:C-115,y:C-170,col:'#3f9a6a',icon:'⚗️'},
@@ -1291,6 +1291,19 @@ function monsterHit(m,u,mult){
  else if(onScreen(u))floatText(u.x,u.y,'-'+dmg,'#d99',11,2.3);
  if(u.hp<=0){u.hp=0;if(u===P)playerDie();else botDie(u);}
 }
+// ================= Glutschmied Teemla: Hammerschläge mit Funkenregen =================
+let FORGE=null,_fv=null;
+function forgeHit(F){const x=F.x,y=F.y;F.heat=1;
+ for(let i=QUAL?18:9;i--;){const a=rnd(0,TAU),v=rnd(25,115);PART.push({x,y,h:.9,vx:Math.cos(a)*v,vy:Math.sin(a)*v,vh:rnd(2.5,7),life:rnd(.4,.95),max:.95,col:pick(['#ffd060','#ff8a2a','#fff2c0','#ff5a14']),sz:rnd(1.6,3.4)});}
+ sfx({k:'flash',x,y,h:.9,r:34,col:'#ffb040',dur:.24},{k:'ring',x,y,r0:4,r1:54,col:'#ff8a2a',dur:.4,op:.55},{k:'wave',st:'fire',x,y,r0:5,r1:40,dur:.38,hm:.3});}
+function forgeTick(n){const F=FORGE,near=Math.abs(n.x-P.x)<800&&Math.abs(n.y-P.y)<800,dt=Math.min(ADT,.05);let lg=0;
+ n.fT=(n.fT==null?1.2:n.fT)-dt;
+ if(n.fT<=0&&!(n.fS>0)){n.fT=rnd(1.9,3.1);n.fS=.42;}
+ if(n.fS>0){n.fS-=dt;lg=Math.max(.001,n.fS/.42*.18);if(n.fS<=0){lg=0;if(F&&near)forgeHit(F);}}
+ if(F){F.heat=Math.max(0,F.heat-dt*1.6);F.ing.material.emissiveIntensity=1+F.heat*2.4+Math.sin(time*6)*.15;F.fl.intensity=.5+F.heat*1.8+Math.sin(time*9)*.08;}
+ const fg=n.h3.g.userData.forge;if(fg){const h=F?F.heat:0;fg.hot.emissiveIntensity=1.6+Math.sin(time*5)*.4+h*1.8;fg.gs.material.opacity=.6+Math.sin(time*5)*.12+h*.3;
+  if(near&&Math.random()<(n.fS>0?.9:.3)){_fv=_fv||new THREE.Vector3();fg.gs.getWorldPosition(_fv);PART.push({x:_fv.x*S+C+rnd(-3,3),y:_fv.z*S+C+rnd(-3,3),h:_fv.y,vx:rnd(-6,6),vy:rnd(-6,6),vh:rnd(.6,1.8),g:0,life:rnd(.35,.7),max:.7,col:pick(['#ff8a2a','#ffd060','#ff5a14']),sz:rnd(1.8,3.2)});}}
+ return lg;}
 // ================= Erste Schritte: kleine Einstiegsaufgaben, die sich von selbst abschließen =================
 const QUESTS0=[
  {n:'Willkommen in Eldoria',t:'talk',npc:'hauptmann',xp:40,gear:['ruestung',1],txt:'Sprich mit Hauptmann Andrew – er steht nördlich vom Brunnen.',done:'Andrew mustert dich: „So gehst du mir nicht vor die Mauern.“ Er gibt dir eine Rüstung mit.'},
@@ -1301,7 +1314,7 @@ const QUESTS0=[
  {n:'Mit voller Kraft',t:'cast',k:3,xp:80,pot:[0,3],txt:'Setze im Kampf 3-mal eine Fähigkeit ein: Taste 1 oder der erste Platz der Leiste.',done:'So ist es richtig. Weitere Fähigkeiten findest du im Skillbuch (K).'},
  {n:'Segen der Sterne',t:'talk',npc:'segen',xp:80,buff:0,txt:'Sprich mit Seherin Yara im Süden der Stadt.',done:'Yara schenkt dir den Segen der Kraft: +15% Angriff für 15 Minuten.'},
  {n:'Auf die Jagd',t:'kill',mob:'eber',k:4,xp:160,gold:60,gear:['waffe',1],txt:'Besiege 4 Wildeber in der Smaragdebene.',done:'Die Stadtwache schenkt dir zum Dank eine bessere Waffe – sie liegt im Inventar (I).'},
- {n:'Feinschliff',t:'talk',npc:'schmied',xp:70,stones:1,txt:'Sprich mit Schmied Borin östlich vom Brunnen.',done:'Borin gibt dir einen Aufwertungsstein. Damit macht er ein Ausrüstungsteil stärker.'},
+ {n:'Feinschliff',t:'talk',npc:'schmied',xp:70,stones:1,txt:'Sprich mit Glutschmied Teemla östlich vom Brunnen.',done:'Teemla gibt dir einen Aufwertungsstein. Damit macht er ein Ausrüstungsteil stärker.'},
  {n:'Bereit für mehr',t:'level',lv:3,gold:100,gear:['stiefel',1],txt:'Erreiche Stufe 3. Die Aufträge von Hauptmann Andrew und Waldläuferin Lilou bringen viel Erfahrung.',done:'Du kennst dich jetzt aus. Viel Erfolg da draußen!'},
 ];
 const Q0GEAR={ruestung:'eine Rüstung',helm:'ein Helm',waffe:'eine Waffe',stiefel:'ein Paar Stiefel'};
@@ -2012,7 +2025,13 @@ function buildTown(){
   const L=new THREE.PointLight(0x4ae0d0,1.1,7,2);L.position.set(-.1,1.5,0);t.add(L);for(const z of[-.9,-.55,.55,.9]){mesh(new THREE.CylinderGeometry(.04,.04,.25,6),M('#f0e8d0'),-.1,1.02,z,t);mesh(new THREE.SphereGeometry(.035,6,5),basic('#ffd060'),-.1,1.18,z,t).castShadow=false;}});
  {const t=stall('schmied',null,t=>{mesh(new THREE.BoxGeometry(1.0,1.3,1.4),dstone,.5,.2,-.6,t);mesh(new THREE.BoxGeometry(.7,.1,1.0),new THREE.MeshStandardMaterial({color:0xff6a1a,emissive:0xff4a00,emissiveIntensity:1.4}),.5,.9,-.6,t).castShadow=false;mesh(new THREE.BoxGeometry(.5,1.6,.5),dstone,.75,1.7,-.6,t);
    const L=new THREE.PointLight(0xff6a2a,1.2,8,2);L.position.set(.4,1.4,-.6);t.add(L);for(let i=0;i<3;i++)mesh(new THREE.BoxGeometry(.03,.9,.08),metal,.2,1.0,.5+i*.25,t).rotation.z=.25;});
-  const sm=byId('schmied');const a=Math.atan2(sm.y-C,sm.x-C)+1.2;mesh(new THREE.BoxGeometry(.8,.5,.4),M('#3a3a3a',{metalness:.6,roughness:.4}),TX(sm.x)+Math.cos(a)*1.2,.55,TZ(sm.y)+Math.sin(a)*1.2,scene);mesh(new THREE.BoxGeometry(.4,.3,.3),M('#3a3a3a'),TX(sm.x)+Math.cos(a)*1.2,.15,TZ(sm.y)+Math.sin(a)*1.2,scene);}
+  const sm=byId('schmied'),fa=Math.atan2(C+60-sm.y,C-sm.x),ax=sm.x+Math.cos(fa)*23,ay=sm.y+Math.sin(fa)*23,an=new THREE.Group();an.position.set(TX(ax),0,TZ(ay));an.rotation.y=-fa;scene.add(an);
+  const am=M('#34363c',{metalness:.7,roughness:.38,envMap:envTex()});
+  mesh(new THREE.CylinderGeometry(.3,.36,.44,10),M('#3a2c20',{roughness:.9}),0,.22,0,an);mesh(new THREE.BoxGeometry(.34,.2,.3),am,0,.54,0,an);mesh(new THREE.BoxGeometry(.32,.17,.8),am,0,.72,0,an);
+  {const hn=mesh(new THREE.ConeGeometry(.1,.32,8),am,0,.72,.55,an);hn.rotation.x=Math.PI/2;}
+  const ing=mesh(new THREE.BoxGeometry(.1,.05,.38),new THREE.MeshStandardMaterial({color:0xff7a1a,emissive:0xff5a00,emissiveIntensity:1.2,roughness:.6}),0,.83,-.05,an);ing.castShadow=false;
+  const fl=new THREE.PointLight(0xff7a2a,.6,6,2);fl.position.set(0,1.2,0);an.add(fl);
+  FORGE={x:ax,y:ay,ing,fl,heat:0};}
  window._portal=null;if(!WORLD){const tp=byId('teleport'),ta=Math.atan2(tp.y-C,tp.x-C);
  const portal=new THREE.Group();portal.position.set(TX(tp.x)+Math.cos(ta)*2.3,1.9,TZ(tp.y)+Math.sin(ta)*2.3);portal.userData.baseRot=-ta+Math.PI/2;scene.add(portal);
  mesh(new THREE.TorusGeometry(1.3,.16,8,28),M('#2a1838',{emissive:'#3a0a6a'}),0,0,0,portal);
@@ -2198,8 +2217,9 @@ function makeHeroRig(ck,col,isPlayer,L){
   skirtP:'gown',sleeve:'flare',capeL:1.05,mantle:true,head:'priestess',noHalo:true,hair:'#e8e8f0',female:true,weapon:'staff',orb:0x4ae0d0,orbE:'#20c0b0',orbC:'#c0fff4',aura:0x4ae0d0,auraP:['#8ff0e0','#e0fffa']};}
  else if(ck==='haendlerin'){const tr='#e0b84e';C={torso:Ms('#ffffff',{map:clothTex('#a8551c',tr,'torso'),roughness:.85,bumpMap:weave,bumpScale:.012}),skirt:Ms('#ffffff',{map:clothTex('#7a3a1a',tr,'skirt'),side:THREE.DoubleSide,roughness:.85,bumpMap:weave,bumpScale:.012}),
   legs:Ms('#4a3020'),dark:Ms('#5a2c12'),skirtP:'gown',sleeve:'flare',head:'priestess',noHalo:true,hair:'#5a3a22',female:true,belts:false,sash:'#e0b84e'};}
- else if(ck==='schmied'){C={torso:Ms('#ffffff',{map:leatherTex('#3a2a20'),roughness:.7,bumpMap:weave,bumpScale:.004}),skirt:Ms('#ffffff',{map:leatherTex('#4a3626'),side:THREE.DoubleSide,roughness:.75}),
-  legs:Ms('#ffffff',{map:clothTex('#2a2a30','#000000','plain'),roughness:.9}),dark:Ms('#2a2018'),skirtP:'coat',sleeve:'bare',bracer:true,head:'barbarian',hair:'#1c1614',beard:'#1c1614',weapon:'hammer'};}
+ else if(ck==='schmied'){C={torso:Ms('#ffffff',{map:leatherTex('#2a1a14'),roughness:.7,bumpMap:weave,bumpScale:.004}),skirt:Ms('#ffffff',{map:leatherTex('#3a2218'),side:THREE.DoubleSide,roughness:.75}),
+  legs:Ms('#ffffff',{map:clothTex('#1e1c22','#000000','plain'),roughness:.9}),dark:Ms('#1c1410'),skirtP:'coat',sleeve:'bare',bracer:true,belts:true,pauldron:'R',spikes:true,head:'barbarian',hair:'#1a1210',beard:'#d8601a',eye:'#ffb030',weapon:'forge',
+  aura:0xff6a1a,auraP:['#ff8a2a','#ffd060','#ff4a10','#fff0b0']};}
  else if(ck==='schatten'){const tr='#7a3ac0';C={torso:Ms('#ffffff',{map:clothTex('#1c1228',tr,'torso'),roughness:.9,bumpMap:weave,bumpScale:.012}),skirt:Ms('#ffffff',{map:clothTex('#1c1228',tr,'skirt'),side:THREE.DoubleSide,roughness:.9,bumpMap:weave,bumpScale:.012}),
   legs:Ms('#120a1a'),dark:Ms('#140a1e',{roughness:.95}),capeM:Ms('#ffffff',{map:clothTex('#140a1e',tr,'cape'),side:THREE.DoubleSide,roughness:.95,bumpMap:weave,bumpScale:.012}),
   skirtP:'long',sleeve:'flare',capeL:1.3,mantle:true,head:'hood',hoodM:Ms('#ffffff',{map:clothTex('#140a1e','#000000','plain'),side:THREE.DoubleSide,roughness:.95}),weapon:'staff',orb:0x8a2aff,orbE:'#6a10e0',orbC:'#c8a0ff',aura:0x8a2aff,auraP:['#b070ff','#e0c0ff']};}
@@ -2433,6 +2453,16 @@ function makeHeroRig(ck,col,isPlayer,L){
   dg(wp);wp2=new THREE.Group();arms[0].hand.add(wp2);dg(wp2);}
  if(wpnGlow&&C.weapon!=='staff'&&C.weapon!=='bow'){const gm=new THREE.SpriteMaterial({map:glowTex(),color:wpnGlow,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending});
   for(const w of[wp,wp2])if(w){const gs=new THREE.Sprite(gm);gs.scale.set(.5,C.weapon==='dual'?.75:1.5,1);gs.position.y=C.weapon==='dual'?.32:.72;w.add(gs);}}
+ if(C.weapon==='forge'){sm(geo('fHamH',()=>{const q=new THREE.CylinderGeometry(.026,.031,1.0,8);q.translate(0,.32,0);return q;}),wood,0,0,0,wp);
+  sm(geo('fHamB',()=>new THREE.BoxGeometry(.44,.21,.21)),steel,0,.8,0,wp);
+  const hot=mk(new THREE.MeshStandardMaterial({color:'#ff8a2a',emissive:'#ff5a00',emissiveIntensity:1.8,roughness:.5}));
+  sm(geo('fHamR',()=>new THREE.BoxGeometry(.07,.226,.226)),hot,0,.8,0,wp).castShadow=false;
+  for(const sx of[-1,1]){sm(geo('fHamF',()=>new THREE.BoxGeometry(.035,.2,.2)),hot,sx*.225,.8,0,wp).castShadow=false;sm(geo('fHamG',()=>new THREE.BoxGeometry(.03,.226,.226)),gold,sx*.165,.8,0,wp);}
+  const gs=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xff7a2a,transparent:true,opacity:.75,depthWrite:false,blending:THREE.AdditiveBlending}));gs.scale.set(1.5,1.5,1);gs.position.y=.8;wp.add(gs);
+  g.userData.forge={hot,gs};
+  // glühendes Zeichen auf der Schürze und glimmende Armschienen
+  const em=sm(geo('fEmb',()=>{const q=new THREE.CylinderGeometry(.075,.075,.02,6);q.rotateZ(Math.PI/2);return q;}),hot,.303,.33,0,chest);em.castShadow=false;
+  for(const a of arms){const r=sm(geo('fBrc',()=>new THREE.TorusGeometry(.058,.014,6,14)),hot,0,-.2,0,a.el);r.rotation.x=Math.PI/2;r.castShadow=false;}}
  if(C.weapon==='hammer'){sm(geo('hHamH',()=>{const q=new THREE.CylinderGeometry(.022,.026,.55,8);q.translate(0,.2,0);return q;}),wood,0,0,0,wp);sm(geo('hHamB',()=>new THREE.BoxGeometry(.13,.13,.26)),steel,0,.48,0,wp);}
  if(C.weapon==='bow'){const bw=new THREE.Group();bw.position.set(-.22,.25,.02);bw.rotation.set(.35,Math.PI/2,0);spine.add(bw);
   sm(geo('hBow',()=>new THREE.TorusGeometry(.62,.022,6,24,Math.PI*.9)),wood,0,0,0,bw).rotation.z=-Math.PI*.45+Math.PI/2;
@@ -2445,7 +2475,7 @@ function makeHeroRig(ck,col,isPlayer,L){
  if(C.aura){const ar=new THREE.Mesh(geo('aura',()=>{const q=new THREE.RingGeometry(.75,.95,40);q.rotateX(-Math.PI/2);return q;}),new THREE.MeshBasicMaterial({color:C.aura,transparent:true,opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide}));ar.position.y=.06;g.add(ar);
   const ag=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:C.aura,transparent:true,opacity:.35,depthWrite:false,blending:THREE.AdditiveBlending}));ag.scale.set(2.6,3.2,1);ag.position.y=1.1;g.add(ag);
   const L=new THREE.PointLight(C.aura,.9,7,2);L.position.set(-.3,.6,0);g.add(L);const L2=new THREE.PointLight(0xfff0d8,.9,4,2);L2.position.set(1.1,1.9,0);g.add(L2);g.userData.aura={ar,ag,cols:C.auraP};
-  if(ck==='koenig'){for(let i=0;i<6;i++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe080,transparent:true,opacity:.9,depthWrite:false,blending:THREE.AdditiveBlending}));sp.scale.set(.1,.1,.1);g.add(sp);(g.userData.aura.orbs=g.userData.aura.orbs||[]).push(sp);}}}
+  if(ck==='koenig'||ck==='schmied'){for(let i=0;i<6;i++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:ck==='schmied'?0xff7a20:0xffe080,transparent:true,opacity:.9,depthWrite:false,blending:THREE.AdditiveBlending}));sp.scale.set(.1,.1,.1);g.add(sp);(g.userData.aura.orbs=g.userData.aura.orbs||[]).push(sp);}}}
  let shield=null;
  if(C.shield){shield=new THREE.Group();arms[0].el.add(shield);shield.position.set(.02,-.16,-.1);
   const shp=new THREE.Shape();shp.moveTo(0,.36);shp.quadraticCurveTo(.3,.36,.3,.2);shp.quadraticCurveTo(.3,-.18,0,-.48);shp.quadraticCurveTo(-.3,-.18,-.3,.2);shp.quadraticCurveTo(-.3,.36,0,.36);
@@ -2464,7 +2494,7 @@ function makeHeroRig(ck,col,isPlayer,L){
   if(C.tattered){const p=cg.attributes.position;for(let i=0;i<p.count;i++){if(p.getY(i)<-cl*.95)p.setY(i,p.getY(i)+rr(0,.18));}}
   cape=sm(cg,C.capeM,-(.3*TXs+.03),.5,0,spine);cape.scale.z=TZs*.9;cape.userData.base=Float32Array.from(cg.attributes.position.array);}
  return{g,b,legL:legs[0].th,legR:legs[1].th,armL:arms[0].sh,armR:arms[1].sh,wp,wp2,mats,ck,rig:'hero',
-  hips,spine,chest,neck,head,hat,hatTilt,legs,arms,skirt,cape,capeLen:C.capeL||1,crys,glow,sparks,shield,wtype:C.weapon==='hammer'?'axe':C.weapon,
+  hips,spine,chest,neck,head,hat,hatTilt,legs,arms,skirt,cape,capeLen:C.capeL||1,crys,glow,sparks,shield,wtype:C.weapon==='hammer'||C.weapon==='forge'?'axe':C.weapon,
   wk:0,at:0,air:0,yaw:null,ph:0,lx:null,ly:null,spd:0,hatV:0,hatA:0};
 }
 const _lerp=(a,b,k)=>a+(b-a)*k;
@@ -2934,7 +2964,7 @@ function render3D(dt){
  P.h3.g.visible=P.alive;if(P.alive)animHero(P.h3,P,P.moving,P.anim,P.chan?.085:P.lunge,P.face);
  renderFriends(dt);renderFishing();
  for(const b of BOTS){b.h3.g.visible=b.alive&&near(b);if(b.h3.g.visible)animHero(b.h3,b,b.moving,b.anim,b.lunge,b.face);}
- for(const n of NPCS){if(n.h3.rig==='hero'){animRig(n.h3,n,0,n.face);const au=n.h3.g.userData.aura;if(au){au.ar.rotation.y=time*.8;au.ar.material.opacity=.4+Math.sin(time*2.5)*.18;au.ag.material.opacity=.28+Math.sin(time*2.5)*.1;if(Math.random()<.35)PART.push({x:n.x+rnd(-18,18),y:n.y+rnd(-18,18),h:rnd(.1,1.2),vx:rnd(-4,4),vy:rnd(-4,4),vh:rnd(.8,1.8),g:0,life:1.1,max:1.1,col:pick(au.cols),sz:rnd(2,4)});if(au.orbs)au.orbs.forEach((o,i)=>{const a=time*1.4+i*TAU/6;o.position.set(Math.cos(a)*.75,1.0+Math.sin(time*2+i)*.5,Math.sin(a)*.75);});}}else{n.h3.g.position.set(TX(n.x),0,TZ(n.y));n.h3.b.position.y=Math.sin(time*2+n.x)*.012;}}
+ for(const n of NPCS){if(n.h3.rig==='hero'){animRig(n.h3,n,n.id==='schmied'?forgeTick(n):0,n.face);const au=n.h3.g.userData.aura;if(au){au.ar.rotation.y=time*.8;au.ar.material.opacity=.4+Math.sin(time*2.5)*.18;au.ag.material.opacity=.28+Math.sin(time*2.5)*.1;if(Math.random()<.35)PART.push({x:n.x+rnd(-18,18),y:n.y+rnd(-18,18),h:rnd(.1,1.2),vx:rnd(-4,4),vy:rnd(-4,4),vh:rnd(.8,1.8),g:0,life:1.1,max:1.1,col:pick(au.cols),sz:rnd(2,4)});if(au.orbs)au.orbs.forEach((o,i)=>{const a=time*1.4+i*TAU/6;o.position.set(Math.cos(a)*.75,1.0+Math.sin(time*2+i)*.5,Math.sin(a)*.75);});}}else{n.h3.g.position.set(TX(n.x),0,TZ(n.y));n.h3.b.position.y=Math.sin(time*2+n.x)*.012;}}
  for(const m of MONS){
   if(!near(m))continue;
   if(!m.m3){m.m3=makeMonModel(m);scene.add(m.m3.g);R_MON.add(m);}m._f=frame;
@@ -2973,7 +3003,7 @@ function render3D(dt){
 }
 function build3DWorld(){
  if(INDG)buildDungeon();else{buildGround();buildDeco();buildLakes();buildTown();}
- for(const n of NPCS){const sp=n.id==='teleport';n.h3=makeHero(n.rig,n.col);n.face=Math.atan2(C+60-n.y,C-n.x);n.h3.g.rotation.y=-Math.atan2(C+60-n.y,C-n.x);n.h3.wp.visible=sp||n.h3.rig==='hero';scene.add(n.h3.g);}
+ for(const n of NPCS){const sp=n.id==='teleport';n.h3=makeHero(n.rig,n.col);n.face=Math.atan2(C+60-n.y,C-n.x);n.h3.g.rotation.y=-Math.atan2(C+60-n.y,C-n.x);n.h3.wp.visible=sp||n.h3.rig==='hero';if(n.id==='schmied'){n.h3.g.scale.setScalar(1.14);n.fT=null;n.fS=0;}scene.add(n.h3.g);}
  for(const b of BOTS){b.h3=makeHero(b.ck,b.c.col);scene.add(b.h3.g);}
  P.lookS=lookStr(P.equip);P.h3=makeHero(P.ck,CLS.col,undefined,true,P.lookS);P.h3.lookS=P.lookS;scene.add(P.h3.g);
  if(INDG){const back=P.dgFrom||0;makePortal(C-110,C+60,back,'Zurück nach '+WORLDS[back].zones[0].name,0x4ad0ff);return;}
@@ -3034,7 +3064,7 @@ function drawOverlay(){
   if(m.stun>0)label(p.x,p.y-30,'💫','#fff','15px system-ui');}
  for(const r of friendsHere())if(r.al){const p=proj(r.x,r.y,2.5+(r.jz||0));if(!p||p.d>80)continue;label(p.x,p.y-8,`${inParty(r)?'🤝 ':isFriend(r.name)?'⭐ ':''}${r.name} [${r.lv}]`,inParty(r)?'#8fd8ff':isFriend(r.name)?'#7dffb0':'#e8e8e8','bold 12px system-ui,sans-serif');hpbar(p.x,p.y-3,36,r.hpP,'#4c4');}
  for(const b of BOTS)if(b.alive){const p=proj(b.x,b.y,2.4+(b.jz||0));if(!p||p.d>60)continue;label(p.x,p.y-8,`${b.name} [${b.lv}]`,'#8fd8ff');if(b.hp<b.maxHp)hpbar(p.x,p.y-3,32,b.hp/b.maxHp,'#4c4');}
- for(const n of NPCS){const p=proj(n.x,n.y,2.35);if(!p||p.d>70)continue;if(n.title){label(p.x,p.y-12,npcN(n),n.tcol||'#d6a8ff','bold 12px system-ui,sans-serif');label(p.x,p.y,`<${n.title}>`,n.tcol||'#a98bc9','10px system-ui,sans-serif');p.y-=12;}else label(p.x,p.y,n.name,'#ffe08a');let ic=n.icon;if(n.id==='hauptmann')ic=canTurnIn()?'❓':QUESTS[P.q]?'❗':'';if(n.id==='alchemist')ic=canTurnIn2()?'❓':QUESTS2[P.q2||0]?'⚗️':'';{const q0=QUESTS0[P.q0];if(q0&&q0.t==='talk'&&q0.npc===n.id)ic='🧭';}if(ic)label(p.x,p.y-18+Math.sin(time*3)*3,ic,'#fff','20px system-ui,sans-serif');}
+ for(const n of NPCS){const p=proj(n.x,n.y,n.id==='schmied'?2.7:2.35);if(!p||p.d>70)continue;if(n.title){label(p.x,p.y-12,npcN(n),n.tcol||'#d6a8ff','bold 12px system-ui,sans-serif');label(p.x,p.y,`<${n.title}>`,n.tcol||'#a98bc9','10px system-ui,sans-serif');p.y-=12;}else label(p.x,p.y,n.name,'#ffe08a');let ic=n.icon;if(n.id==='hauptmann')ic=canTurnIn()?'❓':QUESTS[P.q]?'❗':'';if(n.id==='alchemist')ic=canTurnIn2()?'❓':QUESTS2[P.q2||0]?'⚗️':'';{const q0=QUESTS0[P.q0];if(q0&&q0.t==='talk'&&q0.npc===n.id)ic='🧭';}if(ic)label(p.x,p.y-18+Math.sin(time*3)*3,ic,'#fff','20px system-ui,sans-serif');}
  q0Arrow();
  for(const q of PORTALS){const p=proj(q.x,q.y,6);if(p&&p.d<90){label(p.x,p.y,(q.ic||'🌀')+' '+q.label,q.to===2?'#ff9b6b':'#d6a8ff','bold 13px system-ui,sans-serif');if(q.to===1&&!P.w2)label(p.x,p.y+15,'🔒 versiegelt','#aaa','11px system-ui,sans-serif');if(q.to===2)label(p.x,p.y+15,P.lvl<5?'🔒 ab Stufe 5':'Dungeon · 4 Bosse','#aaa','11px system-ui,sans-serif');}}
  if(P.alive){const p=proj(P.x,P.y,2.45+(P.jz||0));if(p)label(p.x,p.y,P.name,'#ffe7a8','bold 12px system-ui,sans-serif');}
@@ -3129,7 +3159,7 @@ function itemTip(it,equipped){
  if(it.type==='potion')return`<b>${itemName(it)}</b><br>Stellt ${it.kind==='hp'?'40% LP':'50% MP'} wieder her.<br><span class="muted">Anzahl: ${it.count} · Taste ${it.kind==='hp'?'Q':'E'}</span>`;
  if(it.type==='mat'){const q=QUESTS2[P.q2||0],need=q&&q.mat===it.kind;const src=it.kind==='boss'?MOBS.boss.n:MOBS[it.kind].n;return`<b style="color:#ffb35c">${MATS[it.kind].ic} ${MATS[it.kind].n}</b><br><span class="muted">Material · erbeutet von: ${src} (${MAT_PCT(it.kind)}% Drop)</span><br>${need?`<span style="color:#7fe07f">Gesucht von Waldläuferin Lilou (${countMat(it.kind)}/${q.k})</span><br>`:''}<span class="muted">Anzahl: ${it.count} · Verkaufswert: ${MATS[it.kind].v} Gold</span>`;}
  if(it.type==='fish'){const f=fishInfo(it.kind);return`<b style="color:${itemColor(it)}">${f.ic} ${f.n}</b><br><span class="muted">${it.kind==='boot'?'Plunder':RAR[f.r].n+'er Fisch'}</span><br>${f.heal?`Essen: stellt ${Math.round(f.heal*100)}% LP${f.mp?` und ${Math.round(f.mp*100)}% MP`:''} wieder her.${f.buff?`<br><span style="color:#7fe07f">+${Math.round(f.buff[0]*100)}% Angriff für ${f.buff[1]/60} Min.</span>`:''}`:'Nicht essbar.'}<br><span class="muted">Geangelt · Anzahl: ${it.count} · Verkaufswert: ${f.v} Gold${f.heal?' · Klicken zum Essen':''}</span>`;}
- if(it.type==='stone')return`<b style="color:#8fd8ff">Aufwertungsstein</b><br>Bei Schmied Borin verwenden, um Ausrüstung zu verstärken.<br><span class="muted">Anzahl: ${it.count}</span>`;
+ if(it.type==='stone')return`<b style="color:#8fd8ff">Aufwertungsstein</b><br>Bei Glutschmied Teemla verwenden, um Ausrüstung zu verstärken.<br><span class="muted">Anzahl: ${it.count}</span>`;
  const R=RAR[it.rar];let s=`<b style="color:${R.c}">${esc(itemName(it))}</b><br><span class="muted">${R.n} · ${SLOTN[it.slot]} · Gegenstandsstufe ${it.lvl}</span><br>`;
  if(it.atk)s+=`Angriff +${iv(it,'atk')}<br>`;if(it.def)s+=`Verteidigung +${iv(it,'def')}<br>`;if(it.hp)s+=`Lebenspunkte +${iv(it,'hp')}<br>`;if(it.mp)s+=`Mana +${iv(it,'mp')}<br>`;if(it.spd)s+=`Lauftempo +${Math.round(it.spd*100)}%<br>`;if(it.wing)s+=`<span style="color:${WINGS[it.wing].tc}">🪽 Verleiht dir ${WINGS[it.wing].n} (${WINGS[it.wing].lbl})</span><br><span class="muted">Tipp: Leertaste gedrückt halten zum Gleiten</span><br>`;if(it.crit)s+=`Kritische Trefferchance +${+(it.crit*100).toFixed(1)}%<br>`;
  if(it.pal!=null){const ln=lookNames(it.slot,it.ck);s+=`<span style="color:#d8c090">👁 Aussehen: ${ln&&it.lk!=null?ln[it.lk]:SLOTN[it.slot]}${it.pal?` · <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${PALS[it.pal].sw};border:1px solid #000;vertical-align:-1px"></span> ${PALS[it.pal].n}`:''}</span><br>`;}
@@ -3255,7 +3285,7 @@ function invClick(i){
  const it=P.inv[i];if(!it)return;
  if(isShop(openNpcId)){sell(i);return;}
  if(it.type==='fish'){eatFish(i);return;}
- if(it.type==='equip')equip(i);else if(it.type==='potion')usePotion(it.kind);else if(it.type==='mat')log('Materialien bringst du Waldläuferin Lilou in Eldoria – oder verkaufst sie bei Händlerin Mira.','#aaa');else log('Aufwertungssteine verwendest du bei Schmied Borin in Eldoria.','#aaa');
+ if(it.type==='equip')equip(i);else if(it.type==='potion')usePotion(it.kind);else if(it.type==='mat')log('Materialien bringst du Waldläuferin Lilou in Eldoria – oder verkaufst sie bei Händlerin Mira.','#aaa');else log('Aufwertungssteine verwendest du bei Glutschmied Teemla in Eldoria.','#aaa');
 }
 function equip(i){
  const it=P.inv[i];if(P.lvl<it.req){log(`Du benötigst Stufe ${it.req} für diesen Gegenstand.`,'#ff7b6b');return;}
@@ -3348,7 +3378,7 @@ function renderNpc(){
   h+=`<div class="row" style="border:0"><span><b style="color:#8ff0e0">✨ Alle fünf Segen</b><br><span class="muted">zum Preis von vier</span></span><button class="btn glow" style="white-space:nowrap;flex:none" onclick="buyBuff(-1)" ${P.gold<pr*4?'disabled':''}>${pr*4} 💰</button></div>`;
  }else if(n.id==='schmied'){
   const stones=P.inv.reduce((a,x)=>a+(x&&x.type==='stone'?x.count:0),0);
-  h+=`<p class="muted">„Bring mir Aufwertungssteine und ich mache deine Ausrüstung stärker. Jede Stufe gibt +12% auf die Werte. Aber Vorsicht: Ab +5 kann ein Fehlschlag die Stufe senken!“</p><div class="row"><span>💎 Aufwertungssteine</span><b>${stones}</b></div>`;
+  h+=`<p class="muted">„Die Glut schläft nie. Bring mir Aufwertungssteine, und ich schmiede ihre Kraft in deine Ausrüstung. Jede Stufe gibt +12% auf die Werte. Aber Vorsicht: Ab +5 kann ein Fehlschlag die Stufe senken!“</p><div class="row"><span>💎 Aufwertungssteine</span><b>${stones}</b></div>`;
   for(const sl of SLOTS){const it=P.equip[sl];if(!it){h+=`<div class="row"><span class="muted">${SLOTN[sl]}: nichts ausgerüstet</span></div>`;continue;}
    const max=it.upg>=15,ch=max?0:Math.round(UPCH[it.upg]*100),cost=(it.upg+1)*40;
    h+=`<div class="row"><span><span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span><br><span class="muted">${max?'Maximal aufgewertet':`+${it.upg} → +${it.upg+1} · Chance ${ch}% · ${cost} Gold`}</span></span><button class="btn" onclick="upgrade('${sl}')" ${max||!stones||P.gold<cost?'disabled':''}>🔨 Aufwerten</button></div>`;}
@@ -3512,7 +3542,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 17:54';
+const BUILD='2026-11-22 18:11';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
