@@ -3455,7 +3455,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 17:26';
+const BUILD='2026-11-22 17:33';
 function buildStart(){
  {const b=$('buildInfo');if(b)b.textContent='Stand: '+BUILD.replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';}
  if(typeof THREE==='undefined'){$('slots').innerHTML='<div class="panel" style="padding:14px">Die 3D-Grafik (Three.js) konnte nicht geladen werden. Bitte prüfe deine Internetverbindung und lade die Seite neu.</div>';return;}
