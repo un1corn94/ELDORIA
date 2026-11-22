@@ -26,6 +26,7 @@ canvas#ov{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #cineTitle .cl{width:min(460px,64vw);height:2px;margin:12px auto 10px;background:linear-gradient(90deg,transparent,#f0d28a,transparent)}
 #cineTitle .cs{font-family:Cinzel,Georgia,serif;color:#e6dcc6;font-size:clamp(13px,2vw,21px);text-shadow:0 2px 6px #000}
 #cineSkip{position:absolute;right:14px;bottom:calc(6vh - 15px);z-index:4;padding:6px 12px;font-size:12.5px;opacity:0;transition:opacity .6s}#cine.on #cineSkip{opacity:.8}#cineSkip:hover{opacity:1}
+#cineSnd{position:absolute;left:14px;bottom:calc(6vh - 15px);z-index:4;padding:6px 12px;font-size:12.5px;opacity:0;transition:opacity .6s}#cine.on #cineSnd{opacity:.8}#cineSnd:hover{opacity:1}
 #hud{transition:opacity .8s}body.cine #hud{opacity:0;pointer-events:none}
 body.cine .win,body.cine #storyBox,body.cine #toast,body.cine #zoneBanner,body.cine #tip,body.cine #vig{display:none!important}
 #updBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:300;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 12px;width:max-content;max-width:94vw;font-size:13px;border-color:#f0d28a;box-shadow:0 0 14px rgba(240,210,138,.45),0 8px 24px rgba(0,0,0,.8)}#updBar b{color:#f0d28a}#updBar .btn{padding:5px 10px;font-size:12.5px}
@@ -328,13 +329,13 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
 <div id="tip" class="panel hidden"></div>
 <div id="cine" class="hidden"><div id="cineVig"></div><div id="cineFade"></div><div class="cb t"></div><div class="cb b"></div><div id="cineTxt"></div>
  <div id="cineTitle"><div class="ck" id="cineK"></div><div class="ct">Chroniken von Eldoria</div><div class="cl"></div><div class="cs" id="cineS"></div></div>
- <button id="cineSkip" class="btn" onclick="cineSkip()">Überspringen ⏭</button></div>
+ <button id="cineSnd" class="btn" onclick="sndToggle()"></button><button id="cineSkip" class="btn" onclick="cineSkip()">Überspringen ⏭</button></div>
 <div id="death" class="hidden"><h2>Du bist gefallen</h2><p>Du verlierst 5&nbsp;% der Erfahrung dieser Stufe.</p><button class="btn" onclick="revive()">In der Stadt wiederbeleben</button></div>
 
 <div id="start">
   <h1>Chroniken von Eldoria</h1>
   <div class="sub">Ein Fantasy-Rollenspiel in 3D – direkt im Browser</div>
-  <div id="slotView"><div class="slotsTitle title">Wähle deinen Helden</div><div id="slots"></div><div id="slotHint" class="muted" style="text-align:center;margin-top:12px"></div><div style="text-align:center;margin-top:10px"><button class="btn" onclick="xferOpen()">📥 Helden-Code einfügen</button></div><div id="buildInfo" class="muted" style="text-align:center;margin-top:10px;font-size:11px;opacity:.75"></div>
+  <div id="slotView"><div class="slotsTitle title">Wähle deinen Helden</div><div id="slots"></div><div id="slotHint" class="muted" style="text-align:center;margin-top:12px"></div><div style="text-align:center;margin-top:10px"><button class="btn" onclick="xferOpen()">📥 Helden-Code einfügen</button> <button class="btn" id="sndBtn0" onclick="sndToggle()" title="Musik und Geräusche im Intro"></button></div><div id="buildInfo" class="muted" style="text-align:center;margin-top:10px;font-size:11px;opacity:.75"></div>
    <div id="xfer" class="panel hidden" style="max-width:560px;margin:12px auto 0;padding:12px;text-align:left"><div id="xferT" class="qt"></div><textarea id="xferTa" spellcheck="false" autocomplete="off" style="width:100%;height:96px;box-sizing:border-box;background:#15120f;border:1px solid #8a6d3b;color:#e8dcc0;font:11px ui-monospace,Menlo,Consolas,monospace;padding:6px;border-radius:3px;resize:vertical"></textarea><div id="xferMsg" class="muted" style="margin:6px 0;font-size:12.5px"></div><div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn glow" id="xferGo"></button><button class="btn" onclick="$('xfer').classList.add('hidden')">Schließen</button></div></div></div>
   <div id="createView" class="hidden" style="flex-direction:column;align-items:center">
     <div class="slotsTitle title" id="createTitle">Neuer Held</div>
@@ -1310,6 +1311,78 @@ function monsterHit(m,u,mult){
  if(u.hp<=0){u.hp=0;if(u===P)playerDie();else botDie(u);}
 }
 // ================= Glutschmied Teemla: Hammerschläge mit Funkenregen =================
+// ================= Ton: Musik und Geräusche des Intros (wird im Browser erzeugt, keine Dateien) =================
+const SND={ac:null,vol:.85,on:(()=>{try{return localStorage.getItem('eldoria_snd')!=='0';}catch(e){return true;}})()};
+const auF=n=>440*Math.pow(2,(n-69)/12);
+function sndCtx(){try{if(!SND.ac){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;SND.ac=new A();}if(SND.ac.state!=='running'&&SND.ac.resume){const p=SND.ac.resume();if(p&&p.catch)p.catch(()=>{});}return SND.ac;}catch(e){return null;}}
+function sndLabel(){const t=SND.on?'🔊 Ton an':'🔇 Ton aus';for(const id of['sndBtn0','cineSnd']){const b=$(id);if(b)b.textContent=t;}}
+function sndToggle(){
+ SND.on=!SND.on;try{localStorage.setItem('eldoria_snd',SND.on?'1':'0');}catch(e){}sndLabel();
+ if(CINE&&CINE.snd&&SND.ac){const g=CINE.snd.out.gain,t=SND.ac.currentTime;g.cancelScheduledValues(t);g.setTargetAtTime(SND.on?SND.vol:0,t,.06);}
+}
+document.addEventListener('visibilitychange',()=>{const ac=SND.ac;if(!ac||!CINE||!CINE.snd)return;try{const p=document.hidden?ac.suspend():ac.resume();if(p&&p.catch)p.catch(()=>{});}catch(e){}});
+// Signalweg: Eingang -> (Hall) -> Kompressor -> Lautstärke
+function auChain(ac){
+ const inp=ac.createGain(),cv=ac.createConvolver(),wet=ac.createGain(),cmp=ac.createDynamicsCompressor(),out=ac.createGain();
+ const len=Math.floor(ac.sampleRate*2.6),ir=ac.createBuffer(2,len,ac.sampleRate);
+ for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.4);}
+ cv.buffer=ir;wet.gain.value=.3;inp.connect(cmp);inp.connect(cv);cv.connect(wet);wet.connect(cmp);
+ cmp.threshold.value=-16;cmp.knee.value=12;cmp.ratio.value=5;cmp.attack.value=.004;cmp.release.value=.3;cmp.connect(out);
+ const nb=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate),nd=nb.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
+ return{in:inp,out,nb};
+}
+// Partitur: T = Startzeiten der sieben Szenen (plus Ende), Noten als MIDI-Nummern, Tonart d-Moll mit Schluss in D-Dur
+function auScore(ac,d,nb,t0,T){
+ const env=(g,pts)=>{g.setValueAtTime(pts[0][1],pts[0][0]);for(let i=1;i<pts.length;i++)g.linearRampToValueAtTime(pts[i][1],pts[i][0]);};
+ const osc=(type,f,t,e,to)=>{const o=ac.createOscillator();o.type=type;o.frequency.value=f;o.connect(to);o.start(t);o.stop(e);return o;};
+ // Streicherfläche
+ const pad=(t,dur,notes,vol,cut,rel)=>{t+=t0;const f=ac.createBiquadFilter(),g=ac.createGain(),a=Math.min(1.5,dur*.4),r=rel||1.6,k=vol/(.58*Math.sqrt(notes.length*2));f.type='lowpass';f.frequency.value=cut||1000;f.Q.value=.3;f.connect(g);g.connect(d);
+  env(g.gain,[[t,0],[t+a,k],[t+dur,k],[t+dur+r,0]]);for(const n of notes)for(const dt of[-8,7])osc('sawtooth',auF(n),t,t+dur+r+.05,f).detune.value=dt;};
+ // Melodiestimme (hornartig, mit leichtem Vibrato)
+ const lead=(t,dur,n,vol)=>{t+=t0;const f=ac.createBiquadFilter(),g=ac.createGain(),lg=ac.createGain(),e=t+dur+.45;f.type='lowpass';f.Q.value=.7;env(f.frequency,[[t,450],[t+.22,1500],[t+dur,950]]);f.connect(g);g.connect(d);
+  env(g.gain,[[t,0],[t+.1,vol],[t+Math.max(.12,dur-.1),vol*.8],[t+dur+.4,0]]);env(lg.gain,[[t,0],[t+.25,0],[t+Math.max(.3,Math.min(.8,dur)),6]]);
+  const a=osc('sawtooth',auF(n),t,e,f),b=osc('triangle',auF(n),t,e,f);b.detune.value=5;osc('sine',5.3,t,e,lg);lg.connect(a.detune);lg.connect(b.detune);};
+ const bell=(t,n,vol,len)=>{t+=t0;const f0=auF(n);for(const[r,a,dc]of[[.5,.45,1.2],[1,1,1],[1.183,.5,.8],[1.506,.35,.6],[2,.55,.55],[2.514,.25,.4],[3.011,.16,.28],[4.166,.09,.2]]){const g=ac.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*a,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+len*dc);g.connect(d);osc('sine',f0*r,t,t+len*dc+.05,g);}};
+ const noise=(t,dur,vol,type,f0,f1,att,q)=>{t+=t0;const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=nb;src.loop=true;f.type=type;f.Q.value=q||.7;f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(f1,t+dur);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);src.connect(f);f.connect(g);g.connect(d);src.start(t,Math.random()*1.5);src.stop(t+dur+.05);};
+ const drum=(t,vol,f0)=>{noise(t,.12,vol*.3,'lowpass',700,300,.003);t+=t0;f0=f0||92;const g=ac.createGain(),o=osc('sine',f0,t,t+.9,g);o.frequency.setValueAtTime(f0*1.5,t);o.frequency.exponentialRampToValueAtTime(f0*.5,t+.28);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.85);g.connect(d);};
+ const wind=(t,dur,vol,fc)=>{t+=t0;const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain(),lg=ac.createGain();src.buffer=nb;src.loop=true;f.type='bandpass';f.Q.value=1.1;f.frequency.value=fc;lg.gain.value=fc*.45;osc('sine',.23,t,t+dur,lg);lg.connect(f.frequency);
+  env(g.gain,[[t,0],[t+1.4,vol],[t+dur-1.4,vol],[t+dur,0]]);src.connect(f);f.connect(g);g.connect(d);src.start(t,Math.random());src.stop(t+dur+.05);};
+ // Drachengrollen: tiefe Sägezähne + Rauschen, mit 27 Hz aufgeraut
+ const roar=(t,vol)=>{t+=t0;const D=2.7,g=ac.createGain(),am=ac.createGain(),lg=ac.createGain(),of=ac.createBiquadFilter(),nf=ac.createBiquadFilter(),ng=ac.createGain(),src=ac.createBufferSource();
+  env(g.gain,[[t,0],[t+.3,vol],[t+1.2,vol*.9],[t+D,0]]);g.connect(d);am.gain.value=.62;am.connect(g);lg.gain.value=.38;osc('sine',27,t,t+D,lg);lg.connect(am.gain);
+  of.type='lowpass';of.frequency.value=380;of.Q.value=1.5;of.connect(am);
+  for(const m of[1,.5]){const o=osc('sawtooth',66*m,t,t+D,of);o.frequency.setValueAtTime(66*m,t);o.frequency.linearRampToValueAtTime(88*m,t+.45);o.frequency.exponentialRampToValueAtTime(46*m,t+D);}
+  nf.type='bandpass';nf.Q.value=.9;nf.frequency.setValueAtTime(380,t);nf.frequency.linearRampToValueAtTime(760,t+.5);nf.frequency.exponentialRampToValueAtTime(260,t+D);ng.gain.value=1.6;src.buffer=nb;src.loop=true;src.connect(nf);nf.connect(ng);ng.connect(am);src.start(t,.3);src.stop(t+D);};
+ const[a0,a1,a2,a3,a4,a5,a6]=T;
+ // 1 Stadt: d-Moll, Glocke, erste Melodie
+ wind(a0+.1,a2-a0+.6,.035,420);
+ pad(a0+.2,a1-a0-.4,[38,45,50,53,57],.05,900);bell(a0+.7,62,.09,4.5);bell(a0+3.7,62,.06,4);
+ lead(a0+1.5,.95,69,.045);lead(a0+2.5,1.25,74,.05);lead(a0+3.85,.6,72,.045);lead(a0+4.5,1.3,69,.045);
+ // 2 Nordstraße: B-Dur, ruhiger Puls, aufsteigende Linie
+ pad(a1,a2-a1-.5,[34,46,50,53,58],.055,950);for(let i=0;i<5;i++)drum(a1+.5+i,.16+i*.02,70);
+ lead(a1+.6,.85,65,.045);lead(a1+1.5,.85,67,.045);lead(a1+2.4,.85,69,.05);lead(a1+3.3,1.7,70,.055);
+ noise(a2-1.3,1.36,.09,'bandpass',260,2600,1.3,1.4);
+ // 3 Drache: Schlag, dunkler Akkord, Grollen
+ drum(a2+.06,.55,62);drum(a2+.06,.35,41);noise(a2+.06,1.6,.16,'lowpass',320,90,.01);
+ pad(a2+.1,a3-a2-.7,[26,38,44,51],.07,480,1.2);roar(a2+1.35,.23);drum(a2+3.5,.36,55);drum(a2+4.4,.28,55);
+ // 4 Andrew: F-Dur -> C-Dur, Hornthema
+ pad(a3,2.5,[41,48,53,57,60],.055,1100,1.2);pad(a3+2.6,a4-a3-2.9,[36,43,52,55,60],.055,1100,1.2);
+ lead(a3+.4,.65,69,.05);lead(a3+1.1,.65,72,.05);lead(a3+1.8,1.15,77,.055);lead(a3+3.0,.95,76,.05);lead(a3+4.0,1.0,72,.045);
+ // 5 Dunkelwald: g-Moll -> A-Dur, Herzschlag, hohe Reibung
+ wind(a4-.3,a5-a4+.4,.045,560);
+ pad(a4,2.7,[31,43,50,58],.055,800,1.2);pad(a4+2.8,a5-a4-3.1,[33,45,52,61],.06,900,1.0);pad(a4+.2,a5-a4-.8,[81,82],.012,2600,.8);
+ for(const b of[.5,2.0,3.5,5.0]){drum(a4+b,.32,58);drum(a4+b+.3,.22,54);}
+ // 6 Held: d-Moll -> B -> C, Trommeln werden dichter, Becken schwillt an
+ pad(a5,3.5,[38,45,50,53,57,62],.06,1000,1.0);pad(a5+3.6,1.8,[34,46,53,58,62],.065,1200,.8);pad(a5+5.5,a6-a5-5.6,[36,48,55,60,64],.07,1400,.5);
+ lead(a5+.3,.85,74,.05);lead(a5+1.2,.85,77,.05);lead(a5+2.1,1.45,81,.055);lead(a5+3.7,1.7,82,.06);lead(a5+5.5,a6-a5-5.6,84,.065);
+ lead(a5+3.7,1.7,70,.04);lead(a5+5.5,a6-a5-5.6,72,.045);
+ for(const[b,v]of[[0,.3],[1.85,.3],[3.7,.42],[4.6,.3],[5.5,.38],[6.0,.34],[6.5,.4],[6.8,.42],[7.0,.46],[7.2,.5]])drum(a5+b,v,80);
+ noise(a6-2.3,2.36,.1,'highpass',2500,6000,2.3);
+ // 7 Titel: D-Dur, Paukenschlag, Becken, Glocken
+ drum(a6+.02,.6,74);drum(a6+.02,.4,46);noise(a6+.02,3.2,.14,'highpass',3500,5000,.01);bell(a6+.03,74,.11,5);bell(a6+.03,62,.09,5);bell(a6+1.8,69,.05,4);
+ pad(a6,3.3,[26,38,45,50,54,57,62,66,69],.11,1700,2.2);lead(a6,3.0,86,.05);lead(a6,3.0,74,.05);
+}
 // ================= Intro-Sequenz (Kamerafahrt beim Start eines neuen Helden) =================
 let CINE=null,FOGCUT=false;
 function cineShots(sv){
@@ -1342,14 +1415,28 @@ function cineClear(s){
 function cineStart(done){
  if(CINE)return;if(!P||INDG||WORLD!==0||!scene){if(done)done(true);return;}
  const sv={yaw:camS.yaw,pitch:camS.pitch,dist:camS.dist},el=$('cine');
- CINE={t:0,i:-1,x:P.x,y:P.y,ly:1,sv,done,shots:cineShots(sv),fn:null,fc:null,skip:null,cap:-2,tt:0};
+ CINE={t:0,i:-1,x:P.x,y:P.y,ly:1,sv,done,shots:cineShots(sv),fn:null,fc:null,skip:null,cap:-2,tt:0,fr:0,snd:null};
  P.moveTo=null;P.target=null;P.chase=false;P.npc=null;P.pending=null;for(const k in keys)keys[k]=false;leftDown=false;holdMove=false;rotDrag=null;hover=null;clickMark=null;
  const f=$('cineFade');f.style.transition='none';f.style.opacity=1;$('cineTxt').style.opacity=0;$('cineTxt').innerHTML='';$('cineTitle').style.opacity=0;
  {const ci=chOf(P.q||0);$('cineK').textContent='Kapitel '+(ci+1);$('cineS').textContent=STORY.ch[ci].t;}
  document.body.classList.add('cine');el.classList.remove('hidden','out');void el.offsetWidth;el.classList.add('on');
+ sndCtx();
+}
+// Ton zum Intro: wird einmal komplett vorausgeplant; das Bild richtet sich danach nach der Uhr des Tons
+function cineSound(){
+ const c=CINE,ac=sndCtx();if(!ac)return;
+ try{const ch=auChain(ac),t0=ac.currentTime+.08;let a=0;const T=c.shots.map(q=>{const v=a;a+=q.d;return v;});T.push(a);
+  ch.out.gain.value=SND.on?SND.vol:0;ch.out.connect(ac.destination);auScore(ac,ch.in,ch.nb,t0,T);c.snd=ch;c.t0=t0;}catch(e){c.snd=null;}
+}
+function cineQuiet(c,tc){
+ const q=c.snd;if(!q)return;c.snd=null;
+ try{const g=q.out.gain,t=SND.ac.currentTime;g.cancelScheduledValues(t);g.setTargetAtTime(0,t,tc||.08);}catch(e){}
+ setTimeout(()=>{try{q.out.disconnect();}catch(e){}},1200);
 }
 function cineCam(dt){
- const c=CINE,now=performance.now(),rdt=Math.min(.25,(now-(c.pn||now))/1000),f=$('cineFade');c.pn=now;
+ const c=CINE,now=performance.now(),f=$('cineFade');let rdt=Math.min(.25,(now-(c.pn||now))/1000);c.pn=now;
+ if(c.fr<2){c.fr++;rdt=0;if(c.fr===2)cineSound();}
+ else if(c.snd&&c.skip==null){const ac=SND.ac,lag=c.tt-(ac.currentTime-c.t0);if(ac.state==='running')rdt=clamp(-lag,0,1);else if(lag+rdt>1.2)cineQuiet(c);}
  if(c.skip!=null){c.skip+=rdt;f.style.opacity=Math.max(+f.style.opacity||0,Math.min(1,c.skip/.3));if(c.skip>=.3)cineEnd(true);return c.ly;}
  c.t+=rdt;c.tt+=rdt;let s=c.shots[c.i];
  if(!s||c.t>=s.d){c.i++;c.t=s?c.t-s.d:0;s=c.shots[c.i];if(!s){cineEnd(false);return 1;}c.fn=s.fn||null;c.fc=s.fc==null?null:s.fc;c.cap=-2;if(!s.cont)FOGCUT=true;s.yo=s.rel&&s.o&&s.o.face!=null?Math.PI/2-s.o.face:0;if(s.clr)s.yo=cineClear(s);if(s.on)s.on();}
@@ -1370,6 +1457,7 @@ function cineEnd(sk){
  $('cineTxt').style.opacity=0;$('cineTitle').style.opacity=0;f.style.transition='opacity .6s';f.style.opacity=0;
  setTimeout(()=>{if(!CINE){el.classList.add('hidden');f.style.transition='none';}},1000);
  for(const k in keys)keys[k]=false;
+ if(sk)cineQuiet(c,.1);else if(c.snd){const q=c.snd;setTimeout(()=>{try{q.out.disconnect();}catch(e){}},9000);}
  if(c.done)c.done(sk);
 }
 function cineReplay(){
@@ -3632,7 +3720,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 18:46';
+const BUILD='2026-11-22 19:00';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -3721,7 +3809,7 @@ function loop(now){
  }
  requestAnimationFrame(loop);
 }
-buildStart();requestAnimationFrame(loop);setTimeout(updResume,0);
+buildStart();sndLabel();requestAnimationFrame(loop);setTimeout(updResume,0);
 
 </script>
 </body>
