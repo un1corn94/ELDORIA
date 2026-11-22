@@ -13,6 +13,21 @@ canvas#game{display:block;position:fixed;inset:0;width:100%;height:100%;touch-ac
 canvas#ov{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #camBtns{display:flex;gap:4px;justify-content:center;margin-top:5px}#camBtns .btn{padding:2px 8px;font-size:13px}
 .hidden{display:none!important}
+#cine{position:fixed;inset:0;z-index:200;overflow:hidden;cursor:default;touch-action:none}#cine.out{pointer-events:none}
+#cine .cb{position:absolute;left:0;right:0;height:12vh;background:#000;transition:transform .9s cubic-bezier(.4,0,.2,1);z-index:2}
+#cine .cb.t{top:0;transform:translateY(-101%)}#cine .cb.b{bottom:0;transform:translateY(101%)}#cine.on .cb{transform:none}
+#cineVig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 45%,rgba(0,0,0,.55) 100%);opacity:0;transition:opacity .9s}#cine.on #cineVig{opacity:1}
+#cineFade{position:absolute;inset:0;background:#000;opacity:1;pointer-events:none;z-index:1}
+#cineTxt{position:absolute;left:50%;bottom:calc(12vh + 20px);transform:translateX(-50%);width:min(820px,90vw);text-align:center;font-family:Cinzel,Georgia,serif;font-weight:600;font-size:clamp(15px,2.25vw,24px);line-height:1.45;color:#f3e6c4;text-shadow:0 2px 5px #000,0 0 16px #000,0 0 30px rgba(0,0,0,.9);opacity:0;z-index:3;pointer-events:none}
+#cineTxt b{color:#ffd77a}
+#cineTitle{position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;opacity:0;pointer-events:none;z-index:3;padding:9vh 0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 45%,transparent 100%)}
+#cineTitle .ck{color:#e0cc9a;font-size:clamp(11px,1.5vw,15px);font-weight:600;letter-spacing:.42em;text-transform:uppercase;text-shadow:0 1px 3px #000,0 0 10px #000,0 0 18px #000;margin-bottom:6px;padding-left:.42em}
+#cineTitle .ct{font-family:Cinzel,Georgia,serif;font-weight:800;font-size:clamp(27px,6.4vw,78px);line-height:1.1;color:#f0d28a;letter-spacing:.04em;text-shadow:0 0 30px rgba(255,160,50,.6),0 0 70px rgba(255,120,30,.35),0 3px 10px #000}
+#cineTitle .cl{width:min(460px,64vw);height:2px;margin:12px auto 10px;background:linear-gradient(90deg,transparent,#f0d28a,transparent)}
+#cineTitle .cs{font-family:Cinzel,Georgia,serif;color:#e6dcc6;font-size:clamp(13px,2vw,21px);text-shadow:0 2px 6px #000}
+#cineSkip{position:absolute;right:14px;bottom:calc(6vh - 15px);z-index:4;padding:6px 12px;font-size:12.5px;opacity:0;transition:opacity .6s}#cine.on #cineSkip{opacity:.8}#cineSkip:hover{opacity:1}
+#hud{transition:opacity .8s}body.cine #hud{opacity:0;pointer-events:none}
+body.cine .win,body.cine #storyBox,body.cine #toast,body.cine #zoneBanner,body.cine #tip,body.cine #vig{display:none!important}
 #updBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:300;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 12px;width:max-content;max-width:94vw;font-size:13px;border-color:#f0d28a;box-shadow:0 0 14px rgba(240,210,138,.45),0 8px 24px rgba(0,0,0,.8)}#updBar b{color:#f0d28a}#updBar .btn{padding:5px 10px;font-size:12.5px}
 .panel{background:radial-gradient(ellipse at 50% 0%,rgba(52,38,26,.55),transparent 70%),linear-gradient(180deg,rgba(22,17,13,.95),rgba(9,7,6,.96));border:1px solid #5c4424;box-shadow:0 0 0 1px #000,inset 0 0 0 1px rgba(255,210,140,.06),inset 0 0 24px rgba(0,0,0,.85),0 8px 24px rgba(0,0,0,.75);border-radius:3px}
 .title{font-family:Cinzel,serif;color:#f0d28a;letter-spacing:.5px}
@@ -311,6 +326,9 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
 <div id="toast" class="panel"></div>
 <div id="updBar" class="panel hidden">🔔 <b>Neues Update verfügbar</b> <span class="muted"></span><button class="btn glow" onclick="updReload()">🔄 Neu laden</button><button class="btn" onclick="updLater()">Später</button></div>
 <div id="tip" class="panel hidden"></div>
+<div id="cine" class="hidden"><div id="cineVig"></div><div id="cineFade"></div><div class="cb t"></div><div class="cb b"></div><div id="cineTxt"></div>
+ <div id="cineTitle"><div class="ck" id="cineK"></div><div class="ct">Chroniken von Eldoria</div><div class="cl"></div><div class="cs" id="cineS"></div></div>
+ <button id="cineSkip" class="btn" onclick="cineSkip()">Überspringen ⏭</button></div>
 <div id="death" class="hidden"><h2>Du bist gefallen</h2><p>Du verlierst 5&nbsp;% der Erfahrung dieser Stufe.</p><button class="btn" onclick="revive()">In der Stadt wiederbeleben</button></div>
 
 <div id="start">
@@ -1162,7 +1180,7 @@ function storyChapter(i){const c=STORY.ch[i];showStory({k:`Kapitel ${i+1}`,t:c.t
 function refreshStory(){
  const w=$('winStory');if(w.classList.contains('hidden'))return;
  const cur=chOf(P.q),done=P.q>=QUESTS.length;
- let h=`<h3>📖 Chronik<span class="x" onclick="toggleWin('winStory')">✕</span></h3><div class="muted" style="margin-bottom:8px">Deine Geschichte in ${STORY.ch.length} Kapiteln. Sie schreibt sich mit den Aufträgen von Hauptmann Andrew fort.</div>`;
+ let h=`<h3>📖 Chronik<span class="x" onclick="toggleWin('winStory')">✕</span></h3><div class="muted" style="margin-bottom:8px">Deine Geschichte in ${STORY.ch.length} Kapiteln. Sie schreibt sich mit den Aufträgen von Hauptmann Andrew fort.</div><div style="margin-bottom:8px"><button class="btn" onclick="cineReplay()">🎬 Intro ansehen</button></div>`;
  h+=`<details><summary class="stc">Prolog</summary>${STORY.pro.map(p=>`<p>${stTxt(p)}</p>`).join('')}</details>`;
  STORY.ch.forEach((c,i)=>{const to=i+1<STORY.ch.length?STORY.ch[i+1].from:QUESTS.length;
   if(i>cur){h+=`<div class="stc lock">🔒 Kapitel ${i+1} · ???</div>`;return;}
@@ -1292,6 +1310,73 @@ function monsterHit(m,u,mult){
  if(u.hp<=0){u.hp=0;if(u===P)playerDie();else botDie(u);}
 }
 // ================= Glutschmied Teemla: Hammerschläge mit Funkenregen =================
+// ================= Intro-Sequenz (Kamerafahrt beim Start eines neuen Helden) =================
+let CINE=null,FOGCUT=false;
+function cineShots(sv){
+ const A=NPCS.find(n=>n.id==='hauptmann')||{x:C,y:C-200,face:Math.PI/2},B=MONS.find(m=>m.b.boss&&m.alive)||{x:C,y:bossPos().y,face:Math.PI/2},af=Math.PI/2-(A.face||0);
+ let W0=null,bd=1e9;for(const m of MONS){if(!m.alive||m.b.boss||m.zone!==2)continue;const d=Math.hypot(m.x-(C-1500),m.y-(C+350))+(m.type==='ork'?0:m.type==='spinne'?500:900);if(d<bd){bd=d;W0=m;}}
+ const y1=sv.yaw,y0=y1+1.75;
+ const O={x:0,y:0},kd=W<H?Math.min(1.6,1+(1-W/H)*.95):1;
+ const L=[
+  {d:6,a:{x:C+40,y:C+330,yaw:.42,pit:.6,dist:60,ly:1},b:{x:C,y:C+10,yaw:-.04,pit:.4,dist:33,ly:1.5},fn:[60,190],
+   txt:'Sieben Winter ist es her, dass König Aldric mit seiner Garde nach Norden zog.'},
+  {d:5.6,a:{x:C+55,y:C-600,yaw:.16,pit:.36,dist:17,ly:1.5},b:{x:C+190,y:C-1400,yaw:-.08,pit:.3,dist:15,ly:2},fn:[30,120],lin:1,
+   txt:'Er suchte den alten Drachen Ignaroth, den Hüter des Nordens. Doch der Drache schwieg.'},
+  {d:5.2,o:B,a:{x:0,y:0,yaw:.8,pit:.09,dist:27,ly:3},b:{x:0,y:0,yaw:.12,pit:.18,dist:19.5,ly:3.8},fn:[16,70],fc:0x2a0b06,on(){if(B.state==='idle'&&!B.foe&&B.wT!=null){B.wx=B.x-14;B.wy=B.y+46;B.wT=9;}},
+   txt:'Keiner von ihnen kehrte zurück.'},
+  {d:5.2,o:A,a:{x:0,y:0,yaw:af-.75,pit:.2,dist:9.5,ly:1.5},b:{x:0,y:0,yaw:af+.12,pit:.16,dist:6.4,ly:1.6},
+   txt:'Seitdem hält Hauptmann Andrew die Stadt Eldoria – und wartet auf eine Antwort.'},
+  {d:5.6,o:W0||O,rel:1,clr:1,a:{x:W0?0:C-1500,y:W0?0:C+350,yaw:.75,pit:.2,dist:11.5,ly:1.2},b:{x:W0?0:C-1500,y:W0?0:C+350,yaw:.15,pit:.27,dist:8.5,ly:1.2},
+   txt:'Nun kriecht etwas aus dem Norden heran. Die Brunnen werden trüb, die Tiere fliehen.'},
+  {d:7.4,o:P,a:{x:0,y:0,yaw:y0,pit:.12,dist:6.2,ly:1.5},b:{x:0,y:0,yaw:y1,pit:sv.pitch,dist:sv.dist,ly:1},fo:0,sm:1,
+   txt:[[0,'Andrew sucht jemanden, der hinausgeht.'],[.5,'Er sucht dich, <b>'+esc(P.name)+'</b>.']]},
+  {d:3.6,o:P,a:{x:0,y:0,yaw:y1,pit:sv.pitch,dist:sv.dist,ly:1},b:{x:0,y:0,yaw:y1,pit:sv.pitch,dist:sv.dist,ly:1},fi:0,fo:0,cont:1,title:1}];
+ L.forEach((q,i)=>{if(i<6)q.a.dist*=kd;if(i<5)q.b.dist*=kd;});return L;
+}
+function cineClear(s){
+ const o=s.o,fx=o.x+s.a.x,fy=o.y+s.a.y,tr=[];for(const d of DECO){if(d.type!=='tree'&&d.type!=='pine'&&d.type!=='deadtree'&&d.type!=='cactus')continue;const dx=d.x-fx,dy=d.y-fy;if(dx*dx+dy*dy<360*360)tr.push([dx,dy,(d.type==='tree'||d.type==='pine'?1.5:.5)*(d.s||1)*S]);}
+ const clr=yo=>{let m=1e9;for(const u of[0,.25,.5,.75,1]){const yw=s.a.yaw+(s.b.yaw-s.a.yaw)*u+yo,pt=s.a.pit+(s.b.pit-s.a.pit)*u,r=Math.cos(pt)*(s.a.dist+(s.b.dist-s.a.dist)*u)*S,cx=Math.sin(yw)*r,cy=Math.cos(yw)*r;
+   for(const t of tr){const k=clamp((t[0]*cx+t[1]*cy)/(r*r),.12,1.15),d=Math.hypot(t[0]-cx*k,t[1]-cy*k)-t[2];if(d<m)m=d;}}return m;};
+ let best=s.yo,bm=-1e9;for(const dv of[0,.5,-.5,1,-1,1.5,-1.5,2,-2,2.6,-2.6,3.14]){const m=clr(s.yo+dv);if(m>=30)return s.yo+dv;if(m>bm){bm=m;best=s.yo+dv;}}return best;
+}
+function cineStart(done){
+ if(CINE)return;if(!P||INDG||WORLD!==0||!scene){if(done)done(true);return;}
+ const sv={yaw:camS.yaw,pitch:camS.pitch,dist:camS.dist},el=$('cine');
+ CINE={t:0,i:-1,x:P.x,y:P.y,ly:1,sv,done,shots:cineShots(sv),fn:null,fc:null,skip:null,cap:-2,tt:0};
+ P.moveTo=null;P.target=null;P.chase=false;P.npc=null;P.pending=null;for(const k in keys)keys[k]=false;leftDown=false;holdMove=false;rotDrag=null;hover=null;clickMark=null;
+ const f=$('cineFade');f.style.transition='none';f.style.opacity=1;$('cineTxt').style.opacity=0;$('cineTxt').innerHTML='';$('cineTitle').style.opacity=0;
+ {const ci=chOf(P.q||0);$('cineK').textContent='Kapitel '+(ci+1);$('cineS').textContent=STORY.ch[ci].t;}
+ document.body.classList.add('cine');el.classList.remove('hidden','out');void el.offsetWidth;el.classList.add('on');
+}
+function cineCam(dt){
+ const c=CINE,now=performance.now(),rdt=Math.min(.25,(now-(c.pn||now))/1000),f=$('cineFade');c.pn=now;
+ if(c.skip!=null){c.skip+=rdt;f.style.opacity=Math.max(+f.style.opacity||0,Math.min(1,c.skip/.3));if(c.skip>=.3)cineEnd(true);return c.ly;}
+ c.t+=rdt;c.tt+=rdt;let s=c.shots[c.i];
+ if(!s||c.t>=s.d){c.i++;c.t=s?c.t-s.d:0;s=c.shots[c.i];if(!s){cineEnd(false);return 1;}c.fn=s.fn||null;c.fc=s.fc==null?null:s.fc;c.cap=-2;if(!s.cont)FOGCUT=true;s.yo=s.rel&&s.o&&s.o.face!=null?Math.PI/2-s.o.face:0;if(s.clr)s.yo=cineClear(s);if(s.on)s.on();}
+ const u=clamp(c.t/s.d,0,1),sm=u*u*(3-2*u),e=s.lin?u:s.sm?sm*sm*(3-2*sm):u*.45+sm*.55,L=(p,q)=>p+(q-p)*e,A=s.a,B=s.b,o=s.o;
+ c.x=(o?o.x:0)+L(A.x,B.x);c.y=(o?o.y:0)+L(A.y,B.y);c.ly=L(A.ly,B.ly);
+ camS.cx=TX(c.x);camS.cz=TZ(c.y);camS.yaw=L(A.yaw,B.yaw)+(s.yo||0);camS.pitch=L(A.pit,B.pit);camS.dist=L(A.dist,B.dist);
+ const fi=s.fi==null?.8:s.fi,fo=s.fo==null?.6:s.fo;let fd=0;if(fi&&c.t<fi)fd=1-c.t/fi;if(fo&&c.t>s.d-fo)fd=Math.max(fd,(c.t-(s.d-fo))/fo);f.style.opacity=fd.toFixed(3);
+ const T=$('cineTxt'),tx=typeof s.txt==='string'?[[0,s.txt]]:s.txt||[];let k=-1;for(let i=0;i<tx.length;i++)if(u>=tx[i][0])k=i;
+ if(k!==c.cap){c.cap=k;T.innerHTML=k>=0?tx[k][1]:'';}
+ if(k>=0){const t0=tx[k][0]*s.d,t1=(k+1<tx.length?tx[k+1][0]:1)*s.d;T.style.opacity=clamp(Math.min((c.t-t0-.3)/.6,(t1-.12-c.t)/.5),0,1).toFixed(3);}else T.style.opacity=0;
+ $('cineTitle').style.opacity=s.title?clamp(Math.min((c.t-.15)/.9,(s.d-.1-c.t)/.8),0,1).toFixed(3):0;
+ return c.ly;
+}
+function cineSkip(){if(CINE&&CINE.skip==null)CINE.skip=0;}
+function cineEnd(sk){
+ const c=CINE;if(!c)return;CINE=null;camS.yaw=c.sv.yaw;camS.pitch=c.sv.pitch;camS.dist=c.sv.dist;camS.cx=TX(P.x);camS.cz=TZ(P.y);FOGCUT=!!sk;
+ const el=$('cine'),f=$('cineFade');document.body.classList.remove('cine');el.classList.remove('on');el.classList.add('out');
+ $('cineTxt').style.opacity=0;$('cineTitle').style.opacity=0;f.style.transition='opacity .6s';f.style.opacity=0;
+ setTimeout(()=>{if(!CINE){el.classList.add('hidden');f.style.transition='none';}},1000);
+ for(const k in keys)keys[k]=false;
+ if(c.done)c.done(sk);
+}
+function cineReplay(){
+ if(CINE)return;
+ if(INDG||WORLD!==0||!inTown(P)||!P.alive||P.fishing){toast('🎬 Das Intro kannst du nur in der Stadt Eldoria ansehen.');return;}
+ closeAll();cineStart(null);
+}
 let FORGE=null,_fv=null;
 function forgeHit(F){const x=F.x,y=F.y;F.heat=1;
  for(let i=QUAL?18:9;i--;){const a=rnd(0,TAU),v=rnd(25,115);PART.push({x,y,h:.9,vx:Math.cos(a)*v,vy:Math.sin(a)*v,vh:rnd(2.5,7),life:rnd(.4,.95),max:.95,col:pick(['#ffd060','#ff8a2a','#fff2c0','#ff5a14']),sz:rnd(1.6,3.4)});}
@@ -1733,7 +1818,7 @@ function update(dt){
  updatePlayer(dt);updateFishing(dt);
  for(const m of MONS){updateMon(m,dt);if(m.alive&&!m.b.boss)for(const l of LAKES){const dx=m.x-l.x,dy=m.y-l.y,d=Math.hypot(dx,dy);if(d<l.r+m.size*.5&&d>0){m.x=l.x+dx/d*(l.r+m.size*.5);m.y=l.y+dy/d*(l.r+m.size*.5);}}}
  if(MONS.some(m=>m.gone))MONS=MONS.filter(m=>!m.gone);
- for(const m of MONS)if(m.b.boss&&m.alive&&onScreen(m)&&Math.random()<.5)PART.push({x:m.x+rnd(-m.size,m.size),y:m.y+rnd(-m.size,m.size),h:rnd(.5,topH(m)),vx:rnd(-10,10),vy:rnd(-10,10),vh:rnd(1,3),g:0,life:.9,max:.9,col:m.enr?'#ffe060':m.b.fx,sz:rnd(2,5)});
+ for(const m of MONS)if(m.b.boss&&m.alive&&(onScreen(m)||CINE&&Math.abs(m.x-CINE.x)<1200&&Math.abs(m.y-CINE.y)<1200)&&Math.random()<.5)PART.push({x:m.x+rnd(-m.size,m.size),y:m.y+rnd(-m.size,m.size),h:rnd(.5,topH(m)),vx:rnd(-10,10),vy:rnd(-10,10),vh:rnd(1,3),g:0,life:.9,max:.9,col:m.enr?'#ffe060':m.b.fx,sz:rnd(2,5)});
  checkPortals();netTick(dt);
  for(const b of BOTS)updateBot(b,dt);
  for(let i=PROJ.length-1;i>=0;i--){
@@ -2946,19 +3031,22 @@ function disposeGroup(g){g.traverse(o=>{if(o.material&&!Object.values(BASIC).inc
 function render3D(dt){
  frame++;ADT=dt;
  const px=TX(P.x),pz=TZ(P.y);
- if(Math.hypot(px-camS.cx,pz-camS.cz)>12){camS.cx=px;camS.cz=pz;}
- const k=Math.min(1,dt*10);camS.cx+=(px-camS.cx)*k;camS.cz+=(pz-camS.cz)*k;
- const cp=Math.cos(camS.pitch)*camS.dist;
- camera3.position.set(camS.cx+Math.sin(camS.yaw)*cp,Math.sin(camS.pitch)*camS.dist+1,camS.cz+Math.cos(camS.yaw)*cp);
- camera3.lookAt(camS.cx,1,camS.cz);
+ let ly=1;
+ if(CINE)ly=cineCam(dt);
+ if(!CINE){if(Math.hypot(px-camS.cx,pz-camS.cz)>12){camS.cx=px;camS.cz=pz;}
+  const k=Math.min(1,dt*10);camS.cx+=(px-camS.cx)*k;camS.cz+=(pz-camS.cz)*k;ly=1;}
+ const V=CINE||P,cp=Math.cos(camS.pitch)*camS.dist;
+ camera3.position.set(camS.cx+Math.sin(camS.yaw)*cp,Math.sin(camS.pitch)*camS.dist+ly,camS.cz+Math.cos(camS.yaw)*cp);
+ camera3.lookAt(camS.cx,ly,camS.cz);
  if(SHK>0){SHK=Math.max(0,SHK-dt*1.6);const a=SHK*SHK*.9;camera3.position.x+=rnd(-a,a);camera3.position.y+=rnd(-a,a)*.6;camera3.position.z+=rnd(-a,a);}
  sun.position.set(camS.cx+22,46,camS.cz+14);
  torch.position.set(px,3.2,pz);torch.intensity=2.1+Math.sin(time*13)*.12+Math.sin(time*7.3)*.1;
- {const bm=BIO[ZONES[zoneAt(P.x,P.y)].bio],vel=bm.rise?1.1:bm.snow?-1.3:.25,a=motes.geometry.attributes.position,v=a.array;for(let i=0;i<v.length;i+=3){v[i+1]+=dt*vel;v[i]+=Math.sin(time*.7+i)*dt*.25;if(v[i+1]>9||v[i+1]<0){v[i+1]=vel<0?9:0;v[i]=(Math.random()-.5)*60;v[i+2]=(Math.random()-.5)*60;}}a.needsUpdate=true;motes.position.set(camS.cx,0,camS.cz);motes.material.color.setHex(bm.mote);motes.material.size=(bm.rise||bm.snow)?3.4:2.4;}
- const z=zoneAt(P.x,P.y),bi=BIO[ZONES[z].bio];FOG_T.setHex(bi.fog);scene.fog.color.lerp(FOG_T,Math.min(1,dt*1.5));scene.background.copy(scene.fog.color);
- scene.fog.near+=(bi.fn[0]-scene.fog.near)*Math.min(1,dt);scene.fog.far+=(bi.fn[1]-scene.fog.far)*Math.min(1,dt);
+ {const bm=BIO[ZONES[zoneAt(V.x,V.y)].bio],vel=bm.rise?1.1:bm.snow?-1.3:.25,a=motes.geometry.attributes.position,v=a.array;for(let i=0;i<v.length;i+=3){v[i+1]+=dt*vel;v[i]+=Math.sin(time*.7+i)*dt*.25;if(v[i+1]>9||v[i+1]<0){v[i+1]=vel<0?9:0;v[i]=(Math.random()-.5)*60;v[i+2]=(Math.random()-.5)*60;}}a.needsUpdate=true;motes.position.set(camS.cx,0,camS.cz);motes.material.color.setHex(bm.mote);motes.material.size=(bm.rise||bm.snow)?3.4:2.4;}
+ const z=zoneAt(V.x,V.y),bi=BIO[ZONES[z].bio],fn=CINE&&CINE.fn||bi.fn,fk=FOGCUT?1:0;FOGCUT=false;
+ FOG_T.setHex(CINE&&CINE.fc!=null?CINE.fc:bi.fog);scene.fog.color.lerp(FOG_T,fk||Math.min(1,dt*1.5));scene.background.copy(scene.fog.color);
+ scene.fog.near+=(fn[0]-scene.fog.near)*(fk||Math.min(1,dt));scene.fog.far+=(fn[1]-scene.fog.far)*(fk||Math.min(1,dt));
  if(window._portal){_portal.rotation.y=(_portal.userData.baseRot||0)+Math.sin(time*.5)*.3;_portal.userData.spin.material.opacity=.35+Math.sin(time*3)*.12;}
- const near=u=>Math.abs(u.x-P.x)<1900&&Math.abs(u.y-P.y)<1900;
+ const near=u=>Math.abs(u.x-V.x)<1900&&Math.abs(u.y-V.y)<1900;
  if(P.h3.lookS!==P.lookS){const old=P.h3;scene.remove(old.g);freeHero(old);P.h3=makeHero(P.ck,CLS.col,undefined,true,P.lookS);P.h3.lookS=P.lookS;P.h3.yaw=old.yaw;scene.add(P.h3.g);}
  {const wk=(P.equip.ruestung&&P.equip.ruestung.wing)||null;if(wk!==(P.h3.wingKey||null))setWings(P.h3,wk);}
  P.h3.g.visible=P.alive;if(P.alive)animHero(P.h3,P,P.moving,P.anim,P.chan?.085:P.lunge,P.face);
@@ -3058,6 +3146,7 @@ function drawOverlay(){
  octx.clearRect(0,0,W,H);
  for(const q of PART){const p=proj(q.x,q.y,q.h);if(!p)continue;const a=clamp(q.life/q.max,0,1);octx.globalAlpha=a;octx.fillStyle=q.col;const r=q.sz*(.4+.6*a)*ppu(p.d)/34;if(q.ch){octx.font=`${Math.max(7,r*4.4)}px system-ui,sans-serif`;octx.textAlign='center';octx.textBaseline='middle';octx.fillText(q.ch,p.x,p.y);continue;}octx.beginPath();octx.arc(p.x,p.y,Math.max(.5,r),0,TAU);octx.fill();}
  octx.globalAlpha=1;octx.textBaseline='alphabetic';
+ if(CINE)return;
  for(const m of MONS){if(!m.alive||Math.abs(m.x-P.x)>1100||Math.abs(m.y-P.y)>1100)continue;const p=proj(m.x,m.y,topH(m));if(!p||p.d>70)continue;
   if(m.b.boss)label(p.x,p.y-16,`☠ ${m.n} [${m.lv}]${m.enr?' 💢':''}`,'#ff8a3d','bold 14px system-ui,sans-serif');else label(p.x,p.y-12,`${m.n} [${m.lv}]`,lvlColor(m.lv));
   if(m.hp<m.maxHp||m===P.target)hpbarNum(p.x,p.y-6,m.b.boss?180:62,m.hp,m.maxHp);
@@ -3123,6 +3212,7 @@ cv.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('wheel',e=>{e.preventDefault();camS.dist=clamp(camS.dist*(1+e.deltaY*.0012),10,45);},{passive:false});
 addEventListener('keydown',e=>{
  if(!started)return;
+ if(CINE){if(e.key==='Escape'){e.preventDefault();cineSkip();}return;}
  if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
  if(STQ.length&&['Enter',' ','Escape'].includes(e.key)){e.preventDefault();storyNext();return;}
  const k=e.key.toLowerCase();
@@ -3542,7 +3632,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-22 18:11';
+const BUILD='2026-11-22 18:46';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -3611,7 +3701,7 @@ function startGame(p,fresh){
  started=true;$('start').classList.add('hidden');$('hud').classList.remove('hidden');
  $('nameIn').blur();
  log(`Willkommen in Eldoria, ${esc(P.name)}! (Speicherplatz ${CUR_SLOT+1})`,'#ffd34d');
- STQ=[];if(fresh){P.st=0;log('🧭 <b>Erste Schritte:</b> Sprich mit Hauptmann Andrew nördlich vom Brunnen. Der goldene Pfeil zeigt dir den Weg.','#8fd8ff');$('winHelp').classList.remove('hidden');showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);}
+ STQ=[];if(fresh){P.st=0;log('🧭 <b>Erste Schritte:</b> Sprich mit Hauptmann Andrew nördlich vom Brunnen. Der goldene Pfeil zeigt dir den Weg.','#8fd8ff');cineStart(sk=>{$('winHelp').classList.remove('hidden');if(sk)showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);});}
  else if(P.st==null)P.st=chOf(P.q);
  else log('Willkommen zurück! Dein Abenteuer geht weiter.');
  if(!fresh&&QUESTS0[P.q0])log(`🧭 Erste Schritte (${P.q0+1}/${QUESTS0.length}): <b>${QUESTS0[P.q0].n}</b> – ${QUESTS0[P.q0].txt}`,'#8fd8ff');
