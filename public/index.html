@@ -28,7 +28,8 @@ canvas#ov{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #cineSkip{position:absolute;right:14px;bottom:calc(6vh - 15px);z-index:4;padding:6px 12px;font-size:12.5px;opacity:0;transition:opacity .6s}#cine.on #cineSkip{opacity:.8}#cineSkip:hover{opacity:1}
 #cineBtns{position:absolute;left:14px;bottom:calc(6vh - 15px);z-index:4;display:flex;gap:6px;opacity:0;transition:opacity .6s}#cine.on #cineBtns{opacity:.8}#cineBtns:hover{opacity:1}#cineBtns .btn{padding:6px 12px;font-size:12.5px}
 body.mob #cineBtns .btn,body.mob #cineSkip{padding:6px 8px;font-size:11.5px}body.mob #cineBtns{left:8px}body.mob #cineSkip{right:8px}
-#winSnd{left:50%;top:50%;transform:translate(-50%,-50%);width:300px;max-width:94vw;font-size:13.5px}.srow{display:flex;align-items:center;gap:10px;margin:9px 0}.srow span{width:86px}.srow input[type=range]{flex:1;accent-color:#c9a24e}.srow input[type=checkbox]{width:17px;height:17px;accent-color:#c9a24e}
+#winSet{left:50%;top:50%;transform:translate(-50%,-50%);width:340px;max-width:94vw;font-size:13.5px}.srow{display:flex;align-items:center;gap:10px;margin:8px 0}.srow span{width:82px;flex:none}.srow b.pv{width:44px;flex:none;text-align:right;font-weight:600;color:#f0d28a;font-size:12.5px}
+.ssec{font-family:Cinzel,serif;color:#f0d28a;font-size:14.5px;margin:14px 0 4px;padding-bottom:3px;border-bottom:1px solid rgba(240,210,138,.25)}.ssec:first-of-type{margin-top:2px}.sseg{display:flex;gap:5px;flex:1}.sseg .btn{flex:1;padding:5px 4px;font-size:12.5px}.srow input[type=range]{flex:1;accent-color:#c9a24e}.srow input[type=checkbox]{width:17px;height:17px;accent-color:#c9a24e}
 #hud{transition:opacity .8s}body.cine #hud{opacity:0;pointer-events:none}
 body.cine .win,body.cine #storyBox,body.cine #toast,body.cine #zoneBanner,body.cine #tip,body.cine #vig{display:none!important}
 #updBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:300;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 12px;width:max-content;max-width:94vw;font-size:13px;border-color:#f0d28a;box-shadow:0 0 14px rgba(240,210,138,.45),0 8px 24px rgba(0,0,0,.8)}#updBar b{color:#f0d28a}#updBar .btn{padding:5px 10px;font-size:12.5px}
@@ -287,8 +288,7 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
     <button class="btn" title="Angeln am nächsten See (R)" onclick="fishKey()">🎣<span class="ml"> Angeln</span></button>
     <button class="btn" id="saveBtn" title="Spiel speichern (Strg+S)" onclick="manualSave()">💾 Speichern</button>
     <button class="btn" title="Zur Heldenauswahl (speichert vorher)" onclick="toCharSelect()">👥<span class="ml"> Helden</span></button>
-    <button class="btn" id="sndBtn" title="Geräusche, Musik und Vorlesestimme einstellen" onclick="toggleWin('winSnd')">🔊 Ton</button>
-    <button class="btn" id="qualBtn" title="Grafikqualität umschalten" onclick="cycleQual()">⚙ Grafik</button>
+    <button class="btn" id="setBtn" title="Einstellungen: Ton, Grafik, Spiel (O)" onclick="toggleWin('winSet')">⚙ Einstellungen</button>
     <button class="btn" id="devBtn" title="Gamedev-Menü (F2)" onclick="toggleWin('winDev')">🛠 Dev</button>
     <button class="btn" title="Hilfe (H)" onclick="toggleWin('winHelp')">❔<span class="ml"> Hilfe</span></button>
   </div>
@@ -317,8 +317,8 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
   <div><b>Fertigkeiten:</b> <kbd>1</kbd>–<kbd>6</kbd> – die sechs Plätze der Leiste. Jede Klasse hat 10 Fähigkeiten (freigeschaltet zwischen Stufe 1 und 32).</div>
   <div><b>Skillbuch:</b> <kbd>K</kbd> – zieh eine Fähigkeit aus dem Buch auf einen Platz der Leiste (am Handy: Fähigkeit antippen, dann den Platz). Bei offenem Buch kannst du auch Plätze tauschen oder eine Fähigkeit aus der Leiste herausziehen.</div>
   <div><b>Tränke:</b> <kbd>Q</kbd> Heiltrank · <kbd>E</kbd> Manatrank</div>
-  <div><b>Fenster:</b> <kbd>I</kbd> Inventar · <kbd>C</kbd> Charakter · <kbd>T</kbd> Talente · <kbd>G</kbd> Gruppe · <kbd>J</kbd> Chronik · <kbd>M</kbd> Karte · <kbd>R</kbd> Angeln · <kbd>Enter</kbd> Chat · <kbd>Esc</kbd> schließen</div>
-  <div><b>Ton:</b> Menü → 🔊 Ton – Lautstärke für Geräusche und Musik, Vorlesestimme im Intro an/aus</div>
+  <div><b>Fenster:</b> <kbd>I</kbd> Inventar · <kbd>C</kbd> Charakter · <kbd>T</kbd> Talente · <kbd>G</kbd> Gruppe · <kbd>J</kbd> Chronik · <kbd>M</kbd> Karte · <kbd>O</kbd> Einstellungen · <kbd>R</kbd> Angeln · <kbd>Enter</kbd> Chat · <kbd>Esc</kbd> schließen</div>
+  <div><b>Einstellungen:</b> <kbd>O</kbd> oder Menü → ⚙ Einstellungen – Lautstärke (gesamt, Geräusche, Musik), Vorlesestimme, Grafikqualität, Schadenszahlen und mehr</div>
   <div><b>Speichern:</b> <kbd>Strg</kbd>+<kbd>S</kbd> oder Knopf 💾 Speichern (zusätzlich speichert das Spiel alle 20 Sekunden automatisch)</div>
   <div style="margin-top:8px"><b>Eldoria (Stadt):</b> Hier regenerierst du schnell. NPCs ansprechen durch Anklicken:</div>
   <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken).</div>
@@ -327,7 +327,7 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
   <div class="muted" style="margin-top:8px">Der Fortschritt wird automatisch in deinem Browser gespeichert.</div>
 </div>
 <div id="winDev" class="win panel hidden"></div>
-<div id="winSnd" class="win panel hidden"></div>
+<div id="winSet" class="win panel hidden"></div>
 <div id="fpsBox" class="hidden"></div>
 <div id="toast" class="panel"></div>
 <div id="updBar" class="panel hidden">🔔 <b>Neues Update verfügbar</b> <span class="muted"></span><button class="btn glow" onclick="updReload()">🔄 Neu laden</button><button class="btn" onclick="updLater()">Später</button></div>
@@ -1288,8 +1288,8 @@ function revive(){
 function applyDamage(m,dmg,src,crit){
  if(!m.alive)return;
  m.hp-=dmg;m.hitFlash=.1;
- if(src===P){snd(crit?'crit':'hit',m.x,m.y);m.tagged=true;floatText(m.x+rnd(-6,6),m.y,(crit?'💥 ':'')+dmg,crit?'#ffd34d':'#ffffff',crit?20:15,topH(m)+.3);}
- else if(onScreen(m))floatText(m.x,m.y,dmg,'#aab',11,topH(m));
+ if(src===P){snd(crit?'crit':'hit',m.x,m.y);m.tagged=true;dmgText(m.x+rnd(-6,6),m.y,(crit?'💥 ':'')+dmg,crit?'#ffd34d':'#ffffff',crit?20:15,topH(m)+.3);}
+ else if(onScreen(m))dmgText(m.x,m.y,dmg,'#aab',11,topH(m));
  if(m.state!=='return'&&(src===P||!m.foe||!m.foe.alive||m.state==='idle')){m.foe=src;m.state='chase';}
  if(m.hp<=0)killMonster(m);
 }
@@ -1311,8 +1311,8 @@ function monsterHit(m,u,mult){
  if(u===P&&P.T.dodge&&Math.random()<P.T.dodge){floatText(P.x,P.y,'Ausgewichen','#9fd',13,2.5);return;}
  const dmg=Math.max(1,Math.round(m.atk*mult*(u===P?(1+.15*lvGap(m))*(1-P.T.red):1)*rnd(.9,1.1)*60/(60+u.def)));
  u.hp-=dmg;
- if(u===P){P.lastHit=time;snd('hurt');floatText(P.x+rnd(-8,8),P.y,'-'+dmg,'#ff5a4a',15,2.3);}
- else if(onScreen(u))floatText(u.x,u.y,'-'+dmg,'#d99',11,2.3);
+ if(u===P){P.lastHit=time;snd('hurt');dmgText(P.x+rnd(-8,8),P.y,'-'+dmg,'#ff5a4a',15,2.3);}
+ else if(onScreen(u))dmgText(u.x,u.y,'-'+dmg,'#d99',11,2.3);
  if(u.hp<=0){u.hp=0;if(u===P)playerDie();else botDie(u);}
 }
 // ================= Glutschmied Teemla: Hammerschläge mit Funkenregen =================
@@ -1320,7 +1320,11 @@ function monsterHit(m,u,mult){
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:v;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 const lsVol=(k,d)=>{const v=+lsGet(k,d);return(isNaN(v)?d:clamp(v,0,100))/100;};
-const SND={ac:null,g:null,vol:.85,on:lsGet('eldoria_snd','1')!=='0',sv:lsVol('eldoria_sfxv',80),mv:lsVol('eldoria_musv',60),voice:lsGet('eldoria_voice','1')!=='0',last:{},wt:0,wn:0};
+const SND={ac:null,g:null,vol:.85,ma:lsVol('eldoria_vol',100),on:lsGet('eldoria_snd','1')!=='0',sv:lsVol('eldoria_sfxv',80),mv:lsVol('eldoria_musv',60),voice:lsGet('eldoria_voice','1')!=='0',last:{},wt:0,wn:0};
+SND.vol=.85*SND.ma;   // vol = was am Ende herauskommt, ma = Regler „Gesamt“
+// Weitere Einstellungen (Menü ⚙ Einstellungen)
+const OPT0={shake:true,dmg:true,fps:false,intro:true},OPT=Object.assign({},OPT0);
+try{const o=JSON.parse(lsGet('eldoria_opt','{}'));for(const k in OPT0)if(typeof o[k]==='boolean')OPT[k]=o[k];}catch(e){}
 const auF=n=>440*Math.pow(2,(n-69)/12);
 function sndCtx(){try{if(!SND.ac){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;SND.ac=new A();}if(SND.ac.state!=='running'&&SND.ac.resume){const p=SND.ac.resume();if(p&&p.catch)p.catch(()=>{});}return SND.ac;}catch(e){return null;}}
 // Browser lassen Ton erst nach einem Klick/Tastendruck zu – bei jeder Eingabe kurz nachsehen
@@ -1580,28 +1584,48 @@ function voxSay(html,budget){
 function voxToggle(){
  SND.voice=!SND.voice;lsSet('eldoria_voice',SND.voice?'1':'0');sndLabel();
  if(CINE){CINE.vox=voxCan();if(!CINE.vox){voxStop();cineVol();}}
- renderSnd();
+ renderSet();
 }
 // ---------- Schalter und Einstellungen ----------
 function sndLabel(){
  const t=SND.on?'🔊 Ton an':'🔇 Ton aus';for(const id of['sndBtn0','cineSnd']){const b=$(id);if(b)b.textContent=t;}
- const m=$('sndBtn');if(m)m.textContent=(SND.on?'🔊':'🔇')+' Ton';
  const x=$('cineVox');if(x){x.textContent=SND.voice?'🗣 Stimme an':'🗣 Stimme aus';x.classList.toggle('hidden',!VOX.ok||voxNone());}
 }
 function sndToggle(){
  SND.on=!SND.on;lsSet('eldoria_snd',SND.on?'1':'0');sndLabel();
  if(!SND.on)voxStop();if(CINE)CINE.vox=voxCan();
- sndVol();renderSnd();
+ sndVol();renderSet();
 }
-function sndSet(k,v){SND[k]=clamp(+v||0,0,100)/100;lsSet(k==='sv'?'eldoria_sfxv':'eldoria_musv',Math.round(SND[k]*100));sndVol();}
-function renderSnd(){
- const w=$('winSnd');if(!w||w.classList.contains('hidden'))return;
- w.innerHTML=`<h3>🔊 Ton<span class="x" onclick="toggleWin('winSnd')">✕</span></h3>
- <label class="srow"><input type="checkbox" ${SND.on?'checked':''} onchange="this.blur();sndToggle()"> <b>Ton an</b></label>
- <div class="srow"><span>Geräusche</span><input type="range" min="0" max="100" step="5" value="${Math.round(SND.sv*100)}" oninput="sndSet('sv',this.value)" onchange="this.blur();snd('crit')"></div>
- <div class="srow"><span>Musik</span><input type="range" min="0" max="100" step="5" value="${Math.round(SND.mv*100)}" oninput="sndSet('mv',this.value)" onchange="this.blur()"></div>
- <label class="srow"><input type="checkbox" ${SND.voice?'checked':''} ${VOX.ok?'':'disabled'} onchange="this.blur();voxToggle()"> Vorlesestimme im Intro</label>
- <div class="muted" style="font-size:12px;margin-top:8px;line-height:1.4">${!VOX.ok?'Dieses Gerät bietet keine Sprachausgabe an.':voxNone()?'Auf diesem Gerät ist keine deutsche Stimme installiert – das Intro läuft deshalb ohne Sprecher.':'Die Stimme ist die Sprachausgabe deines Geräts und klingt deshalb überall etwas anders.'} Das Intro kannst du in der Chronik (J) noch einmal ansehen.</div>`;
+function sndSet(k,v){
+ SND[k]=clamp(+v||0,0,100)/100;if(k==='ma')SND.vol=.85*SND.ma;lsSet({sv:'eldoria_sfxv',mv:'eldoria_musv',ma:'eldoria_vol'}[k],Math.round(SND[k]*100));
+ const e=$('pv_'+k);if(e)e.textContent=Math.round(SND[k]*100)+' %';sndVol();
+}
+function optSet(k,v){OPT[k]=!!v;lsSet('eldoria_opt',JSON.stringify(OPT));}
+function setQual(n){QUAL=clamp(n|0,0,2);QUAL_USER=true;lsSet('eldoria_q',QUAL);applyQual();renderSet();}
+function optReset(){
+ Object.assign(OPT,OPT0);lsSet('eldoria_opt',JSON.stringify(OPT));
+ SND.on=true;SND.ma=1;SND.vol=.85;SND.sv=.8;SND.mv=.6;SND.voice=true;for(const[k,v]of[['eldoria_snd','1'],['eldoria_vol',100],['eldoria_sfxv',80],['eldoria_musv',60],['eldoria_voice','1']])lsSet(k,v);
+ QUAL=IS_TOUCH?1:2;QUAL_USER=false;try{localStorage.removeItem('eldoria_q');}catch(e){}applyQual();
+ sndLabel();sndVol();renderSet();toast('⚙ Einstellungen auf Standard zurückgesetzt.');
+}
+function renderSet(){
+ const w=$('winSet');if(!w||w.classList.contains('hidden'))return;
+ const chk=(on,js,txt,dis)=>`<label class="srow"><input type="checkbox" ${on?'checked':''} ${dis?'disabled':''} onchange="this.blur();${js}"> ${txt}</label>`;
+ const rng=(k,txt,test)=>`<div class="srow"><span>${txt}</span><input type="range" min="0" max="100" step="5" value="${Math.round(SND[k]*100)}" oninput="sndSet('${k}',this.value)" onchange="this.blur();${test||''}"><b class="pv" id="pv_${k}">${Math.round(SND[k]*100)} %</b></div>`;
+ w.innerHTML=`<h3>⚙ Einstellungen<span class="x" onclick="toggleWin('winSet')">✕</span></h3>
+ <div class="ssec">🔊 Ton</div>
+ ${chk(SND.on,'sndToggle()','<b>Ton an</b>')}
+ ${rng('ma','Gesamt',"snd('crit')")}${rng('sv','Geräusche',"snd('crit')")}${rng('mv','Musik')}
+ ${chk(SND.voice,'voxToggle()','Vorlesestimme im Intro',!VOX.ok)}
+ <div class="muted" style="font-size:12px;line-height:1.4">${!VOX.ok?'Dieses Gerät bietet keine Sprachausgabe an.':voxNone()?'Auf diesem Gerät ist keine deutsche Stimme installiert – das Intro läuft deshalb ohne Sprecher.':'Die Stimme ist die Sprachausgabe deines Geräts und klingt deshalb überall etwas anders.'}</div>
+ <div class="ssec">🖥 Grafik</div>
+ <div class="srow"><span>Qualität</span><div class="sseg">${['Niedrig','Mittel','Hoch'].map((n,i)=>`<button class="btn${QUAL===i?' glow':''}" onclick="setQual(${i})">${n}</button>`).join('')}</div></div>
+ ${chk(OPT.shake,"optSet('shake',this.checked)",'Bildschirm wackelt bei schweren Treffern')}
+ ${chk(OPT.fps,"optSet('fps',this.checked)",'Bilder pro Sekunde (FPS) anzeigen')}
+ <div class="ssec">🎮 Spiel</div>
+ ${chk(OPT.dmg,"optSet('dmg',this.checked)",'Schadenszahlen anzeigen')}
+ ${chk(OPT.intro,"optSet('intro',this.checked)",'Intro bei neuem Helden abspielen')}
+ <div style="display:flex;justify-content:space-between;gap:8px;margin-top:14px"><button class="btn" onclick="cineReplay()">🎬 Intro ansehen</button><button class="btn" onclick="optReset()">↺ Standard</button></div>`;
 }
 // ================= Intro-Sequenz (Kamerafahrt beim Start eines neuen Helden) =================
 let CINE=null,FOGCUT=false;
@@ -2014,7 +2038,7 @@ function updateMon(m,dt){
  if(m.wv){const w=m.wv;w.t+=dt;const Rw=16+(w.r-16)*eOut(Math.min(1,w.t/w.dur));for(const u of UNITS)if(u.alive&&!w.hit.has(u)&&Math.hypot(u.x-w.x,u.y-w.y)<Rw){w.hit.add(u);monsterHit(m,u,w.mult);}if(w.t>=w.dur)m.wv=null;}
  if(m.b.boss&&m.stun>0)m.stun=Math.min(m.stun,.4);
  m.anim+=dt;m.moving=false;if(m.hitFlash>0)m.hitFlash-=dt;if(m.lunge>0)m.lunge-=dt;m.atkT-=dt;
- if(m.dot){m.dot.t-=dt;m.dot.acc+=dt;if(m.dot.acc>=1){m.dot.acc-=1;const d=Math.max(1,Math.round(m.dot.dps*60/(60+m.def)));m.hp-=d;m.tagged=true;floatText(m.x,m.y,d,'#8f8',12,topH(m));for(let i=0;i<3;i++)PART.push({x:m.x+rnd(-m.size,m.size)*.6,y:m.y+rnd(-m.size,m.size)*.6,h:rnd(.3,topH(m)*.7),vx:rnd(-6,6),vy:rnd(-6,6),vh:rnd(.6,1.4),g:0,life:.8,max:.8,col:'#7fe07f',sz:rnd(2.5,4.5)});if(m.hp<=0){killMonster(m);return;}}if(m.dot&&m.dot.t<=0)m.dot=null;}
+ if(m.dot){m.dot.t-=dt;m.dot.acc+=dt;if(m.dot.acc>=1){m.dot.acc-=1;const d=Math.max(1,Math.round(m.dot.dps*60/(60+m.def)));m.hp-=d;m.tagged=true;dmgText(m.x,m.y,d,'#8f8',12,topH(m));for(let i=0;i<3;i++)PART.push({x:m.x+rnd(-m.size,m.size)*.6,y:m.y+rnd(-m.size,m.size)*.6,h:rnd(.3,topH(m)*.7),vx:rnd(-6,6),vy:rnd(-6,6),vh:rnd(.6,1.4),g:0,life:.8,max:.8,col:'#7fe07f',sz:rnd(2.5,4.5)});if(m.hp<=0){killMonster(m);return;}}if(m.dot&&m.dot.t<=0)m.dot=null;}
  if(m.stun>0){m.stun-=dt;return;}
  if(m.slow>0)m.slow-=dt;
  const sp=m.spd*(m.slow>0?.45:1),foe=m.foe;
@@ -2156,6 +2180,7 @@ function update(dt){
 
 // ================= Effekte =================
 function floatText(x,y,s,col,sz,h){TXT.push({x,y,h:h==null?2.6:h,s:String(s),col,sz:sz||14,t:1.1});}
+function dmgText(x,y,s,col,sz,h){if(OPT.dmg)floatText(x,y,s,col,sz,h);}   // Schadenszahlen (abschaltbar)
 function burst(x,y,col,n,h){h=h==null?1:h;for(let i=0;i<n;i++){const a=rnd(0,TAU),v=rnd(30,140);PART.push({x,y,h,vx:Math.cos(a)*v,vy:Math.sin(a)*v,vh:rnd(1,4.5),life:rnd(.35,.85),max:.85,col,sz:rnd(2,4.5)});}}
 const onScreen=u=>P&&Math.abs(u.x-P.x)<1200&&Math.abs(u.y-P.y)<1200;
 const MH={blob:1.7,wolf:1.9,goblin:2.0,spider:1.5,skeleton:2.0,golem:2.7,dragon:2.7,ghost:2.5,demon:3.9,geweih:3.3,nixe:3.3,fuss:2.7,riese:4.0};
@@ -3157,7 +3182,7 @@ function makeLoot(it){
 // ================= Effekte der Fähigkeiten =================
 const FXK={},_Y=new THREE.Vector3(0,1,0),_a3=new THREE.Vector3(),_b3=new THREE.Vector3(),_d3=new THREE.Vector3();
 let SHK=0;
-const shake=a=>{if(a>SHK)SHK=a;};
+const shake=a=>{if(!OPT.shake)return;if(a>SHK)SHK=a;};
 const sfx=(...a)=>{for(const o of a){o.t=0;FX.push(o);}};
 const fxm=(col,o)=>new THREE.MeshBasicMaterial(Object.assign({color:col,transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,toneMapped:false},o||{}));
 const fxs=(col,tex,nb)=>new THREE.Sprite(new THREE.SpriteMaterial({map:tex||glowTex(),color:col,transparent:true,depthWrite:false,blending:nb?THREE.NormalBlending:THREE.AdditiveBlending,toneMapped:false}));
@@ -3534,7 +3559,7 @@ addEventListener('keydown',e=>{
  if(e.repeat&&!['1','2','3','4','5','6'].includes(k))return;
  if(['1','2','3','4','5','6'].includes(k))castSlot(+k-1);
  else if(k==='q')usePotion('hp');else if(k==='e')usePotion('mp');
- else if(k==='i')toggleWin('winInv');else if(k==='c')toggleWin('winChar');else if(k==='t')toggleWin('winTal');else if(k==='k'||k==='p')toggleWin('winSkill');else if(k==='g')toggleWin('winGrp');else if(k==='r')fishKey();else if(k==='j')toggleWin('winStory');else if(k==='m')toggleWin('winMap');else if(k==='h')toggleWin('winHelp');
+ else if(k==='i')toggleWin('winInv');else if(k==='c')toggleWin('winChar');else if(k==='t')toggleWin('winTal');else if(k==='k'||k==='p')toggleWin('winSkill');else if(k==='g')toggleWin('winGrp');else if(k==='r')fishKey();else if(k==='j')toggleWin('winStory');else if(k==='m')toggleWin('winMap');else if(k==='h')toggleWin('winHelp');else if(k==='o')toggleWin('winSet');
  else if(k==='enter'){e.preventDefault();openChat();}
  else if(k==='tab')cycleTarget();
  else if(k==='f2'||k==='`'||k==='^'||k==='dead'){e.preventDefault();toggleWin('winDev');}
@@ -3662,8 +3687,8 @@ function updateHud(){
 }
 let zoneTO=null;
 function showZone(z){const b=$('zoneBanner');b.querySelector('.z1').textContent=ZONES[z].name;b.querySelector('.z2').textContent=ZONES[z].sub;b.style.opacity=1;clearTimeout(zoneTO);zoneTO=setTimeout(()=>b.style.opacity=0,2600);}
-function toggleWin(id){const w=$(id);w.classList.toggle('hidden');tip.classList.add('hidden');if(!w.classList.contains('hidden')){if(id==='winInv')refreshInv();if(id==='winChar')refreshChar();if(id==='winTal')refreshTal();if(id==='winSkill')refreshSkill();if(id==='winGrp')refreshGrp();if(id==='winStory')refreshStory();if(id==='winMap')refreshMap();if(id==='winDev')renderDev();if(id==='winSnd')renderSnd();}if(id==='winSkill'){if(w.classList.contains('hidden'))SKSEL=null;skState();}}
-function closeAll(){TRY=null;SKSEL=null;toggleMenu(false);document.body.classList.remove('shopOpen','skOpen','skPick');let any=false;for(const id of['winInv','winChar','winTal','winSkill','winGrp','winStory','winMap','winNpc','winHelp','winDev','winSnd'])if(!$(id).classList.contains('hidden')){$(id).classList.add('hidden');any=true;}openNpcId=null;tip.classList.add('hidden');return any;}
+function toggleWin(id){const w=$(id);w.classList.toggle('hidden');tip.classList.add('hidden');if(!w.classList.contains('hidden')){if(id==='winInv')refreshInv();if(id==='winChar')refreshChar();if(id==='winTal')refreshTal();if(id==='winSkill')refreshSkill();if(id==='winGrp')refreshGrp();if(id==='winStory')refreshStory();if(id==='winMap')refreshMap();if(id==='winDev')renderDev();if(id==='winSet')renderSet();}if(id==='winSkill'){if(w.classList.contains('hidden'))SKSEL=null;skState();}}
+function closeAll(){TRY=null;SKSEL=null;toggleMenu(false);document.body.classList.remove('shopOpen','skOpen','skPick');let any=false;for(const id of['winInv','winChar','winTal','winSkill','winGrp','winStory','winMap','winNpc','winHelp','winDev','winSet'])if(!$(id).classList.contains('hidden')){$(id).classList.add('hidden');any=true;}openNpcId=null;tip.classList.add('hidden');return any;}
 function closeNpc(){TRY=null;document.body.classList.remove('shopOpen');$('winNpc').classList.add('hidden');openNpcId=null;tip.classList.add('hidden');refreshInv();}
 function cellHtml(it,cls){
  const bg=it.type==='potion'?(it.kind==='hp'?'background:#3a1515;':'background:#15203a;'):'';
@@ -3944,7 +3969,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-24 21:16';
+const BUILD='2026-11-24 21:25';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -4013,7 +4038,7 @@ function startGame(p,fresh){
  started=true;$('start').classList.add('hidden');$('hud').classList.remove('hidden');
  $('nameIn').blur();
  log(`Willkommen in Eldoria, ${esc(P.name)}! (Speicherplatz ${CUR_SLOT+1})`,'#ffd34d');
- STQ=[];if(fresh){P.st=0;log('🧭 <b>Erste Schritte:</b> Sprich mit Hauptmann Andrew nördlich vom Brunnen. Der goldene Pfeil zeigt dir den Weg.','#8fd8ff');cineStart(sk=>{$('winHelp').classList.remove('hidden');if(sk)showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);});}
+ STQ=[];if(fresh){P.st=0;log('🧭 <b>Erste Schritte:</b> Sprich mit Hauptmann Andrew nördlich vom Brunnen. Der goldene Pfeil zeigt dir den Weg.','#8fd8ff');(OPT.intro?cineStart:f=>f(true))(sk=>{$('winHelp').classList.remove('hidden');if(sk)showStory({k:'Prolog',t:'Chroniken von Eldoria',x:STORY.pro});storyChapter(0);});}
  else if(P.st==null)P.st=chOf(P.q);
  else log('Willkommen zurück! Dein Abenteuer geht weiter.');
  if(!fresh&&QUESTS0[P.q0])log(`🧭 Erste Schritte (${P.q0+1}/${QUESTS0.length}): <b>${QUESTS0[P.q0].n}</b> – ${QUESTS0[P.q0].txt}`,'#8fd8ff');
@@ -4024,7 +4049,7 @@ function startGame(p,fresh){
 let lowFps=0,fpsN=0,fpsT=0,last=performance.now(),hudT=0,chatT=12,saveT=20;
 function loop(now){
  const rdt=(now-last)/1000,dt=Math.min(.05,rdt)*DEV.speed;last=now;
- fpsN++;fpsT+=rdt;if(fpsT>=.5){DEV.fpsVal=Math.round(fpsN/fpsT);fpsN=0;fpsT=0;if(started&&!QUAL_USER&&QUAL>0&&!document.hidden){lowFps=DEV.fpsVal<22?lowFps+1:0;if(lowFps>=10){lowFps=0;QUAL--;applyQual();toast('⚙ Grafik auf <b>'+['Niedrig','Mittel'][QUAL]+'</b> gestellt, damit es flüssiger läuft.');}}if(started){$('fpsBox').classList.toggle('hidden',!DEV.fps);$('fpsBox').textContent=DEV.fpsVal+' FPS';updateDevInfo();}}
+ fpsN++;fpsT+=rdt;if(fpsT>=.5){DEV.fpsVal=Math.round(fpsN/fpsT);fpsN=0;fpsT=0;if(started&&!QUAL_USER&&QUAL>0&&!document.hidden){lowFps=DEV.fpsVal<22?lowFps+1:0;if(lowFps>=10){lowFps=0;QUAL--;applyQual();toast('⚙ Grafik auf <b>'+['Niedrig','Mittel'][QUAL]+'</b> gestellt, damit es flüssiger läuft.');}}if(started){$('fpsBox').classList.toggle('hidden',!(DEV.fps||OPT.fps));$('fpsBox').textContent=DEV.fpsVal+' FPS';updateDevInfo();}}
  if(started){
   update(dt);render3D(dt);drawOverlay();pvTick();
   hudT-=dt;if(hudT<=0){hudT=.1;updateHud();}
