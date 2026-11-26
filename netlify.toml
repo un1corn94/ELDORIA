@@ -1,3 +1,10 @@
 # Netlify: die Seite liegt fertig im Ordner "public" (kein Build noetig)
 [build]
   publish = "public"
+
+# Probelauf Netlify Server (Vorabphase): braucht Node 24; Standort Frankfurt
+[build.environment]
+  NODE_VERSION = "24"
+
+[server]
+  region = "fra"
