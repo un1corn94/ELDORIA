@@ -164,6 +164,8 @@ body.dragging,body.dragging *{cursor:grabbing!important}body.dragging #tip{displ
 .globe{cursor:pointer}.gp{display:none}
 body.mob #bar .pot,body.mob #bar .sep{display:none}
 body.mob .gp{display:block;position:absolute;top:5px;left:0;right:0;text-align:center;font:700 10px system-ui,sans-serif;font-style:normal;color:#fff;text-shadow:0 0 3px #000,0 1px 2px #000;z-index:2;pointer-events:none}
+.spbox{margin-bottom:10px}.spc{background:rgba(0,0,0,.35);border:1px solid #3a3020;border-radius:3px;padding:8px 9px;font-size:12.5px;line-height:1.35;display:flex;flex-direction:column}.spc.on{border-color:#f0d28a;box-shadow:0 0 10px rgba(240,210,138,.3),inset 0 0 14px rgba(240,200,110,.12)}
+.sph{font-size:14.5px;color:#f0d28a;display:flex;align-items:baseline;gap:6px}.spr{margin-left:auto;font-size:11px;color:#cdb98a;border:1px solid #6b5530;border-radius:9px;padding:0 7px;white-space:nowrap}.spc ul{margin:6px 0 6px;padding-left:17px;color:#d8cfb8;flex:1}.spc li{margin:2px 0}.spb{text-align:right}.spb .btn{font-size:12px;padding:4px 12px}
 .talcols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}@media (max-width:640px){.talcols{grid-template-columns:1fr}}
 .talhead{display:flex;justify-content:space-between;align-items:baseline;font-family:Cinzel,serif;color:#f0d28a;font-size:15px;border-bottom:1px solid #6b5530;padding-bottom:3px;margin-bottom:3px}
 .tal{display:flex;align-items:center;gap:8px;padding:6px;margin-bottom:5px;background:rgba(0,0,0,.35);border:1px solid #3a3020;border-radius:3px;font-size:13px;line-height:1.3}
@@ -314,7 +316,8 @@ body.mob.land #winInv .grid{grid-template-columns:repeat(10,1fr)}body.mob.land .
   <div><b>Am Handy:</b> Tippen = laufen/angreifen/ansprechen (gedrückt halten zum Laufen) · zwei Finger: zusammenziehen = zoomen, ziehen = Kamera drehen · ☰ öffnet das Menü · ⚔️ greift den nächsten Gegner an · Gegenstände: einmal tippen zeigt Infos, nochmal tippen benutzt sie.</div>
   <div><b>Angeln:</b> einen See anklicken oder <kbd>R</kbd> drücken, dann erscheint ein Balken – drücke <kbd>F</kbd> (oder tippe), wenn der Fisch im grünen Feld ist, je seltener der Fisch, desto öfter musst du treffen und desto kleiner ist das Feld. Fische kannst du essen oder verkaufen.</div>
   <div><b>Springen:</b> <kbd>Leertaste</kbd> · <b>Ziel wechseln:</b> <kbd>Tab</kbd> · <b>Nächstes Ziel angreifen:</b> <kbd>F</kbd></div>
-  <div><b>Fertigkeiten:</b> <kbd>1</kbd>–<kbd>6</kbd> – die sechs Plätze der Leiste. Jede Klasse hat 10 Fähigkeiten (freigeschaltet zwischen Stufe 1 und 32).</div>
+  <div><b>Fertigkeiten:</b> <kbd>1</kbd>–<kbd>6</kbd> – die sechs Plätze der Leiste. Jede Klasse hat 10 Fähigkeiten (freigeschaltet zwischen Stufe 1 und 32) und eine weitere aus ihrer Spezialisierung.</div>
+  <div><b>Spezialisierung (ab Stufe 10):</b> <kbd>T</kbd> – wähle eine von zwei Rollen für deine Klasse, zum Beispiel Schaden oder Tank beim Ritter, Schaden oder Gruppenheilung bei der Priesterin, Feuer oder Frost beim Magier. Jede Rolle bringt feste Boni und eine eigene Fähigkeit. Wechseln kannst du jederzeit in der Stadt. In einer Gruppe heilt die Heilerin ihre Mitspieler mit, und ein Tank schützt alle in seiner Nähe.</div>
   <div><b>Skillbuch:</b> <kbd>K</kbd> – zieh eine Fähigkeit aus dem Buch auf einen Platz der Leiste (am Handy: Fähigkeit antippen, dann den Platz). Bei offenem Buch kannst du auch Plätze tauschen oder eine Fähigkeit aus der Leiste herausziehen.</div>
   <div><b>Tränke:</b> <kbd>Q</kbd> Heiltrank · <kbd>E</kbd> Manatrank</div>
   <div><b>Fenster:</b> <kbd>I</kbd> Inventar · <kbd>C</kbd> Charakter · <kbd>T</kbd> Talente · <kbd>G</kbd> Gruppe · <kbd>J</kbd> Chronik · <kbd>M</kbd> Karte · <kbd>O</kbd> Einstellungen · <kbd>R</kbd> Angeln · <kbd>Enter</kbd> Chat · <kbd>Esc</kbd> schließen</div>
@@ -813,7 +816,8 @@ NET.apply=peers=>{
     if(!r){r={kind:'friend',peer:pr.peer,x:tx,y:ty,jz:0,lunge:0,a:nNum(d.a,0,1e9,0),h3:null,size:13,alive:true};NET.rem.set(pr.peer,r);r.name=String(d.n).slice(0,16);if(started)log(`${isFriend(r.name)?'⭐ Dein Freund ':'🟢 '}${esc(r.name)} ist jetzt online.`,'#7dffb0');}
     r.name=String(d.n).slice(0,16)||'Held';r.lo=typeof d.lo==='string'?d.lo.slice(0,90):'';if(r.ck&&r.ck!==d.ck&&r.h3){scene.remove(r.h3.g);r.h3=null;}r.ck=d.ck;r.lv=nNum(d.lv,1,MAXLV,1)|0;r.w=d.w===2?2:d.w?1:0;r.tx=tx;r.ty=ty;r.tf=nNum(d.f,-10,10,0);r.hpP=nNum(d.hp,0,1,1);r.al=d.al!==0;r.tj=nNum(d.j,0,6,0);r.wg=WINGS[d.wg]?d.wg:null;
     const a=nNum(d.a,0,1e9,0);if(a!==r.a){r.a=a;r.lunge=.18;}
-    r.pt=typeof d.pt==='string'?d.pt.slice(0,40):'';r.zn=nNum(d.zi,0,9,0)|0;
+    r.pt=typeof d.pt==='string'?d.pt.slice(0,40):'';r.zn=nNum(d.zi,0,9,0)|0;r.sp=(d.sp===0||d.sp===1)&&r.lv>=SPEC_LV?d.sp:-1;
+    if(Array.isArray(d.gs)){let mx=r.gseq==null?-1:r.gseq;const first=r.gseq==null;for(const e of d.gs.slice(-10)){if(!Array.isArray(e))continue;const sq=nNum(e[0],0,1e9,0);if(sq>mx)mx=sq;if(!first&&sq>r.gseq)partyFx(r,e);}r.gseq=Math.max(mx,0);}else if(r.gseq==null)r.gseq=0;
     if(Array.isArray(d.iv)&&d.iv[0]===NET.me&&NET.me){const t=nNum(d.iv[1],0,9e15,0);if(t&&t!==r.ivT){r.ivT=t;if(Date.now()-t<60000&&!(NET.pt&&NET.pt===r.pt))askInvite(r);}}
     if(Array.isArray(d.ks)){let mx=r.kseq==null?-1:r.kseq;const first=r.kseq==null;for(const e of d.ks.slice(-10)){if(!Array.isArray(e))continue;const sq=nNum(e[0],0,1e9,0);if(sq>mx)mx=sq;if(!first&&sq>r.kseq&&MOBS[e[1]])partyKill(r,e[1],nNum(e[2],1,60,1)|0);}r.kseq=Math.max(mx,0);}else if(r.kseq==null)r.kseq=0;
     const mt=nNum(d.mt,0,9e15,0);if(mt&&mt!==r.mt){const first=r.mt==null;r.mt=mt;if(!first&&typeof d.m==='string'&&d.m)log(`<span style="color:#7dffb0">[${isFriend(r.name)?'Freund':'Spieler'}] ${esc(r.name)}:</span> ${esc(d.m.slice(0,140))}`);}else if(r.mt==null)r.mt=mt;}
@@ -905,7 +909,7 @@ function netTick(dt){
  if(!NET.room||NET.dead||!NET.on)return;
  if(P.lunge>NET.ll+.05)NET.a++;NET.ll=P.lunge;
  NET.t-=dt;if(NET.t>0)return;NET.t=.1;
- const d={n:P.name.slice(0,16),ck:P.ck,lv:P.lvl,w:WORLD,x:Math.round(P.x),y:Math.round(P.y),f:Math.round(P.face*100)/100,hp:Math.round(P.hp/P.maxHp*100)/100,al:P.alive?1:0,j:Math.round((P.jz||0)*10)/10,a:NET.a,wg:(P.equip.ruestung&&P.equip.ruestung.wing)||'',m:NET.msg,mt:NET.mt,pt:NET.pt,iv:NET.iv,ks:NET.ks,zi:zoneAt(P.x,P.y),lo:P.lookS||''};
+ const d={n:P.name.slice(0,16),ck:P.ck,lv:P.lvl,w:WORLD,x:Math.round(P.x),y:Math.round(P.y),f:Math.round(P.face*100)/100,hp:Math.round(P.hp/P.maxHp*100)/100,al:P.alive?1:0,j:Math.round((P.jz||0)*10)/10,a:NET.a,wg:(P.equip.ruestung&&P.equip.ruestung.wing)||'',m:NET.msg,mt:NET.mt,pt:NET.pt,iv:NET.iv,ks:NET.ks,zi:zoneAt(P.x,P.y),lo:P.lookS||'',sp:P.sp?P.spec:-1,gs:NET.gs||[]};
  const k=JSON.stringify(d);if(k===NET.last)return;NET.last=k;NET.room.presence(d).catch(er=>{NET.why='P:'+String(er&&er.code||'?').slice(0,24);});
 }
 const friendsHere=()=>[...NET.rem.values()].filter(r=>r.w===WORLD);
@@ -946,7 +950,7 @@ function refreshGrp(){
  else h+=`<div class="row" style="border:0;padding-top:0"><span>${!can?'⚪ <b>Nicht verbunden</b>':NET.on?'🟢 <b style="color:#7dffb0">Du bist online</b>':'⚪ <b>Du bist offline</b>'}<br><span class="muted">${!can?`Mehrspieler ist hier gerade nicht verfügbar. <span style="color:#ffb08a">Grund: ${({A:'Seite ohne Mehrspieler-Zugang geladen',B:'Plattform lässt dieses Konto nicht verbinden'})[NET.why]||esc(NET.why||'Verbindung wird aufgebaut …')}</span>`:NET.on?'Andere Spieler sehen deinen Helden.':'Du spielst allein und bist unsichtbar.'}</span></span><button class="btn${can&&!NET.on?' glow':''}" ${can?'':'disabled'} onclick="setOnline(${!NET.on})">${NET.on?'Offline gehen':'🌐 Online gehen'}</button></div>`;
  h+=`<div class="qt">Deine Gruppe</div>`;
  if(!NET.pt||!pl.length)h+=`<p class="muted">Du bist in keiner Gruppe${NET.pt?' (Einladung läuft …)':''}.</p>`;
- else{h+=`<div class="row"><span>${CLS.icon} <b>${esc(P.name)}</b> <span class="muted">(du)</span></span><span class="muted">Stufe ${P.lvl}</span></div>`;for(const r of pl)h+=`<div class="row"><span>${CLASSES[r.ck].icon} <b style="color:#8fd8ff">${esc(r.name)}</b></span><span class="muted">Stufe ${r.lv} · ${esc(WORLDS[r.w].zones[Math.min(r.zn,WORLDS[r.w].zones.length-1)].name)}</span></div>`;}
+ else{h+=`<div class="row"><span>${CLS.icon} <b>${esc(P.name)}</b> <span class="muted">(du)</span></span><span class="muted">${P.sp?P.sp.ic+' '+P.sp.n+' · ':''}Stufe ${P.lvl}</span></div>`;for(const r of pl)h+=`<div class="row"><span>${CLASSES[r.ck].icon} <b style="color:#8fd8ff">${esc(r.name)}</b></span><span class="muted">${r.sp>=0?SPECS[r.ck][r.sp].ic+' '+SPECS[r.ck][r.sp].n+' · ':''}Stufe ${r.lv} · ${esc(WORLDS[r.w].zones[Math.min(r.zn,WORLDS[r.w].zones.length-1)].name)}</span></div>`;}
  if(NET.pt)h+=`<div style="text-align:right;margin-top:6px"><button class="btn" style="font-size:12px;padding:4px 9px" onclick="leaveParty()">Gruppe verlassen</button></div>`;
  h+=`<div class="qt" style="margin-top:10px">⭐ Freundesliste</div><div style="display:flex;gap:6px;margin-bottom:6px"><input id="frIn" maxlength="16" placeholder="Charaktername" autocomplete="off" style="flex:1;min-width:0;background:#15120f;border:1px solid #8a6d3b;color:#fff;padding:6px 8px;border-radius:3px;font-size:13px;font-family:inherit"><button class="btn" onclick="addFriend($('frIn').value)">Hinzufügen</button></div>`;
  if(!FRIENDS.length)h+=`<p class="muted">Noch keine Freunde. Gib oben den Charakternamen ein.</p>`;
@@ -1213,18 +1217,85 @@ const TALENTS={
   {n:'Arkan',ic:'🔮',d:'Mana & Kontrolle',t:[['Arkane Macht','🔷','mp',.08],['Meditation','💧','mpreg',.15],['Zeitkrümmung','⏳','cdr',.05],['Manaschild','🛡️','red',.03],['Blinzeln','💨','spd',.03]]}],
  assassine:[{n:'Meuchler',ic:'🗡️',d:'Kritische Treffer',t:[['Tödliche Präzision','🎯','crit',.025],['Hinterhalt','💥','critDmg',.1],['Klingenschärfe','🔪','atk',.04],['Flinke Hände','⚡','aspd',.05],['Vampirklinge','🩸','ls',.02]]},
   {n:'Schatten',ic:'👤',d:'Gift & Ausweichen',t:[['Leichtfuß','💨','spd',.03],['Ausweichen','🌫️','dodge',.03],['Giftmischer','🧪','dot',.12],['Schattenmeister','⏳','cdr',.04],['Zähigkeit','❤️','hp',.04]]}]};
+// ================= Spezialisierungen: ab Stufe 10 wählt jede Klasse eine von zwei Rollen =================
+// T = feste Boni (gleiche Schlüssel wie bei den Talenten); tank/gheal wirken auch auf die Gruppe; el/burn/slowX/shatter/fz/pz verändern Treffer
+const SPEC_LV=10;
+const SPECS={
+ krieger:[
+  {n:'Berserker',ic:'🔥',role:'Schaden',T:{atk:.12,aspd:.15,ls:.04},d:['+12 % Angriff und +15 % Angriffstempo','4 % Lebensraub – jeder Treffer heilt dich ein wenig','Neue Fähigkeit: <b>🧛 Blutgier</b>']},
+  {n:'Wächter',ic:'🛡️',role:'Tank',tank:1,T:{hp:.25,def:.3,red:.08,atk:-.08},d:['+25 % Leben, +30 % Verteidigung, 8 % weniger erlittener Schaden','<b>Schutzaura:</b> Gruppenmitglieder in deiner Nähe erleiden 15 % weniger Schaden','−8 % Angriff','Neue Fähigkeit: <b>🗯️ Trotzschrei</b>']}],
+ ritter:[
+  {n:'Vergelter',ic:'⚔️',role:'Schaden',T:{atk:.15,aspd:.1,crit:.05},d:['+15 % Angriff und +10 % Angriffstempo','+5 % kritische Trefferchance','Neue Fähigkeit: <b>⚜️ Klingen des Lichts</b>']},
+  {n:'Beschützer',ic:'🏰',role:'Tank',tank:1,T:{hp:.25,def:.35,red:.1,atk:-.08},d:['+25 % Leben, +35 % Verteidigung, 10 % weniger erlittener Schaden','<b>Schutzaura:</b> Gruppenmitglieder in deiner Nähe erleiden 15 % weniger Schaden','−8 % Angriff','Neue Fähigkeit: <b>🦁 Letztes Gefecht</b>']}],
+ priesterin:[
+  {n:'Licht',ic:'☀️',role:'Schaden',T:{skill:.18,crit:.05,mpreg:.2},d:['+18 % Fertigkeitsschaden','+5 % kritische Trefferchance, +20 % Manaregeneration','Neue Fähigkeit: <b>✴️ Kettenlicht</b>']},
+  {n:'Segen',ic:'💚',role:'Heilung',gheal:1,T:{heal:.4,hp:.1,def:.1,atk:-.1},d:['+40 % stärkere Heilung, +10 % Leben und Verteidigung','<b>Gruppenheilung:</b> deine Heilzauber heilen auch Gruppenmitglieder in der Nähe; Segen und Schutzschild wirken auch auf sie','−10 % Angriff','Neue Fähigkeit: <b>💞 Kreis der Heilung</b>']}],
+ magier:[
+  {n:'Feuer',ic:'🔥',role:'Schaden',el:'fire',elM:1.25,burn:{m:.3,t:4},T:{critDmg:.2},d:['Feuerzauber verursachen 25 % mehr Schaden','Feuerzauber setzen Gegner 4 Sekunden in Brand','+20 % kritischer Schaden','Neue Fähigkeit: <b>🌋 Pyroschlag</b>']},
+  {n:'Frost',ic:'❄️',role:'Kontrolle',el:'frost',elM:1.2,slowX:2,shatter:.25,fz:2,T:{red:.05},d:['Frostzauber verursachen 20 % mehr Schaden und verlangsamen doppelt so lange','+25 % kritische Trefferchance gegen verlangsamte oder eingefrorene Gegner','Frostnova friert Gegner 2 Sekunden ein','5 % weniger erlittener Schaden','Neue Fähigkeit: <b>🥶 Eisgrab</b>']}],
+ assassine:[
+  {n:'Meuchler',ic:'🗡️',role:'Schaden',T:{crit:.1,critDmg:.3,aspd:.08},d:['+10 % kritische Trefferchance, +30 % kritischer Schaden','+8 % Angriffstempo','Neue Fähigkeit: <b>🎯 Hinterhalt</b>']},
+  {n:'Gift',ic:'🧪',role:'Schaden über Zeit',pz:{m:.2,t:4},T:{dot:.5,dodge:.06},d:['+50 % Giftschaden','Jeder deiner Treffer vergiftet das Ziel leicht','+6 % Ausweichchance','Neue Fähigkeit: <b>🐍 Toxinstich</b>']}]};
+// Je Spezialisierung eine eigene Fähigkeit (wird ans Ende der Klassenliste gehängt: Index 10 und 11)
+const SPECSK={
+ krieger:[{n:'Blutgier',ic:'🧛',mp:14,cd:6,t:'melee',m:2.4,heal:.1,col:'#ff4a3a',fx:'smash',d:'Ein gieriger Hieb: 240% Schaden und heilt dich um 10% deiner Lebenspunkte.'},
+  {n:'Trotzschrei',ic:'🗯️',mp:20,cd:30,t:'buff',fx:'shout',buff:{s:'def',v:1,dur:10},heal:.15,d:'Du stemmst dich gegen den Feind: +100% Verteidigung für 10 Sekunden und heilt dich sofort um 15%.'}],
+ ritter:[{n:'Klingen des Lichts',ic:'⚜️',mp:18,cd:8,t:'melee',m:1.3,hits:3,col:'#ffe680',fx:'holy',d:'Drei schnelle heilige Hiebe mit je 130% Schaden.'},
+  {n:'Letztes Gefecht',ic:'🦁',mp:25,cd:40,t:'buff',fx:'dome',buff:{s:'hp',v:.4,dur:12},heal:.2,d:'+40% maximale Lebenspunkte für 12 Sekunden und heilt dich sofort um 20%.'}],
+ priesterin:[{n:'Kettenlicht',ic:'✴️',mp:22,cd:8,t:'chain',m:1.6,jumps:5,col:'#fff3b0',d:'Ein Lichtblitz springt auf bis zu 5 Gegner über (160% Schaden, jeder Sprung etwas schwächer).'},
+  {n:'Kreis der Heilung',ic:'💞',mp:30,cd:18,t:'zone',self:1,r:125,dur:6,int:.75,m:0,zh:.045,col:'#7fe07f',fx:'heal',d:'Ein heilender Kreis um dich: 6 Sekunden lang heilt er dich und alle Gruppenmitglieder in der Nähe alle 0,75 Sekunden um 4,5%.'}],
+ magier:[{n:'Pyroschlag',ic:'🌋',mp:28,cd:10,t:'proj',pk:'fire',m:3.8,dot:{m:.5,t:5,c:'#ff8a3d'},col:'#ff5a1a',d:'Ein gewaltiger Feuerball: 380% Schaden und 5 Sekunden Brand.'},
+  {n:'Eisgrab',ic:'🥶',mp:28,cd:14,t:'aoeTarget',r:110,m:2.2,stun:3,col:'#9fe0ff',fx:'ice',d:'Eis bricht aus dem Boden: 220% Schaden und friert alle Gegner im Bereich 3 Sekunden ein.'}],
+ assassine:[{n:'Hinterhalt',ic:'🎯',mp:18,cd:9,t:'melee',m:2.4,sure:1,col:'#bfffe0',fx:'double',d:'Ein Stich aus dem toten Winkel: 240% Schaden und trifft immer kritisch.'},
+  {n:'Toxinstich',ic:'🐍',mp:16,cd:8,t:'melee',m:1.5,dot:{m:.9,t:6},col:'#7fe07f',fx:'poison',d:'150% Schaden und ein starkes Gift, das 6 Sekunden lang wirkt.'}]};
+for(const k in SPECSK)SPECSK[k].forEach((q,i)=>CLASSES[k].skills.push(Object.assign({lv:SPEC_LV,sp:i},q)));
+for(const q of CLASSES.magier.skills){if(/^(Feuerball|Meteor|Feuersbrunst|Pyroschlag)$/.test(q.n))q.el='fire';if(/^(Frostnova|Eislanze|Blizzard|Eisgrab)$/.test(q.n))q.el='frost';}
+const specOf=p=>p&&(p.spec===0||p.spec===1)&&p.lvl>=SPEC_LV?SPECS[p.ck][p.spec]:null;
+const skLock=q=>P.lvl<q.lv||(q.sp!=null&&P.spec!==q.sp);
+const lockMsg=q=>P.lvl<q.lv?`${q.n} wird mit Stufe ${q.lv} freigeschaltet.`:`${q.n} gehört zur Spezialisierung ${SPECS[P.ck][q.sp].ic} ${SPECS[P.ck][q.sp].n} (Talentfenster, Taste T).`;
+// --- Gruppe: Heilungen/Stärkungen eines Heilers teilen, Schutzaura eines Tanks ---
+const tankNear=()=>!!NET.pt&&partyList().some(r=>r.w===WORLD&&r.al&&r.sp>=0&&SPECS[r.ck][r.sp].tank&&Math.hypot(r.tx-P.x,r.ty-P.y)<420);
+function gShare(kind,a){if(!NET.pt)return;NET.gseq=(NET.gseq||0)+1;(NET.gs=NET.gs||[]).push([NET.gseq,kind,a]);if(NET.gs.length>10)NET.gs.shift();NET.t=0;}
+function spHeal(pct){healP(pct);if(P.sp&&P.sp.gheal)gShare('h',Math.round(pct*(1+P.T.heal)*1000)/10);}
+function partyFx(r,e){
+ if(!inParty(r)||r.w!==WORLD||!P||!P.alive||r.sp<0||!SPECS[r.ck][r.sp].gheal||Math.hypot(r.tx-P.x,r.ty-P.y)>450)return;
+ if(e[1]==='h'){const pct=nNum(e[2],0,70,0)/100;if(!pct||P.hp>=P.maxHp)return;const a=Math.round(P.maxHp*pct);P.hp=Math.min(P.maxHp,P.hp+a);floatText(P.x,P.y,'+'+a,'#7fe07f',15,2.8);burst(P.x,P.y,'#7fe07f',12,1.2);snd('heal',null,null,.6);
+  if(time-(r.hlT||-99)>8){r.hlT=time;log(`💚 ${esc(r.name)} heilt dich.`,'#7fe07f');}}
+ else if(e[1]==='b'){const q=CLASSES[r.ck].skills[e[2]|0];if(!q||q.t!=='buff'||!q.buff||!(q.buff.s==='regen'||q.buff.s==='def'))return;
+  P.buffs=P.buffs.filter(b=>b.n!==q.n);P.buffs.push({n:q.n,ic:q.ic,s:q.buff.s,v:q.buff.v,t:q.buff.dur});FX=FX.filter(f=>!(f.k==='aura'&&f.id===q.n));
+  sfx({k:'aura',fol:P,x:P.x,y:P.y,st:q.buff.s,id:q.n,col:q.fx==='dome'?'#ffd860':q.col||'#ffd34d',dur:q.buff.dur});burst(P.x,P.y,q.col||'#ffd34d',16,1.2);snd('buff',null,null,.6);
+  log(`${q.ic} ${esc(r.name)} wirkt <b>${q.n}</b> auf dich.`,'#cfe');recalc();}
+}
+function specHtml(){
+ const S=SPECS[P.ck];
+ if(P.lvl<SPEC_LV)return`<div class="spbox"><div class="talhead"><span>⚜️ <b>Spezialisierung</b></span><span class="muted">ab Stufe ${SPEC_LV}</span></div><div class="muted">Mit Stufe ${SPEC_LV} entscheidest du dich für eine von zwei Rollen: ${S.map(q=>`${q.ic} <b>${q.n}</b> (${q.role})`).join(' oder ')}.</div></div>`;
+ let h=`<div class="spbox"><div class="talhead"><span>⚜️ <b>Spezialisierung</b></span><span class="muted">${P.spec==null?'wähle eine der beiden':'Wechsel jederzeit in der Stadt'}</span></div><div class="talcols" style="margin-top:6px">`;
+ S.forEach((q,i)=>{const on=P.spec===i;h+=`<div class="spc${on?' on':''}"><div class="sph">${q.ic} <b>${q.n}</b><span class="spr">${q.role}</span></div><ul>${q.d.map(x=>`<li>${x}</li>`).join('')}</ul><div class="spb">${on?'<span style="color:#7fe07f">✔ aktiv</span>':`<button class="btn${P.spec==null?' glow':''}" onclick="specPick(${i})">${P.spec==null?'Wählen':'Wechseln'}</button>`}</div></div>`;});
+ return h+'</div></div>';
+}
+function specPick(i){
+ if(P.lvl<SPEC_LV||(i!==0&&i!==1)||P.spec===i||!P.alive)return;
+ if(P.spec!=null&&!inTown(P)){toast('⚜️ Die Spezialisierung kannst du nur in der Stadt wechseln.','#f0d28a');return;}
+ P.spec=i;const q=SPECS[P.ck][i];
+ CLS.skills.forEach((k,j)=>{if(k.sp!=null&&k.sp!==i){const at=P.bar.indexOf(j);if(at>=0)P.bar[at]=-1;}});
+ const ki=CLS.skills.findIndex(k=>k.sp===i),k=CLS.skills[ki];let at=P.bar.indexOf(ki);if(at<0){at=P.bar.indexOf(-1);if(at>=0)P.bar[at]=ki;}
+ P.pending=null;P.chan=null;recalc();P.hp=Math.min(P.hp,P.maxHp);buildBar();refreshTal();refreshSkill();refreshChar();save();NET.t=0;
+ sfx({k:'pillar',fol:P,x:P.x,y:P.y,r:30,col:'#f0d28a',dur:1,hh:14},{k:'decal',fol:P,x:P.x,y:P.y,r:60,col:'#f0d28a',dur:1.2,rot:1.2});burst(P.x,P.y,'#f0d28a',40,1.2);snd('lvl');
+ toast(`⚜️ <b>${q.ic} ${q.n}</b> – ${q.role}`,'#f0d28a');
+ log(`⚜️ Spezialisierung: ${q.ic} <b>${q.n}</b> (${q.role}). Neue Fähigkeit: ${k.ic} <b>${k.n}</b> – ${at>=0?`liegt auf Platz ${at+1} der Leiste`:'zieh sie im Skillbuch (K) in die Leiste'}.`,'#f0d28a');
+}
 const TAL_MAX=5,TAL_LV=5;
 const talFix=p=>{if(!Array.isArray(p.tal)||p.tal.length!==2)p.tal=[[0,0,0,0,0],[0,0,0,0,0]];for(let i=0;i<2;i++){if(!Array.isArray(p.tal[i]))p.tal[i]=[];for(let j=0;j<5;j++)p.tal[i][j]=clamp(Math.floor(+p.tal[i][j]||0),0,TAL_MAX);}};
 const talSpent=i=>P.tal[i].reduce((a,b)=>a+b,0);
 const talFree=()=>Math.max(0,P.lvl-(TAL_LV-1))-talSpent(0)-talSpent(1);
-function talCalc(p){const T={};for(const k in TLBL)T[k]=0;if(p.tal)TALENTS[p.ck].forEach((tr,i)=>tr.t.forEach((t,j)=>{T[t[2]]+=t[3]*(p.tal[i][j]||0);}));return T;}
+function talCalc(p){const T={};for(const k in TLBL)T[k]=0;if(p.tal)TALENTS[p.ck].forEach((tr,i)=>tr.t.forEach((t,j)=>{T[t[2]]+=t[3]*(p.tal[i][j]||0);}));const sp=p.sp=specOf(p);if(sp)for(const k in sp.T)T[k]+=sp.T[k];return T;}
 const talLow=(i,j)=>P.tal[i].slice(0,j).reduce((a,b)=>a+b,0);
 function talAdd(i,j){if(talFree()<=0||P.tal[i][j]>=TAL_MAX||talLow(i,j)<j*3)return;P.tal[i][j]++;recalc();refreshTal();refreshChar();save();}
 function talSub(i,j){if(P.tal[i][j]<=0)return;P.tal[i][j]--;for(let k=1;k<5;k++)if(talLow(i,k)<k*3)P.tal[i][k]=0;recalc();refreshTal();refreshChar();save();}
 function talReset(){P.tal=[[0,0,0,0,0],[0,0,0,0,0]];recalc();refreshTal();refreshChar();save();log('↺ Talente zurückgesetzt.','#ffd34d');}
 function refreshTal(){
  const w=$('winTal');if(w.classList.contains('hidden'))return;
- let h=`<h3>🌟 Talente<span class="x" onclick="toggleWin('winTal')">✕</span></h3>`;
+ let h=`<h3>🌟 Talente &amp; Spezialisierung<span class="x" onclick="toggleWin('winTal')">✕</span></h3>`+specHtml();
  if(P.lvl<TAL_LV){w.innerHTML=h+`<p class="muted">Talente werden mit <b>Stufe ${TAL_LV}</b> freigeschaltet. Ab dann bekommst du pro Stufe 1 Talentpunkt und kannst ihn in einem von zwei Talentbäumen verteilen.</p>`;return;}
  const fr=talFree();
  h+=`<div class="row" style="color:#f0d28a"><b>Freie Talentpunkte</b><b>${fr}</b></div><div class="talcols">`;
@@ -1232,7 +1303,7 @@ function refreshTal(){
   tr.t.forEach((t,j)=>{const r=P.tal[i][j],lock=talLow(i,j)<j*3,can=fr>0&&!lock&&r<TAL_MAX,pc=v=>+(v*100).toFixed(1);
    h+=`<div class="tal${lock?' lock':''}${r?' on':''}"><div class="tic">${t[1]}</div><div class="tinf"><b>${t[0]}</b> <span class="trk">${r}/${TAL_MAX}</span><br><span class="muted">${lock?`🔒 ${j*3} Punkte in den Talenten darüber nötig`:`+${pc(t[3])}${TLBL[t[2]]} pro Rang`+(r?` · <span style="color:#7fe07f">jetzt +${pc(t[3]*r)}%</span>`:'')}</span></div><div class="tbt"><button class="btn plus" style="margin:0" ${r?'':'disabled'} onclick="talSub(${i},${j})">−</button><button class="btn plus" style="margin:0 0 0 4px" ${can?'':'disabled'} onclick="talAdd(${i},${j})">+</button></div></div>`;});
   h+=`</div>`;});
- h+=`</div><div class="row" style="border:0;margin-top:6px"><span class="muted">Du kannst beide Bäume mischen oder dich auf einen spezialisieren.</span><button class="btn" style="font-size:12px;padding:4px 9px" onclick="talReset()">↺ Zurücksetzen</button></div>`;
+ h+=`</div><div class="row" style="border:0;margin-top:6px"><span class="muted">Talentpunkte verteilst du frei auf beide Bäume – unabhängig von der Spezialisierung.</span><button class="btn" style="font-size:12px;padding:4px 9px" onclick="talReset()">↺ Zurücksetzen</button></div>`;
  w.innerHTML=h;
 }
 
@@ -1269,9 +1340,9 @@ function gainXp(x,noBonus){
  while(P.lvl<MAXLV&&P.xp>=need(P.lvl)){
   P.xp-=need(P.lvl);P.lvl++;P.free+=3;up=true;recalc();P.hp=P.maxHp;P.mp=P.maxMp;
   sfx({k:'pillar',fol:P,x:P.x,y:P.y,r:30,col:'#ffd34d',dur:1,hh:14},{k:'decal',fol:P,x:P.x,y:P.y,r:60,col:'#ffd34d',dur:1.2,rot:1.2});
-  log(`⭐ Stufe ${P.lvl} erreicht! +3 Statuspunkte (C)${P.lvl>=TAL_LV?' · +1 Talentpunkt (T)':''}.`,'#ffd34d');if(P.lvl===5)log('⚔️ Das <b>Verlies der Vier</b> steht dir jetzt offen: rotes Portal im Südwesten der Stadt – oder frag DarkPrevaitor.','#ff9b6b');if(P.lvl===TAL_LV)toast('🌟 Talentbäume freigeschaltet! (Taste T)','#f0d28a');refreshTal();
+  log(`⭐ Stufe ${P.lvl} erreicht! +3 Statuspunkte (C)${P.lvl>=TAL_LV?' · +1 Talentpunkt (T)':''}.`,'#ffd34d');if(P.lvl===5)log('⚔️ Das <b>Verlies der Vier</b> steht dir jetzt offen: rotes Portal im Südwesten der Stadt – oder frag DarkPrevaitor.','#ff9b6b');if(P.lvl===TAL_LV)toast('🌟 Talentbäume freigeschaltet! (Taste T)','#f0d28a');if(P.lvl===SPEC_LV&&P.spec==null){toast('⚜️ Spezialisierung wählbar! (Taste T)','#f0d28a');log(`⚜️ <b>Spezialisierung:</b> Im Talentfenster (T) wählst du jetzt eine Rolle – ${SPECS[P.ck].map(q=>q.ic+' '+q.n+' ('+q.role+')').join(' oder ')}.`,'#f0d28a');}refreshTal();
   burst(P.x,P.y,'#ffd34d',45,1.2);FX.push({x:P.x,y:P.y,r0:10,r1:130,t:0,dur:.9,col:'#ffd34d'});
-  {let nb=false;CLS.skills.forEach((sk,i)=>{if(sk.lv!==P.lvl)return;let at=P.bar.indexOf(i);if(at<0){at=P.bar.indexOf(-1);if(at>=0){P.bar[at]=i;nb=true;}}log(at>=0?`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – liegt auf Platz ${at+1} der Leiste.`:`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – zieh sie im Skillbuch (K) in die Leiste.`,'#7fe07f');});if(nb)buildBar();refreshSkill();}
+  {let nb=false;CLS.skills.forEach((sk,i)=>{if(sk.lv!==P.lvl||sk.sp!=null)return;let at=P.bar.indexOf(i);if(at<0){at=P.bar.indexOf(-1);if(at>=0){P.bar[at]=i;nb=true;}}log(at>=0?`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – liegt auf Platz ${at+1} der Leiste.`:`Neue Fertigkeit: ${sk.ic} <b>${sk.n}</b> – zieh sie im Skillbuch (K) in die Leiste.`,'#7fe07f');});if(nb)buildBar();refreshSkill();}
  }
  if(up){snd('lvl');refreshChar();save();q0Ev('level');}
 }
@@ -1298,18 +1369,21 @@ function playerHit(m,mult,o){
  o=o||{};if(!m||!m.alive)return;
  const gap=lvGap(m);
  if(gap>0&&!DEV.oneHit&&Math.random()<Math.min(.6,gap*.08)){floatText(m.x+rnd(-6,6),m.y,'Verfehlt','#c8c8c8',13,topH(m)+.3);snd('miss',m.x,m.y);if(m.state!=='return'){m.foe=P;m.state='chase';}m.tagged=true;return;}
- const crit=Math.random()<P.crit,gf=Math.max(.15,1-.12*gap);
- let dmg=P.atk*mult*gf*rnd(.9,1.1)*60/(60+m.def);if(crit)dmg*=1.8+P.T.critDmg;if(o.n)dmg*=1+P.T.skill;if(o.exec&&m.hp<m.maxHp*.3)dmg*=1+o.exec;
+ const sp=P.sp,crit=!!o.sure||Math.random()<P.crit+(sp&&sp.shatter&&(m.slow>0||m.stun>0)?sp.shatter:0),gf=Math.max(.15,1-.12*gap);
+ let dmg=P.atk*mult*gf*rnd(.9,1.1)*60/(60+m.def);if(crit)dmg*=1.8+P.T.critDmg;if(o.n)dmg*=1+P.T.skill;if(o.exec&&m.hp<m.maxHp*.3)dmg*=1+o.exec;if(sp&&sp.el&&o.el===sp.el)dmg*=sp.elM;
  dmg=Math.max(1,Math.round(dmg));if(DEV.oneHit)dmg=Math.max(dmg,Math.ceil(m.hp));
  if(o.stun)m.stun=Math.max(m.stun,m.b.boss?o.stun*.3:o.stun);
- if(o.slow)m.slow=o.slow;
- if(o.dot)m.dot={dps:P.atk*o.dot.m*gf*(1+P.T.dot),t:o.dot.t,acc:0};
+ if(sp&&sp.fz&&o.fx==='frost')m.stun=Math.max(m.stun,m.b.boss?sp.fz*.3:sp.fz);
+ if(o.slow)m.slow=o.slow*(sp&&sp.slowX&&o.el==='frost'?sp.slowX:1);
+ if(o.dot)m.dot={dps:P.atk*o.dot.m*gf*(1+P.T.dot),t:o.dot.t,acc:0,c:o.dot.c};
+ else if(sp&&sp.burn&&o.el==='fire')m.dot={dps:P.atk*sp.burn.m*gf,t:sp.burn.t,acc:0,c:'#ff8a3d'};
+ else if(sp&&sp.pz&&!m.dot)m.dot={dps:P.atk*sp.pz.m*gf*(1+P.T.dot),t:sp.pz.t,acc:0};
  applyDamage(m,dmg,P,crit);if(P.T.ls&&P.alive)P.hp=Math.min(P.maxHp,P.hp+dmg*P.T.ls);
 }
 function monsterHit(m,u,mult){
  if(u===P&&DEV.god){P.lastHit=time;floatText(P.x,P.y,'0','#9fd',13,2.3);return;}
  if(u===P&&P.T.dodge&&Math.random()<P.T.dodge){floatText(P.x,P.y,'Ausgewichen','#9fd',13,2.5);return;}
- const dmg=Math.max(1,Math.round(m.atk*mult*(u===P?(1+.15*lvGap(m))*(1-P.T.red):1)*rnd(.9,1.1)*60/(60+u.def)));
+ const dmg=Math.max(1,Math.round(m.atk*mult*(u===P?(1+.15*lvGap(m))*(1-P.T.red)*(tankNear()?.85:1):1)*rnd(.9,1.1)*60/(60+u.def)));
  u.hp-=dmg;
  if(u===P){P.lastHit=time;snd('hurt');dmgText(P.x+rnd(-8,8),P.y,'-'+dmg,'#ff5a4a',15,2.3);}
  else if(onScreen(u))dmgText(u.x,u.y,'-'+dmg,'#d99',11,2.3);
@@ -1821,7 +1895,7 @@ function nearestMon(r,exclude){let best=null,bd=r;for(const m of MONS){if(!m.ali
 function tryCast(i){
  if(!P.alive)return;
  const s=CLS.skills[i];
- if(P.lvl<s.lv){log(`${s.n} wird mit Stufe ${s.lv} freigeschaltet.`,'#aaa');return;}
+ if(skLock(s)){log(lockMsg(s),'#aaa');return;}
  if(P.cd[i]>0)return;
  if(P.mp<s.mp){snd('deny');floatText(P.x,P.y,'Nicht genug MP','#6af',13,3);return;}
  if(inTown(P)&&s.t!=='buff'&&s.t!=='heal'&&s.t!=='blink'){log('In der Stadt wird nicht gekämpft.','#aaa');return;}
@@ -1839,7 +1913,7 @@ function doCast(i){
  if(T&&T.alive)P.face=Math.atan2(T.y-P.y,T.x-P.x);
  P.lunge=.18;castSnd(s);
  switch(s.t){
-  case 'melee':{const h=s.hits||1;for(let k=0;k<h;k++)setTimeout(()=>{if(T.alive)meleeFx(s,T,col,k);playerHit(T,s.m,s);},k*170);P.chase=true;break;}
+  case 'melee':{const h=s.hits||1;for(let k=0;k<h;k++)setTimeout(()=>{if(T.alive)meleeFx(s,T,col,k);playerHit(T,s.m,s);},k*170);if(s.heal)spHeal(s.heal);P.chase=true;break;}
   case 'proj':{const pk=s.pk||(s.fx==='fire'?'fire':'bolt'),fire=pk==='fire',big=pk==='axe'||pk==='hammer',shot=()=>(snd(PSND[pk]||'bolt'),PROJ.push({x:P.x,y:P.y,tgt:T,spd:fire?520:big?560:pk==='orb'?540:620,col,col2:fire?'#ffd060':'#ffffff',sz:fire?9:big?8:pk==='orb'?7:6,trail:true,kind:pk,hit:()=>{const th=topH(T)*.5;snd(PHIT[pk]||'boltHit',T.x,T.y);
      if(fire){sfx({k:'boom',x:T.x,y:T.y,h:th,r:58,col,dur:.5});shake(.12);}
      else if(pk==='ice'){sfx({k:'spikes',st:'ice',x:T.x,y:T.y,r:26,n:6,dur:.9,hm:.6},{k:'flash',x:T.x,y:T.y,h:th,r:44,col,dur:.3});for(let j=0;j<5;j++)PART.push(spark(T,'#e8f8ff','❄'));}
@@ -1867,15 +1941,16 @@ function doCast(i){
    else sfx({k:'ring',x:P.x,y:P.y,r0:10,r1:sr,col,dur:.45});
    burst(P.x,P.y,col,28,.8);
    for(const m of MONS)if(m.alive&&dist(m,P)<sr+m.size)playerHit(m,s.m,s);
-   if(s.heal)healP(s.heal);break;
+   if(s.heal)spHeal(s.heal);break;
   case 'aoeTarget':{
    let tx,ty;
    if(T&&T.alive){tx=T.x;ty=T.y;}else{tx=mouse.wx;ty=mouse.wy;const d=Math.hypot(tx-P.x,ty-P.y);if(d>320){tx=P.x+(tx-P.x)/d*320;ty=P.y+(ty-P.y)/d*320;}}
    const met=s.fx==='meteor',dl=met?.7:.42;
    sfx({x:tx,y:ty,r0:sr,r1:sr,dur:dl,col,warn:true});
    if(met)sfx({k:'meteor',x:tx,y:ty,col,dur:dl,fall:dl,sz:1.5});else sfx({k:'pillar',x:tx,y:ty,r:10,col,dur:dl,hh:16});
-   setTimeout(()=>{if(!P)return;snd(met?'meteor':s.fx==='bind'?'bind':'smite',tx,ty);
+   setTimeout(()=>{if(!P)return;snd(met?'meteor':s.fx==='bind'?'bind':s.fx==='ice'?'frost':'smite',tx,ty);
     if(met){sfx({k:'boom',x:tx,y:ty,r:sr*.95,col,dur:.7},{k:'cracks',x:tx,y:ty,r:sr,glow:'#ff7a20',dur:3},{k:'wave',st:'fire',x:tx,y:ty,r0:14,r1:sr*1.05,dur:.6,hm:.8});shake(.6);}
+    else if(s.fx==='ice'){sfx({k:'spikes',st:'ice',x:tx,y:ty,r:sr,n:22,dur:2.6,hm:.9},{k:'wave',st:'ice',x:tx,y:ty,r0:12,r1:sr,dur:.5,hm:.6},{k:'decal',tex:'glow',x:tx,y:ty,r:sr*1.2,col:'#bfeaff',dur:2.4,op:.55});for(let j=0;j<12;j++){const a=rnd(0,TAU),d=rnd(.2,1)*sr;PART.push(spark({x:tx+Math.cos(a)*d,y:ty+Math.sin(a)*d},'#e8f8ff','❄'));}shake(.3);}
     else if(s.fx==='bind'){sfx({k:'decal',x:tx,y:ty,r:sr,col,dur:2.6,rot:-.9},{k:'ring',x:tx,y:ty,r0:sr,r1:14,col,dur:.5},{k:'pillar',x:tx,y:ty,r:20,col,dur:.8,hh:14});for(let j=0;j<7;j++){const a=j/7*TAU;sfx({k:'pillar',x:tx+Math.cos(a)*sr*.8,y:ty+Math.sin(a)*sr*.8,r:7,col,dur:1.6,hh:5});}shake(.15);}
     else{sfx({k:'pillar',x:tx,y:ty,r:sr*.7,col,dur:.75,hh:16},{k:'decal',x:tx,y:ty,r:sr,col,dur:1.1,rot:1},{k:'ring',x:tx,y:ty,r0:10,r1:sr,col,dur:.5});shake(.25);for(let j=0;j<10;j++)PART.push(spark({x:tx+rnd(-sr,sr)*.6,y:ty+rnd(-sr,sr)*.6},col,'✦'));}
     burst(tx,ty,col,40);for(const m of MONS)if(m.alive&&Math.hypot(m.x-tx,m.y-ty)<sr+m.size)playerHit(m,s.m,s);},dl*1000-20);break;}
@@ -1887,8 +1962,8 @@ function doCast(i){
    else if(s.fx==='rage'){sfx({k:'shout',x:P.x,y:P.y,face:P.face,r:90,col,dur:.5},{k:'geyser',st:'fire',x:P.x,y:P.y,r:34,dur:.7,hh:4},{k:'ring',x:P.x,y:P.y,r0:10,r1:110,col,dur:.45});shake(.25);}
    else sfx({k:'pillar',fol:P,x:P.x,y:P.y,r:22,col:s.col||'#ffd34d',dur:.9,hh:12},{k:'decal',fol:P,x:P.x,y:P.y,r:44,col:s.col||'#ffd34d',dur:.9,rot:1.4});
    sfx({k:'aura',fol:P,x:P.x,y:P.y,st:s.buff.s,id:s.n,col:s.fx==='dome'?'#ffd860':col,dur:s.buff.dur});
-   burst(P.x,P.y,s.col||'#ffd34d',22,1.2);log(`${s.ic} ${s.n} ist aktiv.`,'#cfe');recalc();break;
-  case 'heal':{const hc=s.col||'#7fe07f';healP(s.heal);sfx({k:'pillar',fol:P,x:P.x,y:P.y,r:s.heal>.4?32:24,col:hc,dur:.9,hh:11},{k:'decal',fol:P,x:P.x,y:P.y,r:s.heal>.4?60:46,col:hc,dur:1,rot:1.5});for(let j=0;j<8;j++)PART.push(spark(P,hc==='#7fe07f'?'#9ff09f':hc,'✚'));break;}
+   burst(P.x,P.y,s.col||'#ffd34d',22,1.2);log(`${s.ic} ${s.n} ist aktiv.`,'#cfe');recalc();if(s.heal)spHeal(s.heal);if(P.sp&&P.sp.gheal&&(s.buff.s==='regen'||s.buff.s==='def'))gShare('b',i);break;
+  case 'heal':{const hc=s.col||'#7fe07f';spHeal(s.heal);sfx({k:'pillar',fol:P,x:P.x,y:P.y,r:s.heal>.4?32:24,col:hc,dur:.9,hh:11},{k:'decal',fol:P,x:P.x,y:P.y,r:s.heal>.4?60:46,col:hc,dur:1,rot:1.5});for(let j=0;j<8;j++)PART.push(spark(P,hc==='#7fe07f'?'#9ff09f':hc,'✚'));break;}
   case 'dash':{
    const a=Math.atan2(T.y-P.y,T.x-P.x),ox=P.x,oy=P.y;
    if(s.front){const dd=T.size+18;P.x=T.x-Math.cos(a)*dd;P.y=T.y-Math.sin(a)*dd;P.wside=null;P.face=a;
@@ -1956,7 +2031,8 @@ function zoneTick(z){snd(ZTICK[z.s.fx]||'tHoly',z.x,z.y);const{x,y,r,col,s}=z,rp
   case 'stars':for(let k=0;k<2;k++){const[px,py]=rp();sfx({k:'meteor',x:px,y:py,col,dur:.34,fall:.34,sz:.42});setTimeout(()=>{sfx({k:'flash',x:px,y:py,h:.5,r:48,col,dur:.3},{k:'ring',x:px,y:py,r0:6,r1:42,col,dur:.3});PART.push(spark({x:px,y:py},col,'✦'));},320);}break;
   default:sfx({k:'ring',x,y,r0:r*.25,r1:r,col,dur:.5,op:.5});for(let k=0;k<3;k++){const[px,py]=rp();PART.push(spark({x:px,y:py},col,'✦'));}}
  if(!P||!P.alive)return;
- for(const m of MONS)if(m.alive&&Math.hypot(m.x-x,m.y-y)<r+m.size)playerHit(m,s.m,s);
+ if(s.zh){if(Math.hypot(P.x-x,P.y-y)<r+20)healP(s.zh);if(P.sp&&P.sp.gheal)gShare('h',Math.round(s.zh*(1+P.T.heal)*1000)/10);}
+ if(s.m>0)for(const m of MONS)if(m.alive&&Math.hypot(m.x-x,m.y-y)<r+m.size)playerHit(m,s.m,s);
 }
 function updZones(dt){for(let i=GZ.length-1;i>=0;i--){const z=GZ[i];z.t+=dt;while(z.next<=z.t&&z.next<z.dur){z.next+=z.s.int;zoneTick(z);}if(z.t>=z.dur)GZ.splice(i,1);}}
 function usePotion(kind){
@@ -2038,7 +2114,7 @@ function updateMon(m,dt){
  if(m.wv){const w=m.wv;w.t+=dt;const Rw=16+(w.r-16)*eOut(Math.min(1,w.t/w.dur));for(const u of UNITS)if(u.alive&&!w.hit.has(u)&&Math.hypot(u.x-w.x,u.y-w.y)<Rw){w.hit.add(u);monsterHit(m,u,w.mult);}if(w.t>=w.dur)m.wv=null;}
  if(m.b.boss&&m.stun>0)m.stun=Math.min(m.stun,.4);
  m.anim+=dt;m.moving=false;if(m.hitFlash>0)m.hitFlash-=dt;if(m.lunge>0)m.lunge-=dt;m.atkT-=dt;
- if(m.dot){m.dot.t-=dt;m.dot.acc+=dt;if(m.dot.acc>=1){m.dot.acc-=1;const d=Math.max(1,Math.round(m.dot.dps*60/(60+m.def)));m.hp-=d;m.tagged=true;dmgText(m.x,m.y,d,'#8f8',12,topH(m));for(let i=0;i<3;i++)PART.push({x:m.x+rnd(-m.size,m.size)*.6,y:m.y+rnd(-m.size,m.size)*.6,h:rnd(.3,topH(m)*.7),vx:rnd(-6,6),vy:rnd(-6,6),vh:rnd(.6,1.4),g:0,life:.8,max:.8,col:'#7fe07f',sz:rnd(2.5,4.5)});if(m.hp<=0){killMonster(m);return;}}if(m.dot&&m.dot.t<=0)m.dot=null;}
+ if(m.dot){m.dot.t-=dt;m.dot.acc+=dt;if(m.dot.acc>=1){m.dot.acc-=1;const d=Math.max(1,Math.round(m.dot.dps*60/(60+m.def)));m.hp-=d;m.tagged=true;dmgText(m.x,m.y,d,m.dot.c||'#8f8',12,topH(m));for(let i=0;i<3;i++)PART.push({x:m.x+rnd(-m.size,m.size)*.6,y:m.y+rnd(-m.size,m.size)*.6,h:rnd(.3,topH(m)*.7),vx:rnd(-6,6),vy:rnd(-6,6),vh:rnd(.6,1.4),g:0,life:.8,max:.8,col:m.dot.c||'#7fe07f',sz:rnd(2.5,4.5)});if(m.hp<=0){killMonster(m);return;}}if(m.dot&&m.dot.t<=0)m.dot=null;}
  if(m.stun>0){m.stun-=dt;return;}
  if(m.slow>0)m.slow-=dt;
  const sp=m.spd*(m.slow>0?.45:1),foe=m.foe;
@@ -3600,15 +3676,15 @@ const NB=6,SKT={melee:'Nahkampf',proj:'Geschoss',aoeSelf:'Fläche um dich',aoeTa
 let SKSEL=null,DRG=null,DRAGT=-1e9,GZ=[];
 const skOpen=()=>!$('winSkill').classList.contains('hidden');
 function fixBar(p){const sk=CLASSES[p.ck].skills,n=sk.length,b=p.bar;
- if(Array.isArray(b)&&b.length){const o=[],seen=new Set();for(let i=0;i<NB;i++){let v=b[i];v=Number.isInteger(v)&&v>=0&&v<n&&!seen.has(v)?v:-1;if(v>=0)seen.add(v);o.push(v);}return o;}
- const o=[0,1,2,3,-1,-1];let f=4;for(let i=4;i<n&&f<NB;i++)if(p.lvl>=sk[i].lv)o[f++]=i;if(p.lvl>=8)p.barNew=1;return o;}
+ if(Array.isArray(b)&&b.length){const o=[],seen=new Set();for(let i=0;i<NB;i++){let v=b[i];v=Number.isInteger(v)&&v>=0&&v<n&&!seen.has(v)&&(sk[v].sp==null||sk[v].sp===p.spec)?v:-1;if(v>=0)seen.add(v);o.push(v);}return o;}
+ const o=[0,1,2,3,-1,-1];let f=4;for(let i=4;i<n&&f<NB;i++)if(p.lvl>=sk[i].lv&&sk[i].sp==null)o[f++]=i;if(p.lvl>=8)p.barNew=1;return o;}
 function castSlot(n){const i=P.bar[n];if(i>=0)tryCast(i);}
 function barClick(n){if(performance.now()-DRAGT<350)return;
  if(SKSEL!=null&&skOpen()){const i=SKSEL;SKSEL=null;barSet(i,n,-1);skState();return;}
  if(P.bar[n]<0){if(!skOpen())log('Dieser Platz ist leer – öffne das Skillbuch (K) und zieh eine Fähigkeit hierher.','#aaa');return;}
  castSlot(n);}
 function barSet(si,n,from){const s=CLS.skills[si];if(!s||n<0||n>=NB)return;
- if(P.lvl<s.lv){log(`${s.n} wird mit Stufe ${s.lv} freigeschaltet.`,'#aaa');return;}
+ if(skLock(s)){log(lockMsg(s),'#aaa');return;}
  const old=P.bar[n],at=P.bar.indexOf(si);
  if(from>=0)P.bar[from]=old;else if(at>=0&&at!==n)P.bar[at]=old;
  P.bar[n]=si;P.pending=null;buildBar();refreshSkill();save();}
@@ -3619,13 +3695,13 @@ function refreshSkill(){
  const sc=w.scrollTop;
  let h=`<h3>📘 Skillbuch · ${CLS.name}<span class="x" onclick="toggleWin('winSkill')">✕</span></h3>`;
  h+=`<p class="muted skh">${document.body.classList.contains('touch')?'<b>Tippe</b> eine Fähigkeit an und danach einen Platz in der Leiste – oder zieh ihr Symbol dorthin.':'<b>Zieh</b> eine Fähigkeit auf einen Platz in der Leiste (oder klick sie an und dann den Platz).'} Solange das Buch offen ist, kannst du auch in der Leiste Plätze tauschen; zieh eine Fähigkeit aus der Leiste heraus, um den Platz zu leeren.</p><div class="skg">`;
- CLS.skills.forEach((s,i)=>{const lock=P.lvl<s.lv,at=P.bar.indexOf(i);
-  h+=`<div class="skc${lock?' lock':''}${SKSEL===i?' sel':''}" data-sk="${i}"><div class="ski">${s.ic}${at>=0?`<span class="skn">${at+1}</span>`:''}</div><div class="skt"><b>${s.n}</b> <span class="skl">${lock?'🔒 ab Stufe '+s.lv:SKT[s.t]||''}</span><div class="skd">${s.d}</div><div class="skm">MP ${s.mp} · Abklingzeit ${s.cd} s${lock?'':' · ab Stufe '+s.lv}</div></div></div>`;});
+ CLS.skills.forEach((s,i)=>{const lock=skLock(s),at=P.bar.indexOf(i);
+  h+=`<div class="skc${lock?' lock':''}${SKSEL===i?' sel':''}" data-sk="${i}"><div class="ski">${s.ic}${at>=0?`<span class="skn">${at+1}</span>`:''}</div><div class="skt"><b>${s.n}</b> <span class="skl">${lock?'🔒 '+(P.lvl<s.lv?'ab Stufe '+s.lv:'nur '+SPECS[P.ck][s.sp].ic+' '+SPECS[P.ck][s.sp].n):(s.sp!=null?'⚜️ ':'')+(SKT[s.t]||'')}</span><div class="skd">${s.d}</div><div class="skm">MP ${s.mp} · Abklingzeit ${s.cd} s${lock?'':' · ab Stufe '+s.lv}</div></div></div>`;});
  h+=`</div>`;
  w.innerHTML=h;w.scrollTop=sc;
- w.querySelectorAll('.skc').forEach(el=>{const i=+el.dataset.sk,s=CLS.skills[i],lock=P.lvl<s.lv;
+ w.querySelectorAll('.skc').forEach(el=>{const i=+el.dataset.sk,s=CLS.skills[i],lock=skLock(s);
   el.addEventListener('pointerdown',e=>{if(lock)return;if(e.pointerType==='mouse'||e.target.closest('.ski'))dragStart(e,i,-1);});
-  el.onclick=()=>{if(performance.now()-DRAGT<350)return;if(lock){log(`${s.n} wird mit Stufe ${s.lv} freigeschaltet.`,'#aaa');return;}SKSEL=SKSEL===i?null:i;skState();refreshSkill();};});
+  el.onclick=()=>{if(performance.now()-DRAGT<350)return;if(lock){log(lockMsg(s),'#aaa');return;}SKSEL=SKSEL===i?null:i;skState();refreshSkill();};});
 }
 function dragStart(e,si,from){if(e.button>0||DRG)return;DRG={si,from,x0:e.clientX,y0:e.clientY,on:false,g:null,pid:e.pointerId,ov:null};}
 function dragEnd(){if(!DRG)return;if(DRG.g)DRG.g.remove();if(DRG.ov)DRG.ov.classList.remove('dover');document.body.classList.remove('dragging');DRG=null;}
@@ -3651,19 +3727,19 @@ function buildBar(){
 }
 function updateBar(){
  if(!barEls)return;
- for(let n=0;n<NB;n++){const si=P.bar[n];if(si<0)continue;const e=barEls[n],s=CLS.skills[si],locked=P.lvl<s.lv,cd=P.cd[si];e.el.classList.toggle('locked',locked);e.lk.textContent=locked?'Lv '+s.lv:'';e.cd.style.height=(cd>0?Math.min(100,cd/s.cd*100):0)+'%';e.cdt.textContent=cd>0?Math.ceil(cd):'';e.el.classList.toggle('nomp',!locked&&P.mp<s.mp);}
+ for(let n=0;n<NB;n++){const si=P.bar[n];if(si<0)continue;const e=barEls[n],s=CLS.skills[si],locked=skLock(s),cd=P.cd[si];e.el.classList.toggle('locked',locked);e.lk.textContent=locked?(P.lvl<s.lv?'Lv '+s.lv:'⚜️'):'';e.cd.style.height=(cd>0?Math.min(100,cd/s.cd*100):0)+'%';e.cdt.textContent=cd>0?Math.ceil(cd):'';e.el.classList.toggle('nomp',!locked&&P.mp<s.mp);}
  let nh=0,nm=0;for(const x of P.inv)if(x&&x.type==='potion'){if(x.kind==='hp')nh+=x.count;else nm+=x.count;}
  for(const e of barEls.slice(NB)){const n=e.kind==='hp'?nh:nm;e.c.textContent=n;e.cd.style.height=(P.potCd/1.5*100)+'%';e.el.style.opacity=n?1:.5;}
  const a=$('gpHp'),b=$('gpMp');if(a._n!==nh){a._n=nh;a.textContent='🧪'+nh;}if(b._n!==nm){b._n=nm;b.textContent='🔷'+nm;}
 }
 let lastQuestHtml='';
 function updateHud(){
- $('pName').textContent=P.name;$('pLvl').textContent=`Stufe ${P.lvl} · ${CLS.name}`;
+ $('pName').textContent=P.name;$('pLvl').textContent=`Stufe ${P.lvl} · ${P.sp?P.sp.n:CLS.name}`;
  $('hpF').style.width=(P.hp/P.maxHp*100)+'%';$('gHpL').style.height=(P.hp/P.maxHp*100)+'%';$('gHpT').textContent=`${Math.ceil(P.hp)} / ${P.maxHp}`;$('xpLineF').style.width=$('xpF').style.width;$('hpT').textContent=`${Math.ceil(P.hp)} / ${P.maxHp}`;
  $('mpF').style.width=(P.mp/P.maxMp*100)+'%';$('gMpL').style.height=(P.mp/P.maxMp*100)+'%';$('gMpT').textContent=`${Math.floor(P.mp)} / ${P.maxMp}`;$('mpT').textContent=`${Math.floor(P.mp)} / ${P.maxMp}`;
  const xpp=P.lvl>=MAXLV?100:P.xp/need(P.lvl)*100;$('xpF').style.width=xpp+'%';$('xpP').textContent=P.lvl>=MAXLV?'Max. Stufe':`EP ${xpp.toFixed(1)}%`;
  $('goldV').textContent=P.gold.toLocaleString('de-DE');
- {const bh=P.buffs.map(b=>`<span title="${esc(b.n)}">${b.ic} ${b.t>=90?Math.ceil(b.t/60)+'m':Math.ceil(b.t)+'s'}</span>`).join(''),be=$('buffs');if(be._h!==bh){be._h=bh;be.innerHTML=bh;const q=$('quest'),mob=document.body.classList.contains('mob');q.style.top=mob?Math.round($('pframe').getBoundingClientRect().bottom+4)+'px':'';}}
+ {const bh=P.buffs.map(b=>`<span title="${esc(b.n)}">${b.ic} ${b.t>=90?Math.ceil(b.t/60)+'m':Math.ceil(b.t)+'s'}</span>`).join('')+(tankNear()?'<span title="Schutzaura eines Tanks in deiner Gruppe: 15 % weniger Schaden">🛡️ Aura</span>':''),be=$('buffs');if(be._h!==bh){be._h=bh;be.innerHTML=bh;const q=$('quest'),mob=document.body.classList.contains('mob');q.style.top=mob?Math.round($('pframe').getBoundingClientRect().bottom+4)+'px':'';}}
  const T=P.target;$('tframe').classList.toggle('hidden',!T);
  if(T){$('tName').innerHTML=`<span style="color:${T.b.boss?'#ff8a3d':lvlColor(T.lv)}">${esc(T.n)}</span> <span class="muted">Stufe ${T.lv}</span>`;$('thF').style.width=(T.hp/T.maxHp*100)+'%';$('thT').textContent=`${Math.max(0,Math.ceil(T.hp))} / ${T.maxHp}`;}
  $('mmZone').textContent=ZONES[zoneAt(P.x,P.y)].name;
@@ -3679,7 +3755,7 @@ function updateHud(){
  else{const c=countMat(q2.mat);h+=`<b>${q2.n}</b><br>${MATS[q2.mat].ic} ${MATS[q2.mat].n}: <span style="color:${c>=q2.k?'#7fe07f':'#fff'}">${Math.min(c,q2.k)} / ${q2.k}</span><br>`+(c>=q2.k?'<span style="color:#7fe07f">Bring es zu Waldläuferin Lilou.</span>':`<span class="muted">Drop von: ${q2.mat==='boss'?MOBS.boss.n:MOBS[q2.mat].n} (${MAT_PCT(q2.mat)}%)</span>`);}
  if(INDG)h=dgTrack();
  if(h!==lastQuestHtml){$('quest').innerHTML=h;lastQuestHtml=h;}
- {const tf=P.lvl>=TAL_LV?talFree():0;$('talBtn').classList.toggle('glow',tf>0);$('talBtn').textContent=tf>0?`🌟 Talente +${tf}`:'🌟 Talente';}
+ {const tf=P.lvl>=TAL_LV?talFree():0,ns=P.lvl>=SPEC_LV&&P.spec==null;$('talBtn').classList.toggle('glow',tf>0||ns);$('talBtn').textContent='🌟 Talente'+(tf>0?' +'+tf:'')+(ns?' ⚜️':'');}
  {const pl=partyList();let ph='';for(const r of pl)ph+=`<div class="pm panel"><b>${esc(r.name)}</b> <span class="muted">${r.lv} · ${r.w===WORLD?esc(ZONES[Math.min(r.zn,ZONES.length-1)].name):esc(WORLDS[r.w].name)}</span><div class="bar hp"><div style="width:${r.al?r.hpP*100:0}%"></div></div></div>`;if(ph!==NET.ph){NET.ph=ph;$('party').innerHTML=ph;refreshGrp();}}
  {const ns=$('netStat'),on=NET.room&&!NET.dead&&NET.ok;ns.classList.toggle('hidden',!on);ns.style.color=NET.on?'#7dffb0':'#9ab';if(on&&!NET.on)ns.textContent='⚪ Offline (G zum Online gehen)';else if(on){const n=NET.rem.size,h=friendsHere().length;const f=[...NET.rem.values()].filter(r=>isFriend(r.name)).length;ns.textContent=n?`🟢 ${n} Spieler online${f?` · ⭐ ${f} Freund${f>1?'e':''}`:''}`:'🟢 Mehrspieler bereit';}}
  $('qMenu').classList.toggle('glow',P.free>0||(P.lvl>=TAL_LV&&talFree()>0));
@@ -3877,7 +3953,7 @@ function deleteSlot(i){try{localStorage.removeItem(slotKey(i));}catch(e){}}
 function storageOk(){try{localStorage.setItem('eldoria_t','1');localStorage.removeItem('eldoria_t');return true;}catch(e){return false;}}
 function migrateOld(){try{const s=localStorage.getItem(SKEY);if(!s)return;let i=0;while(i<NSLOTS&&localStorage.getItem(slotKey(i)))i++;if(i<NSLOTS)localStorage.setItem(slotKey(i),s);localStorage.removeItem(SKEY);}catch(e){}}
 let lastSave=null,toastTO=null;
-function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,bar:P.bar,q0:P.q0,q0k:P.q0k||0,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
+function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,spec:P.spec,bar:P.bar,q0:P.q0,q0k:P.q0k||0,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
 function toast(html,col){const t=$('toast');t.innerHTML=html;t.style.borderColor=col||'#6b5530';t.classList.add('show');clearTimeout(toastTO);toastTO=setTimeout(()=>t.classList.remove('show'),2200);}
 function manualSave(){if(!started)return;DEV.noSave=false;const ok=save();const tm=lastSave?lastSave.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'';
  if(ok){toast(`💾 <b>Spiel gespeichert</b><br><span class="muted">${tm} Uhr · Platz ${CUR_SLOT+1} · Stufe ${P.lvl} ${CLS.name}</span>`,'#7fe07f');log(`💾 Spiel gespeichert (${tm} Uhr).`,'#7fe07f');burst(P.x,P.y,'#7fe07f',14,1.4);}
@@ -3969,7 +4045,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-24 21:25';
+const BUILD='2026-11-26 16:42';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -4031,7 +4107,7 @@ resize();
 $('chatIn').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')sendChat();else if(e.key==='Escape'){$('chatIn').value='';sendChat();}});$('chatIn').addEventListener('keyup',e=>e.stopPropagation());
 function toCharSelect(){save();try{location.reload();}catch(e){log('Bitte lade die Seite neu, um zur Heldenauswahl zu gelangen.','#ffb08a');}}
 function startGame(p,fresh){
- P=p;if(P.q2==null)P.q2=0;P.world=P.world===1?1:0;P.w2=!!P.w2;for(const sl of SLOTS)if(!(sl in P.equip))P.equip[sl]=null;talFix(P);P.bar=fixBar(P);if(!Number.isInteger(P.q0)||P.q0<0)P.q0=fresh?0:(P.lvl>=4||P.q>=1?QUESTS0.length:0);P.q0=Math.min(P.q0,QUESTS0.length);P.q0k=P.q0k|0;{const sb=Array.isArray(P.buffs)?P.buffs:[];initRuntime(P);for(const q of sb){const i=BUFFS.findIndex(b=>b[0]===q.n);if(i>=0&&q.t>0){giveBuff(i);P.buffs[P.buffs.length-1].t=Math.min(BUFF_T,+q.t||0);}}recalc();P.hp=P.maxHp;}
+ P=p;if(P.q2==null)P.q2=0;P.world=P.world===1?1:0;P.w2=!!P.w2;for(const sl of SLOTS)if(!(sl in P.equip))P.equip[sl]=null;talFix(P);P.spec=P.spec===0||P.spec===1?P.spec:null;P.bar=fixBar(P);if(!Number.isInteger(P.q0)||P.q0<0)P.q0=fresh?0:(P.lvl>=4||P.q>=1?QUESTS0.length:0);P.q0=Math.min(P.q0,QUESTS0.length);P.q0k=P.q0k|0;{const sb=Array.isArray(P.buffs)?P.buffs:[];initRuntime(P);for(const q of sb){const i=BUFFS.findIndex(b=>b[0]===q.n);if(i>=0&&q.t>0){giveBuff(i);P.buffs[P.buffs.length-1].t=Math.min(BUFF_T,+q.t||0);}}recalc();P.hp=P.maxHp;}
  if(Math.hypot(P.x-C,P.y-C)>WORLD_R-30){P.x=C;P.y=C+60;}
  init3D();loadWorld();buildBar();devAuto();initNet();p2pAuto();applyQual();sndGame();
  try{[beamTex,waveTex,arcTex,streakTex,crackTex,swirlTex,runeTex,softTex].forEach(f=>f());}catch(e){}
@@ -4043,6 +4119,7 @@ function startGame(p,fresh){
  else log('Willkommen zurück! Dein Abenteuer geht weiter.');
  if(!fresh&&QUESTS0[P.q0])log(`🧭 Erste Schritte (${P.q0+1}/${QUESTS0.length}): <b>${QUESTS0[P.q0].n}</b> – ${QUESTS0[P.q0].txt}`,'#8fd8ff');
  q0Check();
+ if(!fresh&&P.lvl>=SPEC_LV&&P.spec==null)log('⚜️ <b>Neu: Spezialisierung</b> – ab Stufe 10 wählst du im Talentfenster (Taste T) eine von zwei Rollen für deine Klasse.','#f0d28a');
  if(P.barNew){delete P.barNew;log('📘 <b>Neu: Skillbuch</b> (Taste K oder Menü) – dort warten weitere Fähigkeiten. Zieh sie auf die Plätze 1–6 der Leiste.','#8fd8ff');}
  save();
 }
