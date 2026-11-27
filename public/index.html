@@ -347,7 +347,7 @@ body.mob.land input#nameIn{padding:6px 8px;font-size:14px}body.mob.land #createV
   <div style="margin-top:8px"><b>Eldoria (Stadt):</b> Hier regenerierst du schnell. NPCs ansprechen durch Anklicken:</div>
   <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken).</div>
   <div style="margin-top:8px">Die Stadt liegt in der Mitte. Von ihren vier Toren führen Wege in die Gebiete ringsum: rund um die Stadt ist es harmlos, je weiter weg, desto gefährlicher (bis Stufe 30). Zwischen den Gebieten liegt Grenzland ohne Monster – und kein Monster verlässt sein Gebiet. Die Minikarte zeigt deine Umgebung, die Weltkarte (M) die ganze Welt. Ganz im Norden wartet der Aschenfürst – hinter ihm liegt das Portal in die Schattenwelt (Stufe 31–50).</div>
-  <div style="margin-top:8px">⚔️ <b>Verlies der Vier</b> (ab Stufe 5): rotes Portal im Südwesten der Stadt, oder über DarkPrevaitor. Vier Bosse warten nacheinander – das Arschgeweih, Meerjungfrau Nerida, der Fuß und Brocken der Riese. Ihre Stufe passt sich alle 5 Stufen an dich an (5, 10, 15 …). Rote, grüne und orange Kreise am Boden zeigen, wo gleich etwas einschlägt – <b>weich aus</b>: in den ersten beiden Rängen (5 und 10) kostet ein Treffer rund die halbe Lebensleiste, egal wie gut deine Rüstung ist. Jeder Boss lässt Ausrüstung fallen, am Ende gibt es eine Extra-Belohnung; du kannst das Verlies beliebig oft wiederholen.</div>
+  <div style="margin-top:8px">⚔️ <b>Verlies der Vier</b> (ab Stufe 5): rotes Portal im Südwesten der Stadt, oder über DarkPrevaitor. Vier Bosse warten nacheinander – das Arschgeweih, Meerjungfrau Nerida, der Fuß und Brocken der Riese. Ihre Stufe passt sich alle 5 Stufen an dich an (5, 10, 15 …), ihr Leben an deine Stufe, Klasse und Spezialisierung. Rote, grüne und orange Kreise am Boden zeigen, wo gleich etwas einschlägt – <b>weich aus</b>: ein Treffer kostet rund die halbe Lebensleiste, egal wie gut deine Rüstung ist. Ein Kampf dauert etwa 1–2 Minuten, der gegen Brocken 2–3. Jeder Boss lässt Ausrüstung fallen, am Ende gibt es eine Extra-Belohnung; du kannst das Verlies beliebig oft wiederholen.</div>
   <div class="muted" style="margin-top:8px">Der Fortschritt wird automatisch in deinem Browser gespeichert.</div>
 </div>
 <div id="winDev" class="win panel hidden"></div>
@@ -500,17 +500,29 @@ function dgCollide(u){const dx=u.x-C,dy=u.y-C,pad=14;let bx=0,by=0,bd=1e9;
   if(j){const a=DGR[j-1],x0=-DGW+pad,x1=DGW-pad,y0=c[1]+c[2]-45,y1=a[1]-a[2]+45;if(dx>=x0&&dx<=x1&&dy>=y0&&dy<=y1)return;const nx=clamp(dx,x0,x1),ny=clamp(dy,y0,y1),dd=Math.hypot(dx-nx,dy-ny);if(dd<bd){bd=dd;bx=nx;by=ny;}}
   const ex=dx-c[0],ey=dy-c[1],d=Math.hypot(ex,ey),Rr=c[2]-pad;if(d<=Rr)return;if(d-Rr<bd){bd=d-Rr;bx=c[0]+ex/d*Rr;by=c[1]+ey/d*Rr;}}
  u.x=C+bx;u.y=C+by;}
-// Bosswerte: typischer Gegner der Stufe L mal Bossfaktor [Leben, Angriff, EP-Anteil einer Stufe]
+// Bosswerte: typischer Gegner der Stufe L mal Bossfaktor [(früher Leben – jetzt DGTIME), Angriff, EP-Anteil einer Stufe]
 const DGM=[[8,1.3,.07],[9.5,1.4,.08],[11,1.5,.10],[14,1.65,.15]];
-// DGX: Zuschlag für die Ränge 5 und 10 – dort fielen die Bosse in wenigen Sekunden und ihre Fähigkeiten kratzten nur (3–10 % des Lebens).
-//  hp  = Faktor aufs Leben.
-//  pct = angekündigte Fähigkeiten (Kreise, Wellen, Sprünge, Felsen) treffen mindestens mit Stärke × pct des eigenen Lebens: eine Welle
-//        (Stärke 1,6) kostet gut die Hälfte – egal wie gut die Rüstung ist. Normale Schläge bleiben, wie sie waren.
-//  Ab Rang 15 gilt nur der Angriffswert: dort sind die Bosse schon durch ihre normalen Schläge gefährlich.
-const DGX={5:{hp:1.75,pct:.33},10:{hp:1.4,pct:.33}},DGS=2.5;   // DGS: Sekunden bis zur ersten Fähigkeit (sonst 6)
-const dgPct=m=>m.b.dg&&DGX[m.lv]?DGX[m.lv].pct:0;
+// Leben der Verlies-Bosse = Kampfdauer × Schaden pro Sekunde, den ein typischer Held dieser Stufe, Klasse und Spezialisierung macht.
+// Jeder Spieler kämpft gegen sein eigenes Abbild des Bosses, darum darf das Leben vom Helden abhängen.
+//  DGDPS  [Stufe, Schaden pro Sekunde]: im Zeitraffer gemessen – Mittel der fünf Klassen mit Schadens-Spezialisierung, Talente im passenden Baum,
+//         Ausrüstung in allen Plätzen (ab Stufe 10 selten und am Schmied aufgewertet), Held weicht den Angriffen aus. Zwischen den Stufen linear.
+//  DGCLS  Klasse: [Faktor mit erster Spezialisierung oder ohne, Faktor mit zweiter]. Ein Feuermagier macht rund doppelt so viel Schaden wie
+//         ein Ritter, ein Beschützer oder eine Segens-Priesterin gut halb so viel wie ihre Schadens-Spezialisierung – ohne diese Faktoren
+//         läge derselbe Boss je nach Held zwischen 45 Sekunden und 4 Minuten.
+//  DGTIME Rechenwert je Boss in Sekunden. Der ganze Kampf dauert länger als Leben ÷ Schaden (Raserei unter 30 %, Wege beim Ausweichen).
+//         Ziel: Boss 1–3 etwa 1–2 Minuten, Brocken als Endboss 2–3. Im Zeitraffer (Held spielt fehlerfrei) kamen rund 1:15 und 2:10 heraus;
+//         ein Mensch braucht eher ein Viertel länger, mit schwacher Ausrüstung oder ohne Talente noch mehr.
+//  DGP    angekündigte Fähigkeiten (Kreise, Wellen, Sprünge, Felsen) treffen mindestens mit Stärke × DGP des eigenen Lebens: eine Welle
+//         (Stärke 1,6) kostet gut die Hälfte – egal wie gut die Rüstung ist. Normale Schläge richten sich weiter nach Angriff und Rüstung.
+//         Weil die normalen Schläge in hohen Rängen härter treffen, sinkt der Anteil von Rang 10 bis Rang 30 von 0,33 auf 0,25 (Welle 40 %).
+//  DGS    Sekunden bis zur ersten Fähigkeit.
+const DGDPS=[[5,110],[7,160],[9,240],[10,370],[12,500],[14,610],[15,580],[17,690],[19,800],[20,880],[22,990],[25,1150],[27,1280],[30,1340],[35,1540],[40,1600],[45,1770],[50,1900]],
+ DGCLS={krieger:[.70,.50],ritter:[.72,.45],priesterin:[1.2,.66],assassine:[1.25,.9],magier:[1.5,1.2]},DGTIME=[75,67,72,113],DGP=.33,DGS=2.5;
+const dgCls=()=>{const c=P&&DGCLS[P.ck];if(!c)return 1;return P.lvl<SPEC_LV?1+(c[0]-1)*.6:c[P.spec===1?1:0];};   // unter Stufe 10 liegen die Klassen näher beieinander
+function dgDps(L){const a=DGDPS;if(L<=a[0][0])return a[0][1];for(let i=1;i<a.length;i++)if(L<=a[i][0]){const p=a[i-1],q=a[i];return p[1]+(q[1]-p[1])*(L-p[0])/(q[0]-p[0]);}return a[a.length-1][1];}
+const dgPct=m=>m.b.dg?DGP-.08*clamp((m.lv-10)/20,0,1):0;
 function dgBase(L){for(const w of WORLDS)for(const z of w.zones)if(z.lv&&z.mobs&&L>=z.lv[0]&&L<=z.lv[1]){let hp=0,atk=0,def=0;for(const k of z.mobs){hp+=MOBS[k].hp;atk+=MOBS[k].atk;def+=MOBS[k].def;}const n=z.mobs.length,d=L-z.lv[0];return{hp:hp/n*(1+d*.22),atk:atk/n*(1+d*.18),def:def/n+d};}return{hp:110,atk:15,def:6};}
-function dgStat(dg,L){const b=dgBase(L),m=DGM[dg-1];return{hp:Math.round(b.hp*m[0]*(DGX[L]?DGX[L].hp:1)),atk:Math.round(b.atk*m[1]),def:Math.round(b.def*1.2),xp:Math.round(need(L)*m[2]/.4)};}
+function dgStat(dg,L){const b=dgBase(L),m=DGM[dg-1];return{hp:Math.round(dgDps(P?Math.max(L,P.lvl):L)*dgCls()*DGTIME[dg-1]/10)*10,atk:Math.round(b.atk*m[1]),def:Math.round(b.def*1.2),xp:Math.round(need(L)*m[2]/.4)};}
 function zoneAt(x,y){if(INDG)return dgZone(x,y);const dx=x-C,dy=y-C;if(dx*dx+dy*dy<TOWN_R*TOWN_R)return 0;
  const wx=dx+Math.sin(dy*.0031/WS+1.3)*150*WS+Math.sin(dy*.0083/WS)*55*WS,wy=dy+Math.sin(dx*.0027/WS+.7)*150*WS+Math.sin(dx*.0071/WS)*55*WS;
  let b=1,bd=1e18;for(const q of SITES){const d=(wx-q[0])*(wx-q[0])+(wy-q[1])*(wy-q[1]);if(d<bd){bd=d;b=q[2];}}return b;}
@@ -830,7 +842,7 @@ function makeMonster(zi){
 }
 function spawnAll(){
  MONS=[];DGK=[];ROCKS=[];
- if(INDG){DGT=dgTier();for(let i=1;i<=4;i++){const st=dgStat(i,DGT),m=newMon('dg'+i,DGT,C+DGR[i][0],C+DGR[i][1]);Object.assign(m,{maxHp:st.hp,hp:st.hp,atk:st.atk,def:st.def,xp:st.xp,zone:i,face:Math.PI/2});if(DGX[DGT])m.spT=DGS;MONS.push(m);}return;}
+ if(INDG){DGT=dgTier();for(let i=1;i<=4;i++){const st=dgStat(i,DGT),m=newMon('dg'+i,DGT,C+DGR[i][0],C+DGR[i][1]);Object.assign(m,{maxHp:st.hp,hp:st.hp,atk:st.atk,def:st.def,xp:st.xp,zone:i,face:Math.PI/2});m.spT=DGS;MONS.push(m);}return;}
  for(let zi=1;zi<ZONES.length;zi++)for(let i=0;i<ZONES[zi].n;i++)MONS.push(makeMonster(zi));
  const bk=WORLDS[WORLD].boss,b=newMon(bk,MOBS[bk].lv,C,bossPos().y);b.zone=ZONES.length-1;MONS.push(b);
 }
@@ -1447,7 +1459,7 @@ function playerHit(m,mult,o){
  else if(sp&&sp.pz&&!m.dot)m.dot={dps:P.atk*sp.pz.m*gf*(1+P.T.dot),t:sp.pz.t,acc:0};
  applyDamage(m,dmg,P,crit);if(P.T.ls&&P.alive)P.hp=Math.min(P.maxHp,P.hp+dmg*P.T.ls);
 }
-// pct (Verlies-Bosse der Ränge 5 und 10, siehe DGX): Mindestschaden als Anteil des Lebens des Getroffenen; Talente und ein Tank in der Nähe mindern ihn, Rüstung nicht.
+// pct (Verlies-Bosse, siehe DGP): Mindestschaden als Anteil des Lebens des Getroffenen; Talente und ein Tank in der Nähe mindern ihn, Rüstung nicht.
 function monsterHit(m,u,mult,pct){
  if(u===P&&DEV.god){P.lastHit=time;floatText(P.x,P.y,'0','#9fd',13,2.3);return;}
  if(u===P&&P.T.dodge&&Math.random()<P.T.dodge){floatText(P.x,P.y,'Ausgewichen','#9fd',13,2.5);return;}
@@ -2388,7 +2400,7 @@ function checkPortals(){
 function travel(w){
  snd('portal');P.chan=null;P.spinA=0;burst(P.x,P.y,'#b070ff',40);P.world=w;P.x=C;P.y=C+60;P.wside=null;P.target=null;P.chase=false;P.moveTo=null;P.pending=null;P.npc=null;P.buffs=P.buffs.filter(b=>b.shop);
  if(openNpcId)closeNpc();loadWorld();portalT=3;
- toast(`🌀 ${WORLDS[w].name}`,'#b070ff');log(w===2?`⚔️ Du betrittst das Verlies der Vier. Vier Bosse warten der Reihe nach im Norden – sie sind Stufe ${DGT}. Die Vorhalle ist sicher.${DGX[DGT]?' <b>Weich den Kreisen am Boden aus</b> – ein Treffer kostet rund die halbe Lebensleiste.':''}`:w?'🌀 Du betrittst die Schattenwelt. Die Zuflucht ist sicher – draußen warten Gegner ab Stufe 31.':'🌀 Du kehrst nach Eldoria zurück.','#c99bff');save();
+ toast(`🌀 ${WORLDS[w].name}`,'#b070ff');log(w===2?`⚔️ Du betrittst das Verlies der Vier. Vier Bosse warten der Reihe nach im Norden – sie sind Stufe ${DGT}. Die Vorhalle ist sicher. <b>Weich den Kreisen am Boden aus</b> – ein Treffer kostet rund die halbe Lebensleiste.`:w?'🌀 Du betrittst die Schattenwelt. Die Zuflucht ist sicher – draußen warten Gegner ab Stufe 31.':'🌀 Du kehrst nach Eldoria zurück.','#c99bff');save();
 }
 function loadWorld(){
  WORLD=P.world||0;INDG=!!WORLDS[WORLD].dungeon;NPCS=INDG?[]:NPCS_ALL;ZONES=WORLDS[WORLD].zones;SITES=WORLDS[WORLD].sites;ROADS=WORLDS[WORLD].roads;hover=null;clickMark=null;
@@ -4137,7 +4149,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-27 21:41';
+const BUILD='2026-11-27 22:38';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
