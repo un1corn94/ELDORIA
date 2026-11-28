@@ -195,6 +195,8 @@ body.mob .gp{display:block;position:absolute;top:5px;left:0;right:0;text-align:c
 .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
 .cell{position:relative;aspect-ratio:1;background:#15120f;border:1px solid #3a3020;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:21px;cursor:pointer}
 .cell:hover{border-color:#f0d28a}
+.cell.nb{box-shadow:inset 0 0 0 2px #7fe07f}.cell .nw{position:absolute;right:2px;top:0;font-size:9px;font-weight:800;color:#7fe07f;text-shadow:0 1px 2px #000}
+.mny{white-space:nowrap}.coin{display:inline-block;width:.74em;height:.74em;border-radius:50%;vertical-align:-.05em;margin:0 .1em 0 .2em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),inset -1px -1px 1px rgba(0,0,0,.3)}.coin.g{background:radial-gradient(circle at 35% 30%,#fff6c4,#f0c030 48%,#9a6c06)}.coin.s{background:radial-gradient(circle at 35% 30%,#ffffff,#c6d0da 48%,#727d8a)}
 .cell .n{position:absolute;right:2px;bottom:0;font-size:10px;font-weight:700;text-shadow:0 1px 2px #000}
 .cell .u{position:absolute;left:2px;top:0;font-size:10px;font-weight:800;color:#7fe07f;text-shadow:0 1px 2px #000}
 .eq{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:20px}.eq .cell{font-size:17px}
@@ -345,7 +347,7 @@ body.mob.land input#nameIn{padding:6px 8px;font-size:14px}body.mob.land #createV
   <div><b>Einstellungen:</b> <kbd>O</kbd> oder Menü → ⚙ Einstellungen – Lautstärke (gesamt, Geräusche, Musik), Vorlesestimme, Grafikqualität, Schadenszahlen und mehr</div>
   <div><b>Speichern:</b> <kbd>Strg</kbd>+<kbd>S</kbd> oder Knopf 💾 Speichern (zusätzlich speichert das Spiel alle 20 Sekunden automatisch)</div>
   <div style="margin-top:8px"><b>Eldoria (Stadt):</b> Hier regenerierst du schnell. NPCs ansprechen durch Anklicken:</div>
-  <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken).</div>
+  <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken); gerade Gekauftes wird beim Anklicken angelegt.<br>💰 Bezahlt wird in Silber und Gold: 100 Silber sind 1 Gold.</div>
   <div style="margin-top:8px">Die Stadt liegt in der Mitte. Von ihren vier Toren führen Wege in die Gebiete ringsum: rund um die Stadt ist es harmlos, je weiter weg, desto gefährlicher (bis Stufe 30). Zwischen den Gebieten liegt Grenzland ohne Monster – und kein Monster verlässt sein Gebiet. Die Minikarte zeigt deine Umgebung, die Weltkarte (M) die ganze Welt. Ganz im Norden wartet der Aschenfürst – hinter ihm liegt das Portal in die Schattenwelt (Stufe 31–50).</div>
   <div style="margin-top:8px">⚔️ <b>Verlies der Vier</b> (ab Stufe 5): rotes Portal im Südwesten der Stadt, oder über DarkPrevaitor. Vier Bosse warten nacheinander – das Arschgeweih, Meerjungfrau Nerida, der Fuß und Brocken der Riese. Ihre Stufe passt sich alle 5 Stufen an dich an (5, 10, 15 …), ihr Leben an deine Stufe, Klasse und Spezialisierung. Rote, grüne und orange Kreise am Boden zeigen, wo gleich etwas einschlägt – <b>weich aus</b>: ein Treffer kostet rund die halbe Lebensleiste, egal wie gut deine Rüstung ist. Ein Kampf dauert etwa 1–2 Minuten, der gegen Brocken 2–3. Jeder Boss lässt Ausrüstung fallen, am Ende gibt es eine Extra-Belohnung; du kannst das Verlies beliebig oft wiederholen.</div>
   <div class="muted" style="margin-top:8px">Der Fortschritt wird automatisch in deinem Browser gespeichert.</div>
@@ -430,6 +432,11 @@ const pick=a=>a[Math.floor(Math.random()*a.length)];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 let seed=1337;const srnd=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+// Geld: gerechnet und gespeichert wird in Silber (P.gold), 100 Silber = 1 Gold. mny = Anzeige mit Münzen (HTML), mnyT = als reiner Text.
+const mny=v=>{v=Math.max(0,Math.round(v||0));const g=Math.floor(v/100),t=v%100;return'<span class="mny">'+(g?`${g.toLocaleString('de-DE')}<i class="coin g"></i>`:'')+(t||!g?`${g?' ':''}${t}<i class="coin s"></i>`:'')+'</span>';};
+const mnyT=v=>{v=Math.max(0,Math.round(v||0));const g=Math.floor(v/100),t=v%100;return(g?g.toLocaleString('de-DE')+' Gold':'')+(t||!g?(g?' ':'')+t+' Silber':'');};
+// Einnahmen: COINK = Anteil der früheren Münzen von Monstern, QGOLDK = Anteil der früheren Belohnungen (Aufträge, Verlies, Truhe beim Angeln).
+const COINK=.2,QGOLDK=.4;
 const need=l=>Math.round(200*Math.pow(l,1.6));
 function shade(hex,amt){const n=parseInt(hex.slice(1),16);const f=v=>clamp(v+amt,0,255);return`rgb(${f(n>>16)},${f((n>>8)&255)},${f(n&255)})`;}
 
@@ -753,12 +760,12 @@ const VSEL={};   // beim Händler gewählte Form und Farbe je Platz
 function vsel(sl){return VSEL[P.ck+sl]||(VSEL[P.ck+sl]={lk:sl==='helm'?HELMW[CLS.armor][0]:0,pal:0});}
 function setLook(sl,k,v){const q=vsel(sl);q[k]=v;for(let r=0;r<4;r++)delete STOCK[sl+r];TRY=openNpcId?{[sl]:[lookNames(sl,P.ck)?q.lk:-1,q.pal,1]}:null;recalc();renderNpc();}
 function stockItem(sl,r){const k=P.name+'|'+P.lvl+'|'+CLS.n;if(STOCK_K!==k){STOCK={};STOCK_K=k;}if(STOCK[sl+r])return STOCK[sl+r];const q=hasPal(sl)?vsel(sl):null;return STOCK[sl+r]=q?genItem(P.lvl,sl,r,undefined,undefined,q.lk,q.pal):genItem(P.lvl,sl,r);}
-function buyGear(slot,rar){TRY=null;const p=gearPrice(slot,rar);if(P.gold<p){log('Nicht genug Gold.','#ff7b6b');return;}const it=stockItem(slot,rar);if(!addItem(it)){log('Inventar voll!','#ff7b6b');return;}
- delete STOCK[slot+rar];P.gold-=p;snd('coin');log(`Gekauft: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span> für ${p.toLocaleString('de-DE')} Gold. Im Inventar anklicken zum Ausrüsten.`,'#f0d28a');refreshInv();renderNpc();save();}
+function buyGear(slot,rar){TRY=null;const p=gearPrice(slot,rar);if(P.gold<p){log('Nicht genug Geld.','#ff7b6b');return;}const it=stockItem(slot,rar);if(!addItem(it)){log('Inventar voll!','#ff7b6b');return;}
+ delete STOCK[slot+rar];P.gold-=p;markBought(it);snd('coin');log(`Gekauft: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span> für ${mny(p)}. Im Inventar anklicken zum Ausrüsten.`,'#f0d28a');refreshInv();renderNpc();save();}
 const BUFFS=[['Segen der Kraft','💪','atk',.15,'+15% Angriff'],['Segen des Schutzes','🛡️','def',.2,'+20% Verteidigung'],['Segen des Lebens','❤️','hp',.15,'+15% Lebenspunkte'],['Segen der Weisheit','📘','xp',.25,'+25% Erfahrung von Monstern'],['Segen der Eile','💨','spd',.1,'+10% Lauftempo']];
 const BUFF_T=900,buffPrice=()=>Math.round(40+P.lvl*18);
 function giveBuff(i){const b=BUFFS[i];P.buffs=P.buffs.filter(x=>x.n!==b[0]);P.buffs.push({n:b[0],ic:b[1],s:b[2],v:b[3],t:BUFF_T,shop:true});}
-function buyBuff(i){const all=i<0,p=buffPrice()*(all?4:1);if(P.gold<p){log('Nicht genug Gold.','#ff7b6b');return;}P.gold-=p;
+function buyBuff(i){const all=i<0,p=buffPrice()*(all?4:1);if(P.gold<p){log('Nicht genug Geld.','#ff7b6b');return;}P.gold-=p;
  if(all)BUFFS.forEach((_,k)=>giveBuff(k));else giveBuff(i);snd('buff');recalc();burst(P.x,P.y,'#8ff0e0',36,1.3);FX.push({x:P.x,y:P.y,r0:70,r1:10,t:0,dur:.6,col:'#8ff0e0'});
  log(all?'✨ Yara spricht alle fünf Segen über dich (15 Minuten).':`✨ ${BUFFS[i][0]}: ${BUFFS[i][4]} für 15 Minuten.`,'#8ff0e0');renderNpc();refreshChar();save();}
 const fmtT=t=>t>=90?Math.ceil(t/60)+' Min.':Math.ceil(t)+' s';
@@ -873,7 +880,7 @@ function genItem(lvl,slot,rar,ck,wing,lk,pal){
  return it;
 }
 const iv=(it,k)=>Math.round((it[k]||0)*(1+.12*it.upg));
-function itemName(it){if(it.type==='fish')return fishInfo(it.kind).n;if(it.type==='mat')return MATS[it.kind].n;if(it.type==='potion')return it.kind==='hp'?'Heiltrank':'Manatrank';if(it.type==='stone')return 'Aufwertungsstein';if(it.type==='gold')return it.amt+' Gold';return(it.upg?`+${it.upg} `:'')+it.name;}
+function itemName(it){if(it.type==='fish')return fishInfo(it.kind).n;if(it.type==='mat')return MATS[it.kind].n;if(it.type==='potion')return it.kind==='hp'?'Heiltrank':'Manatrank';if(it.type==='stone')return 'Aufwertungsstein';if(it.type==='gold')return mnyT(it.amt);return(it.upg?`+${it.upg} `:'')+it.name;}
 function itemColor(it){return it.type==='fish'?(it.kind==='boot'?'#aaa':RAR[fishInfo(it.kind).r].c):it.type==='mat'?'#ffb35c':it.type==='equip'?RAR[it.rar].c:it.type==='stone'?'#8fd8ff':'#ddd';}
 function itemIcon(it){if(it.wing)return '🪽';if(it.type==='fish')return fishInfo(it.kind).ic;if(it.type==='mat')return MATS[it.kind].ic;if(it.type==='potion')return it.kind==='hp'?'🧪':'🔷';if(it.type==='stone')return '💎';return it.slot==='waffe'?(it.lk!=null&&WPNI[it.ck]?WPNI[it.ck][it.lk]:null)||CLASSES[it.ck].wIc:it.slot==='helm'&&it.lk!=null?HELMI[it.lk]||SLOTI.helm:SLOTI[it.slot];}
 function sellVal(it){if(it.type==='fish')return fishInfo(it.kind).v;if(it.type==='mat')return MATS[it.kind].v;if(it.type==='potion')return 6;if(it.type==='stone')return 80;return Math.round(it.lvl*6*(it.rar+1)*(1+it.upg*.5));}
@@ -1162,7 +1169,7 @@ function catchFish(l,c){
  const give=it=>{if(!addItem(it))LOOT.push({x:P.x+rnd(-15,15),y:P.y+rnd(-15,15),it,t:120});};
  burst(P.x,P.y,'#cfeaff',14,1.4);snd('catch');
  if(c.t==='boot'){give({type:'fish',kind:'boot',count:1});log('🎣 Du ziehst einen <span style="color:#aaa">alten Stiefel</span> heraus …');floatText(P.x,P.y,'🥾','#aaa',20,3);xm=.5;}
- else if(c.t==='chest'){const gd=Math.round(lv*rnd(20,50)+30);P.gold+=gd;log(`🎣 Eine <span style="color:#ffd34d">versunkene Truhe</span>! +${gd} Gold`,'#ffd34d');floatText(P.x,P.y,`🧰 +${gd} 💰`,'#ffd34d',18,3);xm=2;
+ else if(c.t==='chest'){const gd=Math.round((lv*rnd(20,50)+30)*QGOLDK);P.gold+=gd;log(`🎣 Eine <span style="color:#ffd34d">versunkene Truhe</span>! +${mny(gd)}`,'#ffd34d');floatText(P.x,P.y,`🧰 +${mnyT(gd)}`,'#ffd34d',18,3);xm=2;
   if(Math.random()<.45){give({type:'stone',count:1});log('Erhalten: 💎 Aufwertungsstein','#8fd8ff');}
   if(Math.random()<.35){const it=genItem(Math.max(P.lvl,lv),null,Math.random()<.3?3:2);give(it);log(`Erhalten: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);}}
  else{const it={type:'fish',kind:c.kind,count:1},f=fishInfo(c.kind);give(it);xm=FRAR[c.r].xp;
@@ -1895,7 +1902,9 @@ const QUESTS0=[
  {n:'Bereit für mehr',t:'level',lv:3,gold:100,gear:['stiefel',1],txt:'Erreiche Stufe 3. Die Aufträge von Hauptmann Andrew und Waldläuferin Lilou bringen viel Erfahrung.',done:'Du kennst dich jetzt aus. Viel Erfolg da draußen!'},
 ];
 const Q0GEAR={ruestung:'eine Rüstung',helm:'ein Helm',waffe:'eine Waffe',stiefel:'ein Paar Stiefel'};
-function q0Reward(q){const r=[];if(q.xp)r.push(q.xp+' EP');if(q.gold)r.push(q.gold+' Gold');if(q.pot){if(q.pot[0])r.push(q.pot[0]+'× Heiltrank');if(q.pot[1])r.push(q.pot[1]+'× Manatrank');}if(q.gear)r.push(Q0GEAR[q.gear[0]]||'Ausrüstung');if(q.stones)r.push(q.stones+'× Aufwertungsstein');if(q.buff!=null)r.push(BUFFS[q.buff][0]);return r.join(' · ');}
+// Belohnungen der Aufträge: 40 % der früheren Beträge (jetzt in Silber), auf 5 gerundet
+for(const q of[...QUESTS,...QUESTS2,...QUESTS0])if(q.gold)q.gold=Math.max(5,Math.round(q.gold*QGOLDK/5)*5);
+function q0Reward(q){const r=[];if(q.xp)r.push(q.xp+' EP');if(q.gold)r.push(mny(q.gold));if(q.pot){if(q.pot[0])r.push(q.pot[0]+'× Heiltrank');if(q.pot[1])r.push(q.pot[1]+'× Manatrank');}if(q.gear)r.push(Q0GEAR[q.gear[0]]||'Ausrüstung');if(q.stones)r.push(q.stones+'× Aufwertungsstein');if(q.buff!=null)r.push(BUFFS[q.buff][0]);return r.join(' · ');}
 function q0Give(it,auto){if(auto&&it.type==='equip'&&!P.equip[it.slot]){P.equip[it.slot]=it;recalc();return;}if(!addItem(it))LOOT.push({x:P.x+rnd(-12,12),y:P.y+14,it,t:180});}
 function q0Prog(q){return q.t==='level'?`Stufe ${Math.min(P.lvl,q.lv)} / ${q.lv}`:q.k?`${Math.min(P.q0k||0,q.k)} / ${q.k}`:'';}
 function q0Ev(t,a){const q=P&&QUESTS0[P.q0];if(!q||q.t!==t)return;
@@ -1950,8 +1959,8 @@ function killMonster(m){
 }
 function dropLoot(m){
  const at=it=>LOOT.push({x:m.x+rnd(-24,24),y:m.y+rnd(-24,24),it,t:90});
- if(m.summon){at({type:'gold',amt:Math.round(m.lv*rnd(1,3))});return;}
- at({type:'gold',amt:Math.round(m.lv*rnd(2,5)*(m.b.dg?12:m.b.boss?30:1))});
+ if(m.summon){at({type:'gold',amt:Math.max(1,Math.round(m.lv*rnd(1,3)*COINK))});return;}
+ at({type:'gold',amt:Math.max(1,Math.round(m.lv*rnd(2,5)*(m.b.dg?12:m.b.boss?30:1)*COINK))});
  if(m.b.dg){const r=Math.random();at(genItem(Math.max(m.lv,P.lvl),null,r<.55?1:r<.88?2:3));}
  if(Math.random()<.13)at({type:'potion',kind:'hp',count:1});
  if(Math.random()<.09)at({type:'potion',kind:'mp',count:1});
@@ -1966,7 +1975,7 @@ function dropLoot(m){
  if(m.b.boss){at(genItem(m.lv,'waffe',3));at(genItem(m.lv,null,3));at(genItem(m.lv,null,3));at({type:'stone',count:m.type==='boss2'?12:6});}
 }
 function pickup(it){
- if(it.type==='gold'){snd('coin');P.gold+=it.amt;floatText(P.x,P.y,`+${it.amt} 💰`,'#f0d28a',13,2.9);return true;}
+ if(it.type==='gold'){snd('coin');P.gold+=it.amt;floatText(P.x,P.y,`+${mnyT(it.amt)}`,'#f0d28a',13,2.9);return true;}
  if(!addItem(it)){if(time-lastFull>3){log('Inventar voll!','#ff7b6b');lastFull=time;}return false;}
  snd(it.type==='mat'?'mat':'item');
  if(it.type==='mat'){floatText(P.x,P.y,`${MATS[it.kind].ic} ${MATS[it.kind].n}!`,'#ffb35c',16,3.3);burst(P.x,P.y,'#ffb35c',20,1.2);}
@@ -2279,7 +2288,7 @@ function dgAI(m,dt,foe){
 function dgBossDown(m){const k=m.b.dg;if(DGK[k])return;DGK[k]=true;lastQuestHtml='';
  if(k<4){toast(`⚔️ <b>${m.n}</b> ist besiegt – das Tor zur nächsten Kammer öffnet sich!`,'#ff9b6b');log(`🚪 Das Tor nach Norden öffnet sich: ${ZONES[k+1].name}.`,'#ffd34d');return;}
  P.dgN=(P.dgN||0)+1;const at=it=>LOOT.push({x:m.x+rnd(-50,50),y:m.y+rnd(-50,50),it,t:180}),L=Math.max(m.lv,P.lvl);
- at({type:'gold',amt:Math.round(L*60)});at(genItem(L,null,Math.random()<.3?3:2));at({type:'stone',count:1});at({type:'potion',kind:'hp',count:2});
+ at({type:'gold',amt:Math.round(L*60*QGOLDK)});at(genItem(L,null,Math.random()<.3?3:2));at({type:'stone',count:1});at({type:'potion',kind:'hp',count:2});
  const back=P.dgFrom||0;makePortal(C,C+DGR[4][1]-215,back,'Zurück nach '+WORLDS[back].zones[0].name,0x4ad0ff);portalT=6;
  snd('lvl');toast('🏆 <b>Verlies der Vier</b> bezwungen!','#ffd34d');log(`🏆 Alle vier Bosse sind besiegt (Abschluss Nr. ${P.dgN}). Sammle die Beute ein – im Norden der Kammer steht ein Portal zurück.`,'#ffd34d');save();}
 function dgTrack(){let h=`<div class="qt">⚔️ Verlies der Vier</div><div class="muted" style="font-size:11px">Bosse: Stufe ${DGT}</div>`;
@@ -3763,15 +3772,15 @@ addEventListener('pointerdown',e=>{if(TIPEL&&!TIPEL.contains(e.target)){TIPEL=nu
 function skillTip(s){return`<b style="color:#f0d28a">${s.ic} ${s.n}</b><br>${s.d}<br><span class="muted">MP: ${s.mp} · Abklingzeit: ${s.cd} s · ab Stufe ${s.lv}</span>`;}
 function itemTip(it,equipped){
  if(it.type==='potion')return`<b>${itemName(it)}</b><br>Stellt ${it.kind==='hp'?'40% LP':'50% MP'} wieder her.<br><span class="muted">Anzahl: ${it.count} · Taste ${it.kind==='hp'?'Q':'E'}</span>`;
- if(it.type==='mat'){const q=QUESTS2[P.q2||0],need=q&&q.mat===it.kind;const src=it.kind==='boss'?MOBS.boss.n:MOBS[it.kind].n;return`<b style="color:#ffb35c">${MATS[it.kind].ic} ${MATS[it.kind].n}</b><br><span class="muted">Material · erbeutet von: ${src} (${MAT_PCT(it.kind)}% Drop)</span><br>${need?`<span style="color:#7fe07f">Gesucht von Waldläuferin Lilou (${countMat(it.kind)}/${q.k})</span><br>`:''}<span class="muted">Anzahl: ${it.count} · Verkaufswert: ${MATS[it.kind].v} Gold</span>`;}
- if(it.type==='fish'){const f=fishInfo(it.kind);return`<b style="color:${itemColor(it)}">${f.ic} ${f.n}</b><br><span class="muted">${it.kind==='boot'?'Plunder':RAR[f.r].n+'er Fisch'}</span><br>${f.heal?`Essen: stellt ${Math.round(f.heal*100)}% LP${f.mp?` und ${Math.round(f.mp*100)}% MP`:''} wieder her.${f.buff?`<br><span style="color:#7fe07f">+${Math.round(f.buff[0]*100)}% Angriff für ${f.buff[1]/60} Min.</span>`:''}`:'Nicht essbar.'}<br><span class="muted">Geangelt · Anzahl: ${it.count} · Verkaufswert: ${f.v} Gold${f.heal?' · Klicken zum Essen':''}</span>`;}
+ if(it.type==='mat'){const q=QUESTS2[P.q2||0],need=q&&q.mat===it.kind;const src=it.kind==='boss'?MOBS.boss.n:MOBS[it.kind].n;return`<b style="color:#ffb35c">${MATS[it.kind].ic} ${MATS[it.kind].n}</b><br><span class="muted">Material · erbeutet von: ${src} (${MAT_PCT(it.kind)}% Drop)</span><br>${need?`<span style="color:#7fe07f">Gesucht von Waldläuferin Lilou (${countMat(it.kind)}/${q.k})</span><br>`:''}<span class="muted">Anzahl: ${it.count} · Verkaufswert: ${mny(MATS[it.kind].v)}</span>`;}
+ if(it.type==='fish'){const f=fishInfo(it.kind);return`<b style="color:${itemColor(it)}">${f.ic} ${f.n}</b><br><span class="muted">${it.kind==='boot'?'Plunder':RAR[f.r].n+'er Fisch'}</span><br>${f.heal?`Essen: stellt ${Math.round(f.heal*100)}% LP${f.mp?` und ${Math.round(f.mp*100)}% MP`:''} wieder her.${f.buff?`<br><span style="color:#7fe07f">+${Math.round(f.buff[0]*100)}% Angriff für ${f.buff[1]/60} Min.</span>`:''}`:'Nicht essbar.'}<br><span class="muted">Geangelt · Anzahl: ${it.count} · Verkaufswert: ${mny(f.v)}${f.heal?' · Klicken zum Essen':''}</span>`;}
  if(it.type==='stone')return`<b style="color:#8fd8ff">Aufwertungsstein</b><br>Bei Glutschmied Teemla verwenden, um Ausrüstung zu verstärken.<br><span class="muted">Anzahl: ${it.count}</span>`;
  const R=RAR[it.rar];let s=`<b style="color:${R.c}">${esc(itemName(it))}</b><br><span class="muted">${R.n} · ${SLOTN[it.slot]} · Gegenstandsstufe ${it.lvl}</span><br>`;
  if(it.atk)s+=`Angriff +${iv(it,'atk')}<br>`;if(it.def)s+=`Verteidigung +${iv(it,'def')}<br>`;if(it.hp)s+=`Lebenspunkte +${iv(it,'hp')}<br>`;if(it.mp)s+=`Mana +${iv(it,'mp')}<br>`;if(it.spd)s+=`Lauftempo +${Math.round(it.spd*100)}%<br>`;if(it.wing)s+=`<span style="color:${WINGS[it.wing].tc}">🪽 Verleiht dir ${WINGS[it.wing].n} (${WINGS[it.wing].lbl})</span><br><span class="muted">Tipp: Leertaste gedrückt halten zum Gleiten</span><br>`;if(it.crit)s+=`Kritische Trefferchance +${+(it.crit*100).toFixed(1)}%<br>`;
  if(it.pal!=null){const ln=lookNames(it.slot,it.ck);s+=`<span style="color:#d8c090">👁 Aussehen: ${ln&&it.lk!=null?ln[it.lk]:SLOTN[it.slot]}${it.pal?` · <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${PALS[it.pal].sw};border:1px solid #000;vertical-align:-1px"></span> ${PALS[it.pal].n}`:''}</span><br>`;}
  if(!equipped){const cur=P.equip[it.slot];const key=it.atk?'atk':it.def?'def':'hp';const diff=iv(it,key)-(cur?iv(cur,key):0);s+=`<span style="color:${diff>=0?'#7fe07f':'#ff7b6b'}">${diff>=0?'▲':'▼'} ${Math.abs(diff)} ${key==='atk'?'Angriff':key==='def'?'Verteidigung':'Lebenspunkte'} ggü. ausgerüstet</span><br>`;}
- s+=`<span style="color:${P.lvl>=it.req?'#aaa':'#ff6b5b'}">Benötigt Stufe ${it.req}</span><br><span class="muted">Verkaufswert: ${sellVal(it)} Gold</span>`;
- if(equipped)s+=`<br><span class="muted">Klicken zum Ablegen</span>`;else s+=`<br><span class="muted">${isShop(openNpcId)?'Klicken zum Verkaufen':'Klicken zum Ausrüsten'}</span>`;
+ s+=`<span style="color:${P.lvl>=it.req?'#aaa':'#ff6b5b'}">Benötigt Stufe ${it.req}</span><br><span class="muted">Verkaufswert: ${mny(sellVal(it))}</span>`;
+ if(equipped)s+=`<br><span class="muted">Klicken zum Ablegen</span>`;else s+=it.nb?`<br><span style="color:#7fe07f">Gerade gekauft – Klicken zum Ausrüsten.</span><br><span class="muted">Verkaufen geht erst wieder, wenn du den Händler neu öffnest.</span>`:`<br><span class="muted">${isShop(openNpcId)?'Klicken zum Verkaufen':'Klicken zum Ausrüsten'}</span>`;
  return s;
 }
 // ================= Skillbuch & Leiste =================
@@ -3841,7 +3850,7 @@ function updateHud(){
  $('hpF').style.width=(P.hp/P.maxHp*100)+'%';$('gHpL').style.height=(P.hp/P.maxHp*100)+'%';$('gHpT').textContent=`${Math.ceil(P.hp)} / ${P.maxHp}`;$('xpLineF').style.width=$('xpF').style.width;$('hpT').textContent=`${Math.ceil(P.hp)} / ${P.maxHp}`;
  $('mpF').style.width=(P.mp/P.maxMp*100)+'%';$('gMpL').style.height=(P.mp/P.maxMp*100)+'%';$('gMpT').textContent=`${Math.floor(P.mp)} / ${P.maxMp}`;$('mpT').textContent=`${Math.floor(P.mp)} / ${P.maxMp}`;
  const xpp=P.lvl>=MAXLV?100:P.xp/need(P.lvl)*100;$('xpF').style.width=xpp+'%';$('xpP').textContent=P.lvl>=MAXLV?'Max. Stufe':`EP ${xpp.toFixed(1)}%`;
- $('goldV').textContent=P.gold.toLocaleString('de-DE');
+ {const g=$('goldV'),v=mny(P.gold);if(g._v!==v){g._v=v;g.innerHTML=v;}}
  {const bh=P.buffs.map(b=>`<span title="${esc(b.n)}">${b.ic} ${b.t>=90?Math.ceil(b.t/60)+'m':Math.ceil(b.t)+'s'}</span>`).join('')+(tankNear()?'<span title="Schutzaura eines Tanks in deiner Gruppe: 15 % weniger Schaden">🛡️ Aura</span>':''),be=$('buffs');if(be._h!==bh){be._h=bh;be.innerHTML=bh;const q=$('quest'),mob=document.body.classList.contains('mob');q.style.top=mob?Math.round($('pframe').getBoundingClientRect().bottom+4)+'px':'';}}
  const T=P.target;$('tframe').classList.toggle('hidden',!T);
  if(T){$('tName').innerHTML=`<span style="color:${T.b.boss?'#ff8a3d':lvlColor(T.lv)}">${esc(T.n)}</span> <span class="muted">Stufe ${T.lv}</span>`;$('thF').style.width=(T.hp/T.maxHp*100)+'%';$('thT').textContent=`${Math.max(0,Math.ceil(T.hp))} / ${T.maxHp}`;}
@@ -3868,11 +3877,11 @@ let zoneTO=null;
 function showZone(z){const b=$('zoneBanner');b.querySelector('.z1').textContent=ZONES[z].name;b.querySelector('.z2').textContent=ZONES[z].sub;b.style.opacity=1;clearTimeout(zoneTO);zoneTO=setTimeout(()=>b.style.opacity=0,2600);}
 function toggleWin(id){const w=$(id);w.classList.toggle('hidden');tip.classList.add('hidden');if(!w.classList.contains('hidden')){if(id==='winInv')refreshInv();if(id==='winChar')refreshChar();if(id==='winTal')refreshTal();if(id==='winSkill')refreshSkill();if(id==='winGrp')refreshGrp();if(id==='winStory')refreshStory();if(id==='winMap')refreshMap();if(id==='winDev')renderDev();if(id==='winSet')renderSet();}if(id==='winSkill'){if(w.classList.contains('hidden'))SKSEL=null;skState();}}
 function closeAll(){TRY=null;SKSEL=null;toggleMenu(false);document.body.classList.remove('shopOpen','skOpen','skPick');let any=false;for(const id of['winInv','winChar','winTal','winSkill','winGrp','winStory','winMap','winNpc','winHelp','winDev','winSet'])if(!$(id).classList.contains('hidden')){$(id).classList.add('hidden');any=true;}openNpcId=null;tip.classList.add('hidden');return any;}
-function closeNpc(){TRY=null;document.body.classList.remove('shopOpen');$('winNpc').classList.add('hidden');openNpcId=null;tip.classList.add('hidden');refreshInv();}
+function closeNpc(){TRY=null;document.body.classList.remove('shopOpen');$('winNpc').classList.add('hidden');openNpcId=null;tip.classList.add('hidden');if(P)for(const it of P.inv)if(it&&it.nb)delete it.nb;refreshInv();}
 function cellHtml(it,cls){
  const bg=it.type==='potion'?(it.kind==='hp'?'background:#3a1515;':'background:#15203a;'):'';
  const bc=it.type==='equip'?`border-color:${RAR[it.rar].c}aa;`:it.type==='stone'?'border-color:#8fd8ffaa;':it.type==='mat'?'border-color:#ffb35caa;background:#2a1d10;':it.type==='fish'?`border-color:${itemColor(it)}aa;background:#10202a;`:'';
- return`<div class="cell ${cls||''}" style="${bg}${bc}">${itemIcon(it)}${it.upg?`<span class="u">+${it.upg}</span>`:''}${it.count>1?`<span class="n">${it.count}</span>`:''}</div>`;
+ return`<div class="cell ${cls||''}${it.nb?' nb':''}" style="${bg}${bc}">${itemIcon(it)}${it.upg?`<span class="u">+${it.upg}</span>`:''}${it.nb?'<span class="nw">neu</span>':''}${it.count>1?`<span class="n">${it.count}</span>`:''}</div>`;
 }
 function refreshInv(){
  updateBar();
@@ -3882,28 +3891,32 @@ function refreshInv(){
  for(const sl of SLOTS){const it=P.equip[sl];h+=it?cellHtml(it,'eqc').replace('</div>',`<span class="lbl">${SLOTN[sl]}</span></div>`):`<div class="cell eqc"><span class="empty">${SLOTI[sl]}</span><span class="lbl">${SLOTN[sl]}</span></div>`;}
  h+='</div><div class="grid">';
  for(const it of P.inv)h+=it?cellHtml(it,'ic'):'<div class="cell ic"></div>';
- h+=`</div><div class="row" style="border:0;margin-top:6px"><span>💰 ${P.gold.toLocaleString('de-DE')} Gold</span><span class="muted">${isShop(openNpcId)?'Klick = verkaufen':'Klick = ausrüsten / benutzen'}</span></div>`;
+ h+=`</div><div class="row" style="border:0;margin-top:6px"><span>💰 ${mny(P.gold)}</span><span class="muted">${isShop(openNpcId)?'Klick = verkaufen · <span style="color:#7fe07f">neu</span> = anlegen':'Klick = ausrüsten / benutzen'}</span></div>`;
  w.innerHTML=h;
  w.querySelectorAll('.eqc').forEach((el,i)=>{const sl=SLOTS[i];el.onclick=()=>unequip(sl);tipOn(el,()=>P.equip[sl]?itemTip(P.equip[sl],true):`<span class="muted">${SLOTN[sl]}: leer</span>`);});
  w.querySelectorAll('.ic').forEach((el,i)=>{el.onclick=()=>invClick(i);tipOn(el,()=>P.inv[i]?itemTip(P.inv[i],false):'<span class="muted">Leerer Platz</span>');});
 }
+// Beim Händler verkauft ein Klick im Inventar. Gerade Gekauftes (nb) ist davon ausgenommen, bis das Händlerfenster zugeht –
+// sonst verkauft man es beim Anlegen sofort wieder.
+function markBought(it){const t=P.inv.includes(it)?it:P.inv.find(x=>x&&x.type===it.type&&x.kind===it.kind);if(t)t.nb=1;}
+let EQT=-1e9;   // Zeitpunkt des letzten Anlegens: kurz danach wird am Händler nichts verkauft (Schutz vor Doppelklick)
 function invClick(i){
  const it=P.inv[i];if(!it)return;
- if(isShop(openNpcId)){sell(i);return;}
+ if(isShop(openNpcId)&&!it.nb){if(performance.now()-EQT<500)return;sell(i);return;}
  if(it.type==='fish'){eatFish(i);return;}
  if(it.type==='equip')equip(i);else if(it.type==='potion')usePotion(it.kind);else if(it.type==='mat')log('Materialien bringst du Waldläuferin Lilou in Eldoria – oder verkaufst sie bei Händlerin Mira.','#aaa');else log('Aufwertungssteine verwendest du bei Glutschmied Teemla in Eldoria.','#aaa');
 }
 function equip(i){
  const it=P.inv[i];if(P.lvl<it.req){log(`Du benötigst Stufe ${it.req} für diesen Gegenstand.`,'#ff7b6b');return;}
- TRY=null;snd('equip');const old=P.equip[it.slot];P.equip[it.slot]=it;P.inv[i]=old;recalc();log(`Ausgerüstet: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);refreshInv();refreshChar();save();q0Ev('equip');
+ TRY=null;snd('equip');delete it.nb;EQT=performance.now();const old=P.equip[it.slot];P.equip[it.slot]=it;P.inv[i]=old;recalc();log(`Ausgerüstet: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);refreshInv();refreshChar();save();q0Ev('equip');
 }
 function unequip(sl){const it=P.equip[sl];if(!it)return;const i=P.inv.findIndex(x=>!x);if(i<0){log('Inventar voll!','#ff7b6b');return;}P.inv[i]=it;P.equip[sl]=null;recalc();refreshInv();refreshChar();}
 function sell(i){
  const it=P.inv[i];const v=sellVal(it);P.gold+=v;snd('coin');
  if(it.count>1)it.count--;else P.inv[i]=null;
- log(`Verkauft: ${esc(itemName(it))} für ${v} Gold.`,'#f0d28a');refreshInv();save();
+ log(`Verkauft: ${esc(itemName(it))} für ${mny(v)}.`,'#f0d28a');refreshInv();save();
 }
-function sellJunk(){let n=0,g=0;P.inv.forEach((it,i)=>{if(it&&it.type==='equip'&&it.rar===0&&!it.upg){g+=sellVal(it);P.inv[i]=null;n++;}});P.gold+=g;log(n?`${n} gewöhnliche Gegenstände für ${g} Gold verkauft.`:'Nichts Gewöhnliches zum Verkaufen.','#f0d28a');refreshInv();renderNpc();save();}
+function sellJunk(){let n=0,g=0;P.inv.forEach((it,i)=>{if(it&&it.type==='equip'&&it.rar===0&&!it.upg&&!it.nb){g+=sellVal(it);P.inv[i]=null;n++;}});P.gold+=g;log(n?`${n} gewöhnliche Gegenstände für ${mny(g)} verkauft.`:'Nichts Gewöhnliches zum Verkaufen.','#f0d28a');refreshInv();renderNpc();save();}
 // Vorschau der Figur: eigener kleiner Renderer, Leinwand bleibt beim Neuaufbau des Fensters erhalten
 let PV=null;
 function pvEnsure(){
@@ -3966,58 +3979,58 @@ function renderNpc(){
  let h=`<h3>${n.icon} ${npcN(n)}<span class="x" onclick="closeNpc()">✕</span></h3>`;
  if(n.id==='haendler'){
   h+=`<p class="muted">„Willkommen! Tränke, Steine und Truhen – die besten Preise der Stadt. Rüstungen, Waffen und Schmuck findest du bei Garrick, Kira und Oswin.“</p>`;
-  SHOP.forEach((s,i)=>h+=`<div class="row"><span>${s.ic} ${s.n}<br><span class="muted">${s.d}</span></span><button class="btn" onclick="buy(${i})" ${P.gold<s.p()?'disabled':''}>${s.p()} 💰</button></div>`);
-  h+=`<p class="muted" style="margin-top:10px">Zum Verkaufen klicke im Inventar auf einen Gegenstand.</p><button class="btn" onclick="sellJunk()">Alles Gewöhnliche verkaufen</button>`;
+  SHOP.forEach((s,i)=>h+=`<div class="row"><span>${s.ic} ${s.n}<br><span class="muted">${s.d}</span></span><button class="btn" onclick="buy(${i})" ${P.gold<s.p()?'disabled':''}>${mny(s.p())}</button></div>`);
+  h+=`<p class="muted" style="margin-top:10px">Zum Verkaufen klicke im Inventar auf einen Gegenstand. Was du gerade gekauft hast (grün, „neu“), wird beim Anklicken benutzt statt verkauft.</p><button class="btn" onclick="sellJunk()">Alles Gewöhnliche verkaufen</button>`;
  }else if(GEARSHOP[n.id]){
-  const G=GEARSHOP[n.id];h+=`<div class="pvS"><div id="pvShop"><div class="pvb"><button class="btn" onclick="pvTurn(-1)" title="Figur drehen">⟲</button><button class="btn" onclick="pvTurn(1)" title="Figur drehen">⟳</button></div></div><div class="pvT"><p class="muted">„${G.txt}“</p><div class="row" style="border:0;padding:0"><span>💰 Dein Gold</span><b>${P.gold.toLocaleString('de-DE')}</b></div><div class="muted pvH">👁 Vorschau – so sieht deine Auswahl an dir aus</div></div></div>`;
+  const G=GEARSHOP[n.id];h+=`<div class="pvS"><div id="pvShop"><div class="pvb"><button class="btn" onclick="pvTurn(-1)" title="Figur drehen">⟲</button><button class="btn" onclick="pvTurn(1)" title="Figur drehen">⟳</button></div></div><div class="pvT"><p class="muted">„${G.txt}“</p><div class="row" style="border:0;padding:0"><span>💰 Dein Geld</span><b>${mny(P.gold)}</b></div><div class="muted pvH">👁 Vorschau – so sieht deine Auswahl an dir aus</div></div></div>`;
   for(const sl of G.slots){const cur=P.equip[sl];h+=`<div class="qt" style="margin-top:8px">${sl==='waffe'?CLS.wIc:SLOTI[sl]} ${SLOTN[sl]} <span class="muted" style="font-family:system-ui">· Stufe ${P.lvl}${cur?` · trägst: <span style="color:${RAR[cur.rar].c}">${esc(itemName(cur))}</span>`:''}</span></div>`;
    if(hasPal(sl)){const q=vsel(sl),ln=lookNames(sl,P.ck);if(ln)h+=`<div class="lks">Form: ${ln.map((n,i)=>`<button class="btn lkb${q.lk===i?' on':''}" onclick="setLook('${sl}','lk',${i})">${n}</button>`).join('')}</div>`;
     h+=`<div class="lks">Farbe: ${PALS.map((c,i)=>`<span class="sw${q.pal===i?' on':''}" style="background:${i?c.sw:CLS.col}" title="${i?c.n:'Klassenfarbe'}" onclick="setLook('${sl}','pal',${i})"></span>`).join('')}<span style="margin-left:4px">${q.pal?PALS[q.pal].n:'Klassenfarbe'}</span></div>`;}
    h+=`<div class="gshop">`;
    for(let r=0;r<4;r++){const it=stockItem(sl,r),pr=gearPrice(sl,r),key=it.atk?'atk':it.def?'def':'hp',df=it[key]-(cur?iv(cur,key):0);
-    h+=`<button class="btn" style="border-color:${RAR[r].c}" onclick="buyGear('${sl}',${r})" ${P.gold<pr?'disabled':''}><b style="color:${RAR[r].c}">${RAR[r].n}</b> <span style="color:${df>0?'#7fe07f':df<0?'#ff7b6b':'#aaa'}">${df>0?'▲':df<0?'▼':'='}</span><br><span class="gs">${gearStats(it)}</span><br>${pr.toLocaleString('de-DE')} 💰</button>`;}
+    h+=`<button class="btn" style="border-color:${RAR[r].c}" onclick="buyGear('${sl}',${r})" ${P.gold<pr?'disabled':''}><b style="color:${RAR[r].c}">${RAR[r].n}</b> <span style="color:${df>0?'#7fe07f':df<0?'#ff7b6b':'#aaa'}">${df>0?'▲':df<0?'▼':'='}</span><br><span class="gs">${gearStats(it)}</span><br>${mny(pr)}</button>`;}
    h+=`</div>`;}
-  h+=`<p class="muted" style="margin-top:10px">▲ = besser als das, was du trägst. Wählst du eine Form oder Farbe, zeigen die Vorschau oben und dein Held sie zur Probe – dauerhaft erst nach Kauf und Anlegen. Zum Verkaufen klicke im Inventar auf einen Gegenstand.</p><button class="btn" onclick="sellJunk()">Alles Gewöhnliche verkaufen</button>`;
+  h+=`<p class="muted" style="margin-top:10px">▲ = besser als das, was du trägst. Wählst du eine Form oder Farbe, zeigen die Vorschau oben und dein Held sie zur Probe – dauerhaft erst nach Kauf und Anlegen. Zum Verkaufen klicke im Inventar auf einen Gegenstand. Was du gerade gekauft hast (grün, „neu“), wird beim Anklicken angelegt statt verkauft.</p><button class="btn" onclick="sellJunk()">Alles Gewöhnliche verkaufen</button>`;
  }else if(n.id==='segen'){
-  const pr=buffPrice();h+=`<p class="muted">„Die Sterne meinen es gut mit dir. Für ein paar Münzen lenke ich ihre Kraft in deine Arme.“ Jeder Segen hält 15 Minuten und bleibt auch nach einem Tod erhalten.</p><div class="row" style="border:0;padding:0 0 4px"><span>💰 Dein Gold</span><b>${P.gold.toLocaleString('de-DE')}</b></div>`;
-  BUFFS.forEach((b,i)=>{const a=P.buffs.find(x=>x.n===b[0]);h+=`<div class="row"><span>${b[1]} <b>${b[0]}</b><br><span class="muted">${b[4]}${a?` · <span style="color:#7fe07f">aktiv, noch ${fmtT(a.t)}</span>`:''}</span></span><button class="btn" style="white-space:nowrap;flex:none" onclick="buyBuff(${i})" ${P.gold<pr?'disabled':''}>${a?'Erneuern · ':''}${pr} 💰</button></div>`;});
-  h+=`<div class="row" style="border:0"><span><b style="color:#8ff0e0">✨ Alle fünf Segen</b><br><span class="muted">zum Preis von vier</span></span><button class="btn glow" style="white-space:nowrap;flex:none" onclick="buyBuff(-1)" ${P.gold<pr*4?'disabled':''}>${pr*4} 💰</button></div>`;
+  const pr=buffPrice();h+=`<p class="muted">„Die Sterne meinen es gut mit dir. Für ein paar Münzen lenke ich ihre Kraft in deine Arme.“ Jeder Segen hält 15 Minuten und bleibt auch nach einem Tod erhalten.</p><div class="row" style="border:0;padding:0 0 4px"><span>💰 Dein Geld</span><b>${mny(P.gold)}</b></div>`;
+  BUFFS.forEach((b,i)=>{const a=P.buffs.find(x=>x.n===b[0]);h+=`<div class="row"><span>${b[1]} <b>${b[0]}</b><br><span class="muted">${b[4]}${a?` · <span style="color:#7fe07f">aktiv, noch ${fmtT(a.t)}</span>`:''}</span></span><button class="btn" style="white-space:nowrap;flex:none" onclick="buyBuff(${i})" ${P.gold<pr?'disabled':''}>${a?'Erneuern · ':''}${mny(pr)}</button></div>`;});
+  h+=`<div class="row" style="border:0"><span><b style="color:#8ff0e0">✨ Alle fünf Segen</b><br><span class="muted">zum Preis von vier</span></span><button class="btn glow" style="white-space:nowrap;flex:none" onclick="buyBuff(-1)" ${P.gold<pr*4?'disabled':''}>${mny(pr*4)}</button></div>`;
  }else if(n.id==='schmied'){
   const stones=P.inv.reduce((a,x)=>a+(x&&x.type==='stone'?x.count:0),0);
   h+=`<p class="muted">„Die Glut schläft nie. Bring mir Aufwertungssteine, und ich schmiede ihre Kraft in deine Ausrüstung. Jede Stufe gibt +12% auf die Werte. Aber Vorsicht: Ab +5 kann ein Fehlschlag die Stufe senken!“</p><div class="row"><span>💎 Aufwertungssteine</span><b>${stones}</b></div>`;
   for(const sl of SLOTS){const it=P.equip[sl];if(!it){h+=`<div class="row"><span class="muted">${SLOTN[sl]}: nichts ausgerüstet</span></div>`;continue;}
    const max=it.upg>=15,ch=max?0:Math.round(UPCH[it.upg]*100),cost=(it.upg+1)*40;
-   h+=`<div class="row"><span><span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span><br><span class="muted">${max?'Maximal aufgewertet':`+${it.upg} → +${it.upg+1} · Chance ${ch}% · ${cost} Gold`}</span></span><button class="btn" onclick="upgrade('${sl}')" ${max||!stones||P.gold<cost?'disabled':''}>🔨 Aufwerten</button></div>`;}
+   h+=`<div class="row"><span><span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span><br><span class="muted">${max?'Maximal aufgewertet':`+${it.upg} → +${it.upg+1} · Chance ${ch}% · ${mny(cost)}`}</span></span><button class="btn" onclick="upgrade('${sl}')" ${max||!stones||P.gold<cost?'disabled':''}>🔨 Aufwerten</button></div>`;}
   if(!stones)h+=`<p class="muted" style="margin-top:8px">Steine erhältst du von Monstern oder bei Händlerin Mira.</p>`;
  }else if(n.id==='hauptmann'){
   {const q0=QUESTS0[P.q0];if(q0){const pg=q0Prog(q0);h+=`<div class="q0box"><div class="qt">🧭 Erste Schritte <span class="muted q0n">${P.q0+1}/${QUESTS0.length}</span></div><b>${q0.n}</b><br>${q0.txt}${pg?` <span class="muted">(${pg})</span>`:''}</div>`;}}
   const q=QUESTS[P.q];
   if(!q)h+=`<p>„Du hast jeden Auftrag erfüllt, ${esc(P.name)}. Selbst der Leerenkönig ist gefallen. Beide Welten stehen tief in deiner Schuld!“</p>`;
-  else{h+=`<div class="muted">Kapitel ${chOf(P.q)+1} · ${STORY.ch[chOf(P.q)].t}</div><div class="qt">📜 ${q.n}</div><p>„${q.txt}“</p><div class="row"><span>Fortschritt</span><b style="color:${P.qk>=q.k?'#7fe07f':'#fff'}">${Math.min(P.qk,q.k)} / ${q.k} ${MOBS[q.mob].n}</b></div><div class="row"><span>${MATS[q.mob].ic} ${MATS[q.mob].n} <span class="muted">(${MAT_PCT(q.mob)}% Drop)</span></span><b style="color:${countMat(q.mob)>=q.m?'#7fe07f':'#fff'}">${Math.min(countMat(q.mob),q.m)} / ${q.m}</b></div><div class="row"><span>Belohnung</span><span>${q.xp.toLocaleString('de-DE')} EP · ${q.gold} Gold${q.item?' · Ausrüstung':''}</span></div>`;
+  else{h+=`<div class="muted">Kapitel ${chOf(P.q)+1} · ${STORY.ch[chOf(P.q)].t}</div><div class="qt">📜 ${q.n}</div><p>„${q.txt}“</p><div class="row"><span>Fortschritt</span><b style="color:${P.qk>=q.k?'#7fe07f':'#fff'}">${Math.min(P.qk,q.k)} / ${q.k} ${MOBS[q.mob].n}</b></div><div class="row"><span>${MATS[q.mob].ic} ${MATS[q.mob].n} <span class="muted">(${MAT_PCT(q.mob)}% Drop)</span></span><b style="color:${countMat(q.mob)>=q.m?'#7fe07f':'#fff'}">${Math.min(countMat(q.mob),q.m)} / ${q.m}</b></div><div class="row"><span>Belohnung</span><span>${q.xp.toLocaleString('de-DE')} EP · ${mny(q.gold)}${q.item?' · Ausrüstung':''}</span></div>`;
    h+=canTurnIn()?`<button class="btn glow" style="margin-top:10px" onclick="turnIn()">Belohnung abholen</button>`:`<p class="muted" style="margin-top:8px">Komm zurück, wenn der Auftrag erledigt ist.</p>`;}
  }else if(n.id==='alchemist'){
   const q=QUESTS2[P.q2||0];
   if(!q)h+=`<p>„Mein Labor ist voll mit den besten Zutaten Eldorias – dank dir, ${esc(P.name)}! Mehr kann ich mir nicht wünschen.“</p>`;
-  else{const c=countMat(q.mat);h+=`<div class="qt">⚗️ ${q.n}</div><p>„${q.txt}“</p><div class="row"><span>${MATS[q.mat].ic} ${MATS[q.mat].n}</span><b style="color:${c>=q.k?'#7fe07f':'#fff'}">${Math.min(c,q.k)} / ${q.k}</b></div><div class="row"><span>Fundort</span><span>${q.mat==='boss'?MOBS.boss.n:MOBS[q.mat].n} · ${zoneLabel(q.mat)}</span></div><div class="row"><span>Belohnung</span><span>${q.xp.toLocaleString('de-DE')} EP · ${q.gold} Gold${q.stones?` · ${q.stones} 💎`:''}${q.item?' · Ausrüstung':''}</span></div>`;
+  else{const c=countMat(q.mat);h+=`<div class="qt">⚗️ ${q.n}</div><p>„${q.txt}“</p><div class="row"><span>${MATS[q.mat].ic} ${MATS[q.mat].n}</span><b style="color:${c>=q.k?'#7fe07f':'#fff'}">${Math.min(c,q.k)} / ${q.k}</b></div><div class="row"><span>Fundort</span><span>${q.mat==='boss'?MOBS.boss.n:MOBS[q.mat].n} · ${zoneLabel(q.mat)}</span></div><div class="row"><span>Belohnung</span><span>${q.xp.toLocaleString('de-DE')} EP · ${mny(q.gold)}${q.stones?` · ${q.stones} 💎`:''}${q.item?' · Ausrüstung':''}</span></div>`;
    h+=c>=q.k?`<button class="btn glow" style="margin-top:10px" onclick="turnIn2()">Materialien abgeben</button>`:`<p class="muted" style="margin-top:8px">Dropchance: ${MAT_PCT(q.mat)}% pro Monster – etwa jedes ${MOBS[q.mat].boss?'Mal':Math.round(1/MAT_CHANCE)+'. Monster'}.</p>`;}
  }else if(n.id==='teleport'){
   h+=`<p class="muted">„Die Schatten tragen dich, wohin du willst … für einen kleinen Obolus. Fürchte dich nicht vor der Dunkelheit, Sterblicher.“</p>`;
-  if(P.w2){const o=1-WORLD;h+=`<div class="row"><span><b style="color:#c99bff">🌀 ${WORLDS[o].name}</b><br><span class="muted">Weltenportal · ${o?'Stufe 31–50':'Stufe 1–30'}</span></span><button class="btn glow" onclick="if(P.gold>=300){P.gold-=300;travel(${o});}" ${P.gold<300?'disabled':''}>300 💰</button></div>`;}
+  if(P.w2){const o=1-WORLD;h+=`<div class="row"><span><b style="color:#c99bff">🌀 ${WORLDS[o].name}</b><br><span class="muted">Weltenportal · ${o?'Stufe 31–50':'Stufe 1–30'}</span></span><button class="btn glow" onclick="if(P.gold>=300){P.gold-=300;travel(${o});}" ${P.gold<300?'disabled':''}>${mny(300)}</button></div>`;}
   else h+=`<div class="row"><span class="muted">🔒 Schattenwelt – besiege zuerst den Aschenfürsten</span></div>`;
   h+=`<div class="row"><span><b style="color:#ff9b6b">⚔️ Verlies der Vier</b><br><span class="muted">Dungeon · 4 Bosse nacheinander · ab Stufe 5${P.lvl>=5?` · Bosse Stufe ${dgTier()}`:''}</span></span><button class="btn glow" style="white-space:nowrap;flex:none" onclick="enterDg()" ${P.lvl<5?'disabled':''}>${P.lvl<5?'🔒 Stufe 5':'Betreten'}</button></div>`;
-  ZONES.slice(1).forEach((z,i)=>{const zi=i+1,c=zi*25*(WORLD?4:1);h+=`<div class="row"><span>${z.name}<br><span class="muted">${z.sub}</span></span><button class="btn" onclick="tele(${zi})" ${P.gold<c?'disabled':''}>${c} 💰</button></div>`;});
+  ZONES.slice(1).forEach((z,i)=>{const zi=i+1,c=zi*25*(WORLD?4:1);h+=`<div class="row"><span>${z.name}<br><span class="muted">${z.sub}</span></span><button class="btn" onclick="tele(${zi})" ${P.gold<c?'disabled':''}>${mny(c)}</button></div>`;});
  }
  $('winNpc').innerHTML=h;
 }
 function buy(i){
- const s=SHOP[i],p=s.p();if(P.gold<p){log('Nicht genug Gold.','#ff7b6b');return;}
+ const s=SHOP[i],p=s.p();if(P.gold<p){log('Nicht genug Geld.','#ff7b6b');return;}
  const it=s.it();if(!addItem(it)){log('Inventar voll!','#ff7b6b');return;}
- P.gold-=p;snd('coin');log(`Gekauft: <span style="color:${itemColor(it)}">${esc(it.type==='equip'?itemName(it):s.n)}</span>`,'#f0d28a');refreshInv();renderNpc();save();
+ P.gold-=p;markBought(it);snd('coin');log(`Gekauft: <span style="color:${itemColor(it)}">${esc(it.type==='equip'?itemName(it):s.n)}</span> für ${mny(p)}`,'#f0d28a');refreshInv();renderNpc();save();
 }
 function upgrade(sl){
  const it=P.equip[sl];if(!it||it.upg>=15)return;
  const st=P.inv.find(x=>x&&x.type==='stone');if(!st){log('Du brauchst einen Aufwertungsstein.','#ff7b6b');return;}
- const cost=(it.upg+1)*40;if(P.gold<cost){log('Nicht genug Gold.','#ff7b6b');return;}
+ const cost=(it.upg+1)*40;if(P.gold<cost){log('Nicht genug Geld.','#ff7b6b');return;}
  P.gold-=cost;st.count--;if(st.count<=0)P.inv[P.inv.indexOf(st)]=null;
  if(Math.random()<UPCH[it.upg]){it.upg++;snd('upOk');log(`🔨 Erfolg! <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`,'#7fe07f');burst(P.x,P.y,'#ffd34d',34,1.2);}
  else if(it.upg>=5){it.upg--;snd('upFail');log(`💔 Fehlgeschlagen! Die Aufwertung sinkt auf +${it.upg}.`,'#ff6b5b');burst(P.x,P.y,'#666',20,1.2);}
@@ -4026,7 +4039,7 @@ function upgrade(sl){
 }
 function turnIn(){
  const q=QUESTS[P.q];if(!canTurnIn())return;
- takeMat(q.mob,q.m);snd('quest');P.gold+=q.gold;log(`📜 Belohnung für „${q.n}“: ${q.gold} Gold.`,'#ffd34d');
+ takeMat(q.mob,q.m);snd('quest');P.gold+=q.gold;log(`📜 Belohnung für „${q.n}“: ${mny(q.gold)}.`,'#ffd34d');
  if(q.item){const it=genItem(Math.max(P.lvl,mobInfo(q.mob).z.lv[0]),MOBS[q.mob].boss?'waffe':null,MOBS[q.mob].boss?4:P.q>=7?3:2);if(addItem(it))log(`Erhalten: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);else LOOT.push({x:P.x+10,y:P.y+10,it,t:120});}
  P.q++;P.qk=0;P.qDone=false;gainXp(q.xp,true);
  showStory({k:`Kapitel ${chOf(P.q-1)+1} · ${STORY.ch[chOf(P.q-1)].t}`,t:q.n,who:P.q>=QUESTS.length?'König Andrew':'Hauptmann Andrew',x:[STORY.post[P.q-1]]});
@@ -4036,7 +4049,7 @@ function turnIn(){
 }
 function turnIn2(){
  const q=QUESTS2[P.q2||0];if(!q||countMat(q.mat)<q.k)return;
- takeMat(q.mat,q.k);snd('quest');P.gold+=q.gold;log(`⚗️ Belohnung für „${q.n}“: ${q.gold} Gold.`,'#ffd34d');
+ takeMat(q.mat,q.k);snd('quest');P.gold+=q.gold;log(`⚗️ Belohnung für „${q.n}“: ${mny(q.gold)}.`,'#ffd34d');
  if(q.stones){addItem({type:'stone',count:q.stones})||LOOT.push({x:P.x+10,y:P.y+10,it:{type:'stone',count:q.stones},t:120});log(`Erhalten: ${q.stones} 💎 Aufwertungssteine`,'#8fd8ff');}
  if(q.item){const it=MOBS[q.mat].boss?genItem(Math.max(P.lvl,20),'ruestung',4):genItem(Math.max(P.lvl,mobInfo(q.mat).z.lv[0]),null,Math.random()<.35?3:2);if(addItem(it))log(`Erhalten: <span style="color:${RAR[it.rar].c}">${esc(itemName(it))}</span>`);else LOOT.push({x:P.x+10,y:P.y+10,it,t:120});}
  P.q2=(P.q2||0)+1;gainXp(q.xp,true);if(STORY.lil[P.q2])showStory({k:'Nebengeschichte',t:'Lilous Heilmittel',who:'Lilou',x:[STORY.lil[P.q2]]});renderNpc();refreshInv();refreshStory();save();
@@ -4057,7 +4070,7 @@ function deleteSlot(i){try{localStorage.removeItem(slotKey(i));}catch(e){}}
 function storageOk(){try{localStorage.setItem('eldoria_t','1');localStorage.removeItem('eldoria_t');return true;}catch(e){return false;}}
 function migrateOld(){try{const s=localStorage.getItem(SKEY);if(!s)return;let i=0;while(i<NSLOTS&&localStorage.getItem(slotKey(i)))i++;if(i<NSLOTS)localStorage.setItem(slotKey(i),s);localStorage.removeItem(SKEY);}catch(e){}}
 let lastSave=null,toastTO=null;
-function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),wver:WVER,name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,spec:P.spec,bar:P.bar,q0:P.q0,q0k:P.q0k||0,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
+function save(){if(!P||!started||DEV.noSave)return false;try{localStorage.setItem(slotKey(CUR_SLOT),JSON.stringify({savedAt:Date.now(),wver:WVER,mver:2,name:P.name,ck:P.ck,lvl:P.lvl,xp:P.xp,gold:P.gold,stats:P.stats,free:P.free,inv:P.inv,equip:P.equip,q2:P.q2||0,buffs:P.buffs.filter(b=>b.shop).map(b=>({n:b.n,t:Math.round(b.t)})),st:P.st||0,fishN:P.fishN||0,fishDex:P.fishDex||{},tal:P.tal,spec:P.spec,bar:P.bar,q0:P.q0,q0k:P.q0k||0,world:INDG?(P.dgFrom||0):(P.world||0),dgN:P.dgN||0,w2:!!P.w2,x:P.alive&&!INDG?P.x:C,y:P.alive&&!INDG?P.y:C+60,q:P.q,qk:P.qk,qDone:P.qDone}));lastSave=new Date();return true;}catch(e){return false;}}
 function toast(html,col){const t=$('toast');t.innerHTML=html;t.style.borderColor=col||'#6b5530';t.classList.add('show');clearTimeout(toastTO);toastTO=setTimeout(()=>t.classList.remove('show'),2200);}
 function manualSave(){if(!started)return;DEV.noSave=false;const ok=save();const tm=lastSave?lastSave.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'';
  if(ok){toast(`💾 <b>Spiel gespeichert</b><br><span class="muted">${tm} Uhr · Platz ${CUR_SLOT+1} · Stufe ${P.lvl} ${CLS.name}</span>`,'#7fe07f');log(`💾 Spiel gespeichert (${tm} Uhr).`,'#7fe07f');burst(P.x,P.y,'#7fe07f',14,1.4);}
@@ -4073,7 +4086,7 @@ const DEV={god:false,infMp:false,noCd:false,fast:false,oneHit:false,fps:false,sp
 function devToggle(k){DEV[k]=!DEV[k];renderDev();log(`🛠 ${DEVLBL[k]}: ${DEV[k]?'an':'aus'}`,'#9fd');}
 const DEVLBL={god:'Unverwundbar',infMp:'Unendlich MP',noCd:'Keine Abklingzeiten',fast:'Doppeltes Lauftempo',oneHit:'Ein Treffer = Kill',fps:'FPS-Anzeige'};
 function devLevel(n){const old=P.lvl;P.lvl=clamp(Math.round(n)||1,1,MAXLV);if(P.lvl>old)P.free+=3*(P.lvl-old);P.xp=0;recalc();P.hp=P.maxHp;P.mp=P.maxMp;burst(P.x,P.y,'#ffd34d',30,1.2);log(`🛠 Stufe auf ${P.lvl} gesetzt.`,'#9fd');refreshChar();renderDev();save();}
-function devGold(n){P.gold+=n;log(`🛠 +${n.toLocaleString('de-DE')} Gold`,'#9fd');refreshInv();save();}
+function devGold(n){P.gold+=n;log(`🛠 +${mny(n)}`,'#9fd');refreshInv();save();}
 function devXp(n){gainXp(n);renderDev();}
 function devStats(){P.free+=10;refreshChar();log('🛠 +10 Statuspunkte','#9fd');}
 function devHeal(){P.hp=P.maxHp;P.mp=P.maxMp;P.cd.fill(0);burst(P.x,P.y,'#7fe07f',20,1.2);}
@@ -4131,7 +4144,7 @@ function renderDev(){
  h+=sec('Cheats')+`<div class="dvg">${['god','infMp','noCd','fast','oneHit','fps'].map(tg).join('')}</div>`;
  h+=`<div class="row"><span>Spielgeschwindigkeit</span><span><input type="range" min="0.25" max="3" step="0.25" value="${DEV.speed}" oninput="devSpeed(this.value)"> <b id="dvSpdV">${DEV.speed.toFixed(2)}×</b></span></div>`;
  h+=sec('Spieler')+`<div class="dvg"><button class="btn" onclick="devLevel(P.lvl+1)">Stufe +1</button><button class="btn" onclick="devLevel(P.lvl+5)">Stufe +5</button><button class="btn" onclick="devLevel(MAXLV)">Max. Stufe</button><button class="btn" onclick="devLevel(1)">Stufe 1</button>
-  <button class="btn" onclick="devXp(1000)">+1.000 EP</button><button class="btn" onclick="devGold(1000)">+1.000 Gold</button><button class="btn" onclick="devGold(100000)">+100.000 Gold</button><button class="btn" onclick="devStats()">+10 Statuspunkte</button><button class="btn" onclick="devHeal()">Voll heilen</button></div>`;
+  <button class="btn" onclick="devXp(1000)">+1.000 EP</button><button class="btn" onclick="devGold(10000)">+100 Gold</button><button class="btn" onclick="devGold(1000000)">+10.000 Gold</button><button class="btn" onclick="devStats()">+10 Statuspunkte</button><button class="btn" onclick="devHeal()">Voll heilen</button></div>`;
  h+=sec('Gegenstände')+`<div class="row"><select id="dvRar">${RAR.map((r,i)=>`<option value="${i}" ${i===3?'selected':''}>${r.n}</option>`).join('')}</select><select id="dvSlot"><option value="">Zufälliger Platz</option>${Object.entries(SLOTN).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select><input id="dvLv" type="number" min="1" max="40" value="${P.lvl}" title="Gegenstandsstufe"><button class="btn" onclick="devItem()">Erzeugen</button></div>
   <div class="row"><span>🪽 Flügelfarbe (für Legendär)</span><span><select id="dvWing">${Object.entries(WINGS).map(([k,w])=>`<option value="${k}">${w.lbl}</option>`).join('')}</select> <button class="btn" onclick="$('dvRar').value=4;devItem()">🪽 Flügelrüstung</button></span></div>
   <div class="dvg"><button class="btn" onclick="devGive('stone')">💎 10 Steine</button><button class="btn" onclick="devGive('hp')">🧪 20 Heiltränke</button><button class="btn" onclick="devGive('mp')">🔷 20 Manatränke</button><button class="btn" onclick="devUpgradeAll()">🔨 Ausrüstung +5</button><button class="btn" onclick="devMats()">🍖 Je 5 Materialien</button></div>`;
@@ -4149,7 +4162,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-27 22:38';
+const BUILD='2026-11-28 09:04';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
@@ -4169,7 +4182,7 @@ function buildStart(){
  for(let i=0;i<NSLOTS;i++){
   const sv=loadSlot(i),d=document.createElement('div');
   if(sv){used++;const c=CLASSES[sv.ck];d.className='slotc panel filled';
-   d.innerHTML=`<div class="sn">Platz ${i+1}</div><div class="si">${c.icon}</div><div class="sname title">${esc(sv.name)}</div><div class="sinfo">Stufe ${sv.lvl} · ${c.name}</div><div class="sinfo muted">💰 ${(sv.gold||0).toLocaleString('de-DE')}${sv.savedAt?' · '+fmtDate(sv.savedAt):''}</div><div class="sbtns"><button class="btn glow">▶ Spielen</button><button class="btn sexp" title="Helden-Code kopieren (auf andere Seite oder anderes Gerät mitnehmen)">📤</button><button class="btn sdel" title="Held löschen">${delArm===i?'Wirklich?':'🗑'}</button></div>`;
+   d.innerHTML=`<div class="sn">Platz ${i+1}</div><div class="si">${c.icon}</div><div class="sname title">${esc(sv.name)}</div><div class="sinfo">Stufe ${sv.lvl} · ${c.name}</div><div class="sinfo muted">💰 ${mny(sv.gold||0)}${sv.savedAt?' · '+fmtDate(sv.savedAt):''}</div><div class="sbtns"><button class="btn glow">▶ Spielen</button><button class="btn sexp" title="Helden-Code kopieren (auf andere Seite oder anderes Gerät mitnehmen)">📤</button><button class="btn sdel" title="Held löschen">${delArm===i?'Wirklich?':'🗑'}</button></div>`;
    d.querySelector('.sexp').onclick=e=>{e.stopPropagation();xferExport(i);};
    d.querySelector('.glow').onclick=e=>{e.stopPropagation();playSlot(i);};
    d.querySelector('.sdel').onclick=e=>{e.stopPropagation();if(delArm===i){deleteSlot(i);delArm=-1;}else{delArm=i;setTimeout(()=>{if(delArm===i){delArm=-1;if(!started)buildStart();}},4000);}buildStart();};
@@ -4215,6 +4228,8 @@ function startGame(p,fresh){
  // Spielstand aus der alten, kleineren Welt: die Gebiete liegen jetzt woanders – wer draußen gespeichert hat, startet in der Stadt.
  {const old=(P.wver|0)<WVER&&!fresh,d=Math.hypot(P.x-C,P.y-C),out=old&&d>TOWN_R-20;if(!(d<=WORLD_R-30)||out){P.x=C;P.y=C+60;}P.wver=WVER;
   if(old)setTimeout(()=>log('🗺️ <b>Die Welt ist gewachsen:</b> viermal so groß, und zwischen den Gebieten liegt jetzt Grenzland ohne Monster. Die Weltkarte (M) zeigt die neue Lage.'+(out?' Du startest in der Stadt.':''),'#8fd8ff'),1600);}
+ for(const it of P.inv)if(it)delete it.nb;
+ if((P.mver|0)<2&&!fresh)setTimeout(()=>log('💰 <b>Neu: Silber.</b> 100 Silber sind 1 Gold. Dein Vermögen und alle Preise sind umgerechnet – du kannst dir genauso viel leisten wie vorher. Monster und Aufträge bringen ab jetzt weniger Geld.','#f0d28a'),2600);P.mver=2;
  init3D();loadWorld();buildBar();devAuto();initNet();p2pAuto();applyQual();sndGame();
  try{[beamTex,waveTex,arcTex,streakTex,crackTex,swirlTex,runeTex,softTex].forEach(f=>f());}catch(e){}
  started=true;$('start').classList.add('hidden');$('hud').classList.remove('hidden');fitDock();
