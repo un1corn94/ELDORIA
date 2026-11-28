@@ -348,7 +348,7 @@ body.mob.land input#nameIn{padding:6px 8px;font-size:14px}body.mob.land #createV
   <div><b>Speichern:</b> <kbd>Strg</kbd>+<kbd>S</kbd> oder Knopf 💾 Speichern (zusätzlich speichert das Spiel alle 20 Sekunden automatisch)</div>
   <div style="margin-top:8px"><b>Eldoria (Stadt):</b> Hier regenerierst du schnell. NPCs ansprechen durch Anklicken:</div>
   <div>👤 <b>Charakter (C)</b>: zeigt deinen Helden und alles, was er trägt. Jedes Teil sieht anders aus – Form und Farbe stehen im Hinweis des Gegenstands. Neu sind Schulterstücke und Umhänge. Bei Garrick und Kira wählst du Form und Farbe selbst.</div><div style="margin-top:8px">❗ <b>Hauptmann Andrew</b> – Aufträge &amp; Belohnungen<br>⚗️ <b>Lilou</b> – Sammelaufträge: bringt ihr Monster-Materialien (ca. 12% Drop)<br>💰 <b>Händlerin Mira</b> – Tränke, Steine &amp; Truhen<br>🛡️ <b>Rüstmeister Garrick</b> – Rüstung, Helm, Schulterstücke, Umhänge, Handschuhe, Stiefel<br>⚔️ <b>Klingenhändlerin Kira</b> – Waffen<br>💍 <b>Juwelier Oswin</b> – Ringe &amp; Amulette<br>✨ <b>Seherin Yara</b> – Segen, die dich 15 Minuten stärker machen<br>🔨 <b>Glutschmied Teemla</b> – Ausrüstung bis +15 aufwerten (ab +5 riskant!)<br>🌀 <b>DarkPrevaitor</b> – teleportiert dich in die Gebiete<br>Bei allen Händlern kannst du Beute verkaufen (im Inventar anklicken); gerade Gekauftes wird beim Anklicken angelegt.<br>💰 Bezahlt wird in Silber und Gold: 100 Silber sind 1 Gold.</div>
-  <div style="margin-top:8px">Die Stadt liegt in der Mitte. Von ihren vier Toren führen Wege in die Gebiete ringsum: rund um die Stadt ist es harmlos, je weiter weg, desto gefährlicher (bis Stufe 30). Zwischen den Gebieten liegt Grenzland ohne Monster – und kein Monster verlässt sein Gebiet. Die Minikarte zeigt deine Umgebung, die Weltkarte (M) die ganze Welt. Ganz im Norden wartet der Aschenfürst – hinter ihm liegt das Portal in die Schattenwelt (Stufe 31–50).</div>
+  <div style="margin-top:8px">Die Stadt liegt in der Mitte. Von ihren vier Toren führen Wege in die Gebiete ringsum: rund um die Stadt ist es harmlos, je weiter weg, desto gefährlicher (bis Stufe 30). Zwischen den Gebieten liegt Grenzland ohne Monster – und kein Monster verlässt sein Gebiet. Besiegte Monster kehren nach wenigen Sekunden an ihrer Stelle zurück, sobald du ein paar Schritte weitergegangen bist – dein Jagdplatz läuft also nicht leer. Die Minikarte zeigt deine Umgebung, die Weltkarte (M) die ganze Welt. Ganz im Norden wartet der Aschenfürst – hinter ihm liegt das Portal in die Schattenwelt (Stufe 31–50).</div>
   <div style="margin-top:8px">⚔️ <b>Verlies der Vier</b> (ab Stufe 5): rotes Portal im Südwesten der Stadt, oder über DarkPrevaitor. Vier Bosse warten nacheinander – das Arschgeweih, Meerjungfrau Nerida, der Fuß und Brocken der Riese. Ihre Stufe passt sich alle 5 Stufen an dich an (5, 10, 15 …), ihr Leben an deine Stufe, Klasse und Spezialisierung. Rote, grüne und orange Kreise am Boden zeigen, wo gleich etwas einschlägt – <b>weich aus</b>: ein Treffer kostet rund die halbe Lebensleiste, egal wie gut deine Rüstung ist. Ein Kampf dauert etwa 1–2 Minuten, der gegen Brocken 2–3. Jeder Boss lässt Ausrüstung fallen, am Ende gibt es eine Extra-Belohnung; du kannst das Verlies beliebig oft wiederholen.</div>
   <div class="muted" style="margin-top:8px">Der Fortschritt wird automatisch in deinem Browser gespeichert.</div>
 </div>
@@ -839,6 +839,16 @@ function newMon(type,lv,x,y){
 }
 // Verfolgt ein Monster jemanden über die Grenze seines Gebiets (mehr als 80 Schritte), kehrt es um – so landet kein Wolf beim Drachenhort.
 function offZone(m){if(INDG||!m.zone||m.b.boss||m.summon)return false;const dx=m.sx-m.x,dy=m.sy-m.y,d=Math.hypot(dx,dy);if(d<90)return false;return zoneAt(m.x+dx/d*80,m.y+dy/d*80)!==m.zone;}
+// Besiegte Monster kehren nach RESPT Sekunden an ihrer alten Stelle zurück (gleiche Art, gleiche Stufe). Früher tauchten sie irgendwo im
+// Gebiet wieder auf – seit die Welt viermal so groß ist, lief dadurch der Fleck leer, an dem man jagt, und füllte sich minutenlang nicht.
+// Steht der Held noch an der Stelle (oder in Angriffsweite des Monsters), wartet sie, bis er weitergezogen ist: nichts erscheint direkt neben ihm.
+const RESPT=[6,10];
+function respawnMon(m){
+ if(!m.rnow&&P&&P.alive&&Math.hypot(m.sx-P.x,m.sy-P.y)<Math.max(230,(m.b.aggro||0)+90))return null;
+ const n=newMon(m.type,m.lv,m.sx,m.sy);n.zone=m.zone;n.born=time;
+ if(onScreen(n)){FX.push({x:n.x,y:n.y,r0:4,r1:n.size*2.4,t:0,dur:.45,col:n.b.col});for(let i=0;i<7;i++)PART.push({x:n.x+rnd(-n.size,n.size)*.6,y:n.y+rnd(-n.size,n.size)*.6,h:.1,vx:rnd(-8,8),vy:rnd(-8,8),vh:rnd(1.2,2.6),g:0,life:.6,max:.6,col:n.b.col,sz:rnd(2,3.5)});}
+ return n;
+}
 function makeMonster(zi){
  const z=ZONES[zi],pts=ZPTS[zi];let x,y,t,tries=0;
  do{const q=pts[Math.floor(Math.random()*pts.length)];x=q[0]+rnd(-30,30);y=q[1]+rnd(-30,30);t=(q[2]-z.dmin)/Math.max(1,z.dmax-z.dmin);tries++;}
@@ -1941,7 +1951,7 @@ function q0Arrow(){const t=q0Target();if(!t||!P.alive)return;const d=dist(t,P);i
 function questKill(type){q0Ev('kill',type);const q=QUESTS[P.q];
  if(q&&!P.qDone&&q.mob===type){P.qk++;if(P.qk>=q.k){P.qDone=true;log(countMat(q.mob)>=q.m?`📜 Auftrag „${q.n}“ erfüllt! Kehre zu Hauptmann Andrew zurück.`:`📜 Genug ${MOBS[q.mob].n} besiegt – sammle noch ${MATS[q.mob].n} (${countMat(q.mob)}/${q.m}).`,'#ffd34d');}}}
 function killMonster(m){
- m.alive=false;m.hp=0;m.resp=m.b.dg?1e9:m.b.boss?120:rnd(8,14);m.foe=null;m.dot=null;m.cast=null;m.pend=null;m.wv=null;m.air=null;m.hold=0;m.jz=0;m.chain=0;
+ m.alive=false;m.hp=0;m.resp=m.b.dg?1e9:m.b.boss?120:rnd(RESPT[0],RESPT[1]);m.foe=null;m.dot=null;m.cast=null;m.pend=null;m.wv=null;m.air=null;m.hold=0;m.jz=0;m.chain=0;
  burst(m.x,m.y,m.b.col,m.b.boss?70:16,topH(m)*.5);snd(m.b.boss?'bossDie':'die',m.x,m.y);
  if(P.target===m){P.target=null;P.chase=false;P.pending=null;}
  for(const b of BOTS)if(b.target===m)b.target=null;
@@ -2201,7 +2211,7 @@ function updatePlayer(dt){
  const z=zoneAt(p.x,p.y);if(z!==curZone){curZone=z;showZone(z);}
 }
 function updateMon(m,dt){
- if(!m.alive){m.resp-=dt;if(m.resp<=0){if(m.b.boss)Object.assign(m,{alive:true,hp:m.maxHp,x:m.sx,y:m.sy,state:'idle',foe:null,stun:0,slow:0,dot:null,cast:null,spT:5,ph:0,enr:false,spd:m.b.spd,pend:null,sk:0});else if(m.summon)m.gone=true;else MONS[MONS.indexOf(m)]=makeMonster(m.zone);}return;}
+ if(!m.alive){m.resp-=dt;if(m.resp<=0){if(m.b.boss)Object.assign(m,{alive:true,hp:m.maxHp,x:m.sx,y:m.sy,state:'idle',foe:null,stun:0,slow:0,dot:null,cast:null,spT:5,ph:0,enr:false,spd:m.b.spd,pend:null,sk:0});else if(m.summon)m.gone=true;else{const n=respawnMon(m);if(n)MONS[MONS.indexOf(m)]=n;else m.resp=.8;}}return;}
  if(m.pend&&m.pend.length)for(let i=m.pend.length-1;i>=0;i--){const q=m.pend[i];q.t-=dt;if(q.t<=0){m.pend.splice(i,1);if(q.jump){m.x=q.x;m.y=q.y;m.air=null;m.jz=0;}impactFx(q.st||m.b.pfx,q.x,q.y,q.r,q.col||m.b.fx,q.jump);burst(q.x,q.y,q.col||m.b.fx,q.jump?50:22,.5);for(const u of UNITS)if(u.alive&&Math.hypot(u.x-q.x,u.y-q.y)<q.r)monsterHit(m,u,q.mult,q.mult*dgPct(m));}}
  if(m.wv){const w=m.wv;w.t+=dt;const Rw=16+(w.r-16)*eOut(Math.min(1,w.t/w.dur));for(const u of UNITS)if(u.alive&&!w.hit.has(u)&&Math.hypot(u.x-w.x,u.y-w.y)<Rw){w.hit.add(u);monsterHit(m,u,w.mult,w.mult*dgPct(m));}if(w.t>=w.dur)m.wv=null;}
  if(m.b.boss&&m.stun>0)m.stun=Math.min(m.stun,.4);
@@ -3585,6 +3595,7 @@ function render3D(dt){
   const o=m.m3,g=o.g;g.visible=m.alive&&near(m);if(!g.visible)continue;
   let x=m.x,y=m.y;if(m.lunge>0){x+=Math.cos(m.face)*7;y+=Math.sin(m.face)*7;}
   g.position.set(TX(x),m.jz||0,TZ(y));o.inner.rotation.y=-m.face;o.anim(m.anim,m);
+  if(m.born!=null){const k=(time-m.born)/.5;if(k<1&&k>=0)g.scale.setScalar(.2+.8*(1-(1-k)*(1-k)));else{g.scale.setScalar(1);m.born=null;}}
   const fl=m.hitFlash>0;if(fl!==o.flash){o.flash=fl;o.mats.forEach(q=>q.emissive&&q.emissive.setHex(fl?0x888888:q.userData.e));}
   if(o.tele){o.tele.visible=!!m.cast;if(m.cast){const p=1-m.cast.t/m.cast.max,r=m.cast.r/S;o.tele.userData.disc.scale.set(r,1,r);o.tele.userData.disc.material.opacity=.15+p*.3;const rr=Math.max(.01,r*p);o.tele.userData.rg.scale.set(rr,1,rr);}}
  }
@@ -4101,7 +4112,7 @@ function devUpgradeAll(){for(const k in P.equip)if(P.equip[k])P.equip[k].upg=Mat
 function devTele(x,y){P.wside=null;P.x=x;P.y=y;P.target=null;P.chase=false;P.moveTo=null;P.pending=null;P.npc=null;burst(P.x,P.y,'#9fd',24);}
 function devTeleZone(zi){if(zi===0)devTele(C,C+60);else if(zi===99)devTele(C,bossPos().y+330);else devTele(ZONES[zi].entry[0],ZONES[zi].entry[1]);}
 function devKillNear(){let n=0;for(const m of MONS)if(m.alive&&!m.b.boss&&dist(m,P)<700){m.tagged=true;killMonster(m);n++;}log(`🛠 ${n} Monster in der Nähe besiegt.`,'#9fd');}
-function devRespawn(){let n=0;for(const m of MONS)if(!m.alive){m.resp=0;n++;}log(`🛠 ${n} Monster wiederbelebt.`,'#9fd');}
+function devRespawn(){let n=0;for(const m of MONS)if(!m.alive){m.resp=0;m.rnow=1;n++;}log(`🛠 ${n} Monster wiederbelebt.`,'#9fd');}
 function devQuest(){const q=QUESTS[P.q];if(!q){log('Keine Aufträge mehr.','#aaa');return;}P.qk=q.k;P.qDone=true;const miss=q.m-countMat(q.mob);if(miss>0)addItem({type:'mat',kind:q.mob,count:miss});refreshInv();log(`🛠 Auftrag „${q.n}“ als erfüllt markiert.`,'#9fd');}
 function devSpeed(v){DEV.speed=+v;$('dvSpdV').textContent=DEV.speed.toFixed(2)+'×';}
 function devDelete(){
@@ -4162,7 +4173,7 @@ function updateDevInfo(){
 // ================= Start =================
 let selCk='krieger',newSlot=-1,delArm=-1;
 function fmtDate(t){if(!t)return'';const d=new Date(t);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
-const BUILD='2026-11-28 09:04';
+const BUILD='2026-11-28 09:28';
 const fmtBuild=b=>String(b).replace(/^(\d+)-(\d+)-(\d+) /,'$3.$2.$1, ')+' Uhr';
 // ================= Update-Hinweis (eigenständige Seite): schaut regelmäßig nach, ob eine neuere Version online ist =================
 const UPD={seen:'',hideUntil:0};
